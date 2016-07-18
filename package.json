@@ -1,0 +1,8 @@
+{
+  "name": "bulid-sina-project",
+  "version": "0.0.1",
+  "dependencies":{
+    "optimist": "^0.6.1",
+    "lodash":"^4.13.1"
+  }
+}
