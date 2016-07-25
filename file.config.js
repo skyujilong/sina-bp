@@ -7,5 +7,6 @@ module.exports = {
     'package.json':'./',
     'webpack.config.js':'./',
     'server.js':'./server',
-    'transform-entry.js':'./server'
+    'transform-entry.js':'./server',
+    '.jshintrc':'./'
 };

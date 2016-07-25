@@ -10,6 +10,7 @@ let HtmlWebpackPlugin = require('html-webpack-plugin');
 
 let srcDir = path.resolve(process.cwd(), 'pages');
 let assets = path.resolve(process.cwd(), 'assets');
+let testDir = path.resolve(__dirname, "test");
 //文件js扫描入口
 let entries = (() => {
     let jsDir = path.resolve(srcDir, 'js', 'page');
@@ -57,10 +58,10 @@ module.exports = ((isDev)=> {
             'vender': ['es5-shim', 'es5-sham', 'zepto']
         }),
         output: {
-            path: isDev ? path.resolve(__dirname, "test") : path.resolve(__dirname, "assets"),
+            path: isDev ? testDir : assets,
             publicPath:isDev ? "/test/" : "https://snews.sinaimg.cn/projects/mq/",
-            chunkFilename: isDev ? "js/[name]-chunk.js" : "js/[name]-chunk-[hash].js",
-            filename: isDev ? "js/[name].js" : "js/[name]-[hash].js"
+            chunkFilename: isDev ? "js/[name]-chunk.js" : "js/[name]-chunk-[chunkhash].js",
+            filename: isDev ? "js/[name].js" : "js/[name]-[chunkhash].js"
         },
         resolve: {
             root: [path.join(__dirname, 'js', 'main')],
@@ -78,7 +79,7 @@ module.exports = ((isDev)=> {
                 {test: /\.css/, loader: isDev ? 'style!css' : cssExtractTextPlugin.extract('style', ['css'])},//css加载器 inline模式
                 {test: /\.(png|jpeg|jpg|gif)$/, loader: 'url?limit=8192&name=img/[name]-[hash].[ext]'},//图片加载对象
                 {test: /\.tpl$/, loader: 'tmodjs'},
-                {test: /\.html$/, loader: 'html'}
+                {test: /\.html$/, loader: 'html?minimize=false&interpolate=true'}
             ],
             noParse: [/zepto\.main\.js/, /es5-shim\.min\.js/, /es5-sham\.min\.js/]
         },
