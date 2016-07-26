@@ -67,6 +67,9 @@ module.exports = {
                     ]
                 }
             ]
+        },{
+            dirName:'server',
+            subDir:[]
         }
     ]
 };
