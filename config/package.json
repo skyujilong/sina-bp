@@ -2,10 +2,8 @@
   "name": "todo",
   "version": "0.0.1",
   "scripts": {
-    "dev-bulid": "gulp dev-bulid",
-    "bulid": "gulp",
-    "dev-server":"node server/server.js -p 8989",
-    "http":"http-server -a 127.0.0.1 -p 80"
+    "dev-bulid": "set NODE_ENV=development && webpack-dashboard -p 9003 -- webpack-dev-server --config ./webpack.config.js --host 127.0.0.1 --port 80",
+    "bulid": "set NODE_ENV=production && webpack --config ./webpack.config.js --color --progress -p"
   },
   "dependencies": {
     "css-loader": "^v0.23.1",
@@ -30,6 +28,8 @@
     "postcss-loader":"^0.11.0",
     "autoprefixer":"^6.4.0",
     "postcss-opacity":"^4.0.0",
-    "postcss-color-rgba-fallback":"^2.0.0"
+    "postcss-color-rgba-fallback":"^2.0.0",
+    "webpack-dashboard":"^0.2.0",
+    "clean-webpack-plugin":"^0.1.14"
   }
 }

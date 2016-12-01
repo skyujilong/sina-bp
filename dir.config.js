@@ -54,7 +54,7 @@ module.exports = {
             }]
         }]
     }, {
-        dirName: 'server',
+        dirName: 'webpack-cfg',
         subDir: []
     }]
 };

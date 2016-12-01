@@ -3,10 +3,11 @@
  */
 /*./是目标的根目录*/
 module.exports = {
-    'gulpfile.js':'./',
     'package.json':'./',
     'webpack.config.js':'./',
-    'server.js':'./server',
-    'transform-entry.js':'./server',
-    '.jshintrc':'./'
+    '.jshintrc':'./',
+    'dev-server.js':'./webpack-cfg',
+    'entry-handler.js':'./webpack-cfg',
+    'html-plugins-handler.js':'./webpack-cfg',
+    'plugins.js':'./webpack-cfg'
 };
