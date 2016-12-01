@@ -26,7 +26,15 @@ module.exports = (srcDir, entryObj) => {
         if (filename in entryObj) {
             conf.inject = 'body';
             conf.chunks = ['vender', filename];
-            conf.chunksSortMode = 'dependency';
+            conf.chunksSortMode = function(a,b){
+                if(/^vender/.test(a.names[0])){
+                    return -1;
+                }
+                if(/^vender/.test(b.names[0])){
+                    return 1;
+                }
+                return 0;
+            };
         }
         //读取配置文件添加 不同的entryObj
         r.push(new HtmlWebpackPlugin(conf))
