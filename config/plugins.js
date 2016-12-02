@@ -4,28 +4,9 @@
  */
 'use strict';
 let path = require("path");
-let SpritesmithPlugin = require('webpack-spritesmith');
 let webpack = require('webpack');
 let DashboardPlugin = require('webpack-dashboard/plugin');
 let CleanWebpackPlugin = require('clean-webpack-plugin');
-
-let spritePlugin = new SpritesmithPlugin({
-    src: {
-        cwd: path.resolve(__dirname, '..', 'pages/sprite'),
-        glob: '*.*'
-    },
-    target: {
-        image: path.resolve(__dirname, '..', 'pages/img/sprite.png'),
-        css: path.resolve(__dirname, '..', 'pages/css/sprite.scss')
-    },
-    apiOptions: {
-        cssImageRef: "../img/sprite.png"
-    },
-    spritesmithOptions: {
-        padding: 30,
-        algorithm: "alt-diagonal"
-    }
-});
 
 /**
  * 输出plugin list内容
@@ -35,13 +16,13 @@ let spritePlugin = new SpritesmithPlugin({
  * @return {Array}              [description]
  */
 module.exports = (isDev, htmlPlugins, cssPlugin) => {
-    let list = [new webpack.NoErrorsPlugin(), spritePlugin, cssPlugin].concat(htmlPlugins);
+    let list = [new webpack.NoErrorsPlugin(), cssPlugin].concat(htmlPlugins);
     if (isDev) {
         list = list.concat([
-            new webpack.HotModuleReplacementPlugin()
-            // new DashboardPlugin({
-            //     port: 9003
-            // })
+            new webpack.HotModuleReplacementPlugin(),
+            new DashboardPlugin({
+                port: 9003
+            })
         ]);
     } else {
         list = list.concat([

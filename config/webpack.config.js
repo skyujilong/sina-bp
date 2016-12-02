@@ -13,9 +13,11 @@ let colorRgbaFallback = require("postcss-color-rgba-fallback");
 let entryHandler = require('./webpack-cfg/entry-handler.js');
 let htmlPluginHandler = require('./webpack-cfg/html-plugins-handler.js');
 let getDevServerConfig = require('./webpack-cfg/dev-server.js');
-
+let sprites = require('postcss-sprites');
+let updateRule = require('postcss-sprites/lib/core').updateRule;
+let postcss = require('postcss');
 const dev = 'development';
-let mode = process.env.NODE_ENV ? process.env.NODE_ENV.trim() : 'production';
+let mode = process.env.NODE_ENV.trim();
 let entryObj = entryHandler.scanEntry(srcDir);
 let htmlPlugins = htmlPluginHandler(srcDir, entryObj);
 let getPlugins = require('./webpack-cfg/plugins.js');
@@ -52,7 +54,7 @@ module.exports = {
                 loader: mode === dev ? 'style!css?sourceMap!postcss-loader?sourceMap=inline!sass?sourceMap' : cssExtractTextPlugin.extract('style', ['css!postcss-loader!sass'])
             }, {
                 test: /\.(png|jpeg|jpg|gif)$/,
-                loader: 'url?limit=8192&name=img/[name]-[hash].[ext]'
+                loader: 'url?limit=1&name=img/[name]-[hash].[ext]'
             }, //图片加载对象
             {
                 test: /\.tpl$/,
@@ -78,6 +80,32 @@ module.exports = {
             //将rgba转化成对应ie浏览器也能解析的filter
             colorRgbaFallback({
                 oldie: true
+            }),
+            sprites({
+                stylesheetPath: './pages/scss/',
+                spritePath: './pages/img/',
+                relativeTo: 'rule',
+                filterBy: (image) => {
+                    if (/\/sprite\//.test(image.url)) {
+                        return Promise.resolve();
+                    } else {
+                        return Promise.reject();
+                    }
+                },
+                hooks: {
+                    onUpdateRule: (rule, token, image) => {
+                        //更新spriteUrl地址
+                        let prefix = image.url.match(/^.*(sprite)/)[0].replace(/\w+/g,'img');
+                        image.spriteUrl = image.spriteUrl.replace(/^.*img/, prefix);
+                        updateRule(rule, token, image);
+                        ['width', 'height'].forEach(function(prop) {
+                            rule.insertAfter(rule.last, postcss.decl({
+                                prop: prop,
+                                value: image.coords[prop] + 'px'
+                            }));
+                        });
+                    }
+                }
             })
         ];
     }

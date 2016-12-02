@@ -2,8 +2,8 @@
   "name": "todo",
   "version": "0.0.1",
   "scripts": {
-    "dev-bulid": "set NODE_ENV=development && webpack-dashboard -p 9003 -- webpack-dev-server --config ./webpack.config.js --host 127.0.0.1 --port 80",
-    "bulid": "set NODE_ENV=production && webpack --config ./webpack.config.js --color --progress -p"
+    "dev-bulid": "cross-env NODE_ENV=development && webpack-dashboard -p 9003 -- webpack-dev-server --config ./webpack.config.js --host 127.0.0.1 --port 80",
+    "bulid": "cross-env NODE_ENV=production && webpack --config ./webpack.config.js --color --progress -p"
   },
   "dependencies": {
     "css-loader": "^v0.23.1",
@@ -22,7 +22,6 @@
     "url-loader": "^0.5.7",
     "webpack": "1.13.0",
     "webpack-dev-server": "^1.14.1",
-    "webpack-spritesmith":"^0.2.6",
     "sass-loader":"^4.0.0",
     "node-sass":"^3.8.0",
     "postcss-loader":"^0.11.0",
@@ -30,6 +29,7 @@
     "postcss-opacity":"^4.0.0",
     "postcss-color-rgba-fallback":"^2.0.0",
     "webpack-dashboard":"^0.2.0",
-    "clean-webpack-plugin":"^0.1.14"
+    "clean-webpack-plugin":"^0.1.14",
+    "postcss-sprites":"^4.1.0"
   }
 }
