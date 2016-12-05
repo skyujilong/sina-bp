@@ -51,7 +51,7 @@ module.exports = {
     module: {
         loaders: [{
                 test: /\.(css|scss)$/,
-                loader: mode === dev ? 'style!css?sourceMap!postcss-loader?sourceMap=inline!sass?sourceMap' : cssExtractTextPlugin.extract('style', ['css!postcss-loader!sass'])
+                loader: mode === dev ? cssExtractTextPlugin.extract('style','css?sourceMap!postcss-loader?sourceMap=inline!sass?sourceMap') : cssExtractTextPlugin.extract('style', ['css!postcss-loader!sass'])
             }, {
                 test: /\.(png|jpeg|jpg|gif)$/,
                 loader: 'url?limit=1&name=img/[name]-[hash].[ext]'
