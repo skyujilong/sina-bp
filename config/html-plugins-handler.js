@@ -16,7 +16,6 @@ module.exports = (srcDir, entryObj) => {
     let htmlDir = path.resolve(srcDir, 'html');
     let entryHtml = glob.sync(htmlDir + '/*.html');
     let r = [];
-
     entryHtml.forEach((filePath) => {
         let filename = filePath.substring(filePath.lastIndexOf('\/') + 1, filePath.lastIndexOf('.'))
         let conf = {

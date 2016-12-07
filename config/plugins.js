@@ -3,28 +3,31 @@
  * 初始化对应的plugin组件
  */
 'use strict';
-let path = require("path");
-let webpack = require('webpack');
-let DashboardPlugin = require('webpack-dashboard/plugin');
-let CleanWebpackPlugin = require('clean-webpack-plugin');
-
+const path = require("path");
+const webpack = require('webpack');
+const DashboardPlugin = require('webpack-dashboard/plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const spritePlugins = require('./sprite-plugins-config.js');
+const OpenBrowserPlugin = require('open-browser-webpack-plugin');
+const config = require('../config.js');
 /**
  * 输出plugin list内容
- * @param  {Boolean} isDev       [description]
+ * @param  {Boolean} mode       [description]
  * @param  {Array}  htmlPlugins  HTML的相关组件实例
  * @param  {Object} cssPlugin    CSS相关的组件实例
  * @return {Array}              [description]
  */
-module.exports = (isDev, htmlPlugins, cssPlugin) => {
-    let list = [new webpack.NoErrorsPlugin(), cssPlugin].concat(htmlPlugins);
-    if (isDev) {
+module.exports = (mode, htmlPlugins, cssPlugin) => {
+    let list = [new webpack.NoErrorsPlugin(), cssPlugin].concat(htmlPlugins).concat(spritePlugins);
+    if (mode === 'development') {
         list = list.concat([
             new webpack.HotModuleReplacementPlugin(),
+            new OpenBrowserPlugin({url:config.publicPath}),
             new DashboardPlugin({
                 port: 9003
             })
         ]);
-    } else {
+    } else if (mode === 'production') {
         list = list.concat([
             // 压缩
             new webpack.optimize.UglifyJsPlugin({
@@ -44,6 +47,14 @@ module.exports = (isDev, htmlPlugins, cssPlugin) => {
                 verbose: true
             })
         ]);
+    } else if (mode === 'developmentIE') {
+        list.push(
+            new CleanWebpackPlugin(['test'], {
+                root: path.resolve(__dirname, '..'),
+                verbose: true
+            }),
+            new OpenBrowserPlugin({url:config.publicPath})
+        );
     }
     return list;
 };
