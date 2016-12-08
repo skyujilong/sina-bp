@@ -53,5 +53,6 @@ $ npm run bulid
 
 
 # change log
+* tagv0.3 增加README.MD的简要说明
 * tagv0.2 增加PC雪碧图的支持，增加简单的配置支持。
 * tagv0.1 优化原有开发环境代码，采用内存的方式开发代码，添加跨浏览器环境运行命令。
