@@ -1,4 +1,4 @@
-# bulid-sina-project
+# build-sina-project
 初始化新浪的项目
 ### eg：###
 `node src/index.js --homeDir '/d' --dirName 'test-sass'`
