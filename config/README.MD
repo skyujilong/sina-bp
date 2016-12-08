@@ -12,6 +12,7 @@ $ cnpm install
 $ cnpm install cross-env -g
 $ cnpm install http-server -g
 $ cnpm install webpack-dashboard -g
+$ cnpm install webpack-dev-server -g
 $ cnpm install webpack@1.13.0 -g
 ```
 # 运行命令
