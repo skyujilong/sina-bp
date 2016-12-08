@@ -2,9 +2,9 @@
   "name": "todo",
   "version": "0.0.1",
   "scripts": {
-    "dev-bulid": "cross-env NODE_ENV=development webpack-dashboard -p 9003 -- webpack-dev-server --config ./webpack.config.js --host 127.0.0.1 --port 80",
-    "bulid": "cross-env NODE_ENV=production webpack --config ./webpack.config.js --color --progress -p",
-    "dev-ie-bulid":"cross-env NODE_ENV=developmentIE webpack --config ./webpack.config.js --color --progress --watch -d",
+    "dev-build": "cross-env NODE_ENV=development webpack-dashboard -p 9003 -- webpack-dev-server --config ./webpack.config.js --host 127.0.0.1 --port 80",
+    "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.js --color --progress -p",
+    "dev-ie-build":"cross-env NODE_ENV=developmentIE webpack --config ./webpack.config.js --color --progress --watch -d",
     "dev-ie-server":"http-server ./test -p 80"
   },
   "dependencies": {
