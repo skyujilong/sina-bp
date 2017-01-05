@@ -34,6 +34,7 @@
     "webpack-dashboard":"^0.2.0",
     "clean-webpack-plugin":"^0.1.14",
     "webpack-spritesmith":"^0.3.0",
-    "open-browser-webpack-plugin":"^0.0.3"
+    "open-browser-webpack-plugin":"^0.0.3",
+    "tinypng-webpack-plugin":"^0.0.4"
   }
 }

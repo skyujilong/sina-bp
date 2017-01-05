@@ -10,6 +10,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const spritePlugins = require('./sprite-plugins-config.js');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 const config = require('../config.js');
+const tinyPngWebpackPlugin = require('tinypng-webpack-plugin');
 /**
  * 输出plugin list内容
  * @param  {Boolean} mode       [description]
@@ -45,6 +46,10 @@ module.exports = (mode, htmlPlugins, cssPlugin) => {
             new CleanWebpackPlugin(['assets'], {
                 root: path.resolve(__dirname, '..'),
                 verbose: true
+            }),
+            new tinyPngWebpackPlugin({
+                key:["MENRrUEXFrDlUwMkeBYNN-QJ8Ri3_mDN","346gfotHJspgPYXmOuSAWhSl4CxlUox7"],
+                relativePath:"./img/"
             })
         ]);
     } else if (mode === 'developmentIE') {
