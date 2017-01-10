@@ -18,16 +18,16 @@ $ cnpm install webpack@1.13.0 -g
 # 运行命令
 ### 开发环境（非IE）
 ```
-$ npm run dev-bulid
+$ npm run dev-build
 ```
 ### 开发环境（测试ie[低版本]）
 ```
-$ npm run dev-ie-bulid
+$ npm run dev-ie-build
 $ npm run dev-ie-server
 ```
 ### 打包上线
 ```
-$ npm run bulid
+$ npm run build
 ```
 # 配置项说明
 ```javascript
