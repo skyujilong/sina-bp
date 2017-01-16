@@ -25,7 +25,6 @@
         "tmodjs-loader": "^1.0.1",
         "url-loader": "^0.5.7",
         "webpack": "1.13.0",
-        "webpack-spritesmith": "^0.2.6",
         "sass-loader": "^4.0.0",
         "node-sass": "^3.8.0",
         "postcss-loader": "^0.11.0",
