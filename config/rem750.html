@@ -1,0 +1,13 @@
+<script type="text/javascript">
+    var __rootrem;
+    (function() {
+        function setFont() {
+            var clientWidth = (document.documentElement || document.body.parentNode).clientWidth;
+            // 640尺寸的比例 换算成设计稿正好是0.1rem = 1px;
+            __rootrem = clientWidth * 100 / 750;
+            (document.documentElement || document.body.parentNode).style.fontSize = __rootrem + "px";
+        }
+        setFont();
+        window.onresize = setFont;
+    })();
+</script>

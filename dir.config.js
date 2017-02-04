@@ -15,7 +15,10 @@ module.exports = {
             subDir: []
         }, {
             dirName: 'html',
-            subDir: []
+            subDir: [{
+                dirName:'common',
+                subDir:[]
+            }]
         }, {
             dirName: 'img',
             subDir: []

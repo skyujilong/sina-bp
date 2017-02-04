@@ -9,7 +9,7 @@ module.exports = (enableSourceMap, cssExtractTextPlugin) => {
             }, {
                 test: /\.(png|jpeg|jpg|gif)$/,
                 // loader: 'url?limit=1&name=img/[name]-[hash].[ext]'
-                loader: 'url?limit=1&name=img/' + (config.md5 ? '[name]-[hash:6].[ext]' : '[name].[ext]')
+                loader: 'url?limit=1&name=img/' + (config.md5 && !enableSourceMap ? '[name]-[hash:6].[ext]' : '[name].[ext]')
             }, //图片加载对象
             {
                 test: /\.tpl$/,

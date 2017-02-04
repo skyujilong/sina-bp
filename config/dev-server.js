@@ -26,6 +26,6 @@ module.exports = (isDev) => {
         stats: {
             colors: true
         },
-        quiet: true
+        quiet: false
     };
 }

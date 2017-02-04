@@ -10,5 +10,6 @@ module.exports = {
         //有必要的话可以生成多个雪碧图的文件夹,后续生成scss的雪碧图映射文件与name
         //是一致的，同时也会在 img文件夹下面生成对应名字的png文件
         name: 'normal'
-    }]
+    }],
+    tinyPngKeys:["Ohuy1PjI0uc6OtpOcKitwfaKTBRqbbb2", "bOcSekVhViyuHTmCgoCizNWPMieG7QPW", "MENRrUEXFrDlUwMkeBYNN-QJ8Ri3_mDN", "346gfotHJspgPYXmOuSAWhSl4CxlUox7"]
 }

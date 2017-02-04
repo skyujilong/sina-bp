@@ -23,7 +23,7 @@ let entryObj = entryHandler.scanEntry(srcDir);
 let htmlPlugins = htmlPluginHandler(srcDir, entryObj);
 let getPlugins = require('./webpack-cfg/plugins.js');
 
-let cssName = !config.md5 ? 'css/[name].css' : 'css/[name]-[contenthash:6].css';
+let cssName = !config.md5 && mode === dev ? 'css/[name].css' : 'css/[name]-[contenthash:6].css';
 let moduleConfig = require('./webpack-cfg/module.js');
 let cssExtractTextPlugin = new ExtractTextPlugin(cssName, {
     disable: false,
@@ -47,8 +47,8 @@ module.exports = {
     output: {
         path: mode === ieDev ? testDir : assets,
         publicPath: mode === prod ? config.onLinePublicPath : "http://test.sina.com.cn/",
-        chunkFilename: config.md5 ? "js/[name]-chunk-[" + config.md5 + ":6].js" : "js/[name]-chunk.js",
-        filename: config.md5 ? "js/[name]-[" + config.md5 + ":6].js" : "js/[name].js"
+        chunkFilename: config.md5 && mode === prod ? "js/[name]-chunk-[" + config.md5 + ":6].js" : "js/[name]-chunk.js",
+        filename: config.md5 && mode === prod ? "js/[name]-[" + config.md5 + ":6].js" : "js/[name].js"
     },
     resolve: {
         root: [path.join(__dirname, 'pages')],

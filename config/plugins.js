@@ -23,7 +23,9 @@ module.exports = (mode, htmlPlugins, cssPlugin) => {
     if (mode === 'development') {
         list = list.concat([
             new webpack.HotModuleReplacementPlugin(),
-            new OpenBrowserPlugin({url:config.publicPath}),
+            new OpenBrowserPlugin({
+                url: config.publicPath
+            }),
             new DashboardPlugin({
                 port: 9003
             })
@@ -48,8 +50,8 @@ module.exports = (mode, htmlPlugins, cssPlugin) => {
                 verbose: true
             }),
             new tinyPngWebpackPlugin({
-                key:["MENRrUEXFrDlUwMkeBYNN-QJ8Ri3_mDN","346gfotHJspgPYXmOuSAWhSl4CxlUox7"],
-                relativePath:"./img/"
+                key: config.tinyPngKeys,
+                relativePath: "./img/"
             })
         ]);
     } else if (mode === 'developmentIE') {
@@ -58,7 +60,9 @@ module.exports = (mode, htmlPlugins, cssPlugin) => {
                 root: path.resolve(__dirname, '..'),
                 verbose: true
             }),
-            new OpenBrowserPlugin({url:config.publicPath})
+            new OpenBrowserPlugin({
+                url: config.publicPath
+            })
         );
     }
     return list;
