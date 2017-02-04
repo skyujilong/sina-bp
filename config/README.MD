@@ -11,7 +11,6 @@ $ npm install cnpm -g --registry=https://registry.npm.taobao.org
 $ cnpm install
 $ cnpm install cross-env -g
 $ cnpm install http-server -g
-$ cnpm install webpack-dashboard -g
 $ cnpm install webpack-dev-server -g
 $ cnpm install webpack@1.13.0 -g
 ```
@@ -53,6 +52,7 @@ $ npm run build
 
 
 # change log
+* tagv0.5 因为webpack-dashboard对于git bash模拟器支持不够友好，因此放弃对他的应用。将tinypng的key值转移到config.js进行管理。修复config.js中md5参数不为false的时候，测试环境运行命令会产生错误的问题。
 * tagv0.4 修改命令英文拼写错误
 * tagv0.3 增加README.MD的简要说明
 * tagv0.2 增加PC雪碧图的支持，增加简单的配置支持。
