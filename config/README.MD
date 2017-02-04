@@ -52,6 +52,7 @@ $ npm run build
 
 
 # change log
+* tagv0.6 修复package.json文件中的运行命令行的一个错误。
 * tagv0.5 因为webpack-dashboard对于git bash模拟器支持不够友好，因此放弃对他的应用。将tinypng的key值转移到config.js进行管理。修复config.js中md5参数不为false的时候，测试环境运行命令会产生错误的问题。
 * tagv0.4 修改命令英文拼写错误
 * tagv0.3 增加README.MD的简要说明
