@@ -48,3 +48,4 @@ function addFile() {
 
 bulid(basePath, dirConfig.subDir);
 addFile();
+console.log('xxxxxxxx');
