@@ -1,9 +1,10 @@
 {
-  "name": "bulid-sina-project",
-  "version": "0.0.6",
-  "dependencies": {
-    "lodash": "^4.13.1",
-    "node-svn-ultimate": "^1.0.4",
-    "optimist": "^0.6.1"
-  }
+    "name": "bulid-sina-project",
+    "version": "0.0.6",
+    "main": "index.js",
+    "dependencies": {
+        "lodash": "^4.13.1",
+        "node-svn-ultimate": "^1.0.4",
+        "optimist": "^0.6.1"
+    }
 }
