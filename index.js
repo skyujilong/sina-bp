@@ -38,7 +38,7 @@ function bulid(currentDir, list) {
 }
 //添加基础文件
 function addFile() {
-    let dir = path.resolve(__dirname, './lib/config');
+    let dir = path.resolve(__dirname, './config');
     _.forEach(fileConfg, function(val, key) {
         fs.readFile(path.join(dir, key), 'utf-8', (err, data) => {
             if (err) {
@@ -46,7 +46,7 @@ function addFile() {
             }
             if(key === 'qb.html'){
                 typeof data;
-                
+
 
              data=data.replace('onlineSvnPathStr', onlinePath);
              data=data.replace('tagPathStr', tagPath)
