@@ -47,7 +47,7 @@ function addFile() {
             }
             if(key === 'qb.html'){
                 typeof data;
-                
+
 
              data=data.replace('onlineSvnPathStr', onlinePath);
              data=data.replace('tagPathStr', tagPath);
