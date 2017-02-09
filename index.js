@@ -10,6 +10,7 @@ const dirBuild = require('./lib/path_test.js');
 const svnInit = require('./lib/svn_init');
 let _ = require('lodash');
 const svnConfig = require('./lib/svn_config');
+const svnUltimate = require('node-svn-ultimate');
 let argv = require('optimist').default({
     'homeDir': process.cwd(),
     'dirName': ''
@@ -49,9 +50,9 @@ function addFile() {
 
 
              data=data.replace('onlineSvnPathStr', onlinePath);
-             data=data.replace('tagPathStr', tagPath)
-             data=data.replace('tagNameStr', tagName)
-             data=data.replace('addPathStr', addDir)
+             data=data.replace('tagPathStr', tagPath);
+             data=data.replace('tagNameStr', tagName);
+             data=data.replace('addPathStr', addDir);
 
             }
             fs.writeFile(path.resolve(basePath, val, key), data, (err) => {
@@ -70,5 +71,14 @@ svnInit.init(function(){
        dirBuild(basePath,function(){
            bulid(basePath, dirConfig.subDir);
            addFile();
+           svnUltimate.commands.checkout( svnConfig.svnBaseUrl()+svnConfig.iteamName, basePath, function( err ) {
+               console.log( "Checkout complete" );
+               svnUltimate.commands.add( basePath, {params:['* --force']}, function( err ) {
+                   console.log( "add complete" );
+                   svnUltimate.commands.commit( basePath, {params: [ '-m "Commit comment"' ]}, function( err ) {
+                       console.log( "commit complete" );
+                   } );
+               } );
+           } );
        });
 });
