@@ -9,12 +9,8 @@
 lib/svn_config.js
 
     module.exports={
-    	year:2017, //设置年份
-    	svnBaseUrl:function(){ //设置项目文件svn路径
-    		return 'https://svn1.intra.sina.com.cn/sinanews/trunk/ria/items/'+this.year+'/';
-    	},
-    	iteamName:'test2017020707', //设置项目名
-    	tagUrl:function(){ //设置版本库svn路径
-    		return 'https://svn1.intra.sina.com.cn/sinanews/tags/ria/items/'+this.year+'/';
-    	}
+    	itemPath:'iteam_svn_path',//项目svn父级路径
+		tagPath:'tag_svn_path',//版本库svn路径
+		year:2017, //目录年份
+		iteamName:'test2017020907', //项目目录名
     }

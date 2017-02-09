@@ -15,17 +15,18 @@ let argv = require('optimist').default({
     'homeDir': process.cwd(),
     'dirName': ''
 }).argv;
+
+var svnBaseUrl = svnConfig.itemPath+svnConfig.year+'/';
+var svnTagUrl = svnConfig.tagPath+svnConfig.year+'/';
 //上线svn路径
-const onlinePath = svnConfig.svnBaseUrl+svnConfig.iteamName+'/assets/';
+const onlinePath = svnBaseUrl+svnConfig.iteamName+'/assets/';
 // 标签svn路径
-const tagPath = svnConfig.tagUrl;
+const tagPath = svnTagUrl+svnConfig.iteamName;
 //标签名称
 const tagName = 'items_'+svnConfig.year+'_'+svnConfig.iteamName+'_release';
 // 新增目录
 const addDir = 'news/items/'+svnConfig.year+'/'+svnConfig.iteamName+'/';
 const basePath = path.join(argv.homeDir, svnConfig.iteamName);
-
-
 
 
 
@@ -71,7 +72,7 @@ svnInit.init(function(){
        dirBuild(basePath,function(){
            bulid(basePath, dirConfig.subDir);
            addFile();
-           svnUltimate.commands.checkout( svnConfig.svnBaseUrl()+svnConfig.iteamName, basePath, function( err ) {
+           svnUltimate.commands.checkout( svnBaseUrl+svnConfig.iteamName, basePath, function( err ) {
                console.log( "Checkout complete" );
                svnUltimate.commands.add( basePath, {params:['* --force']}, function( err ) {
                    console.log( "add complete" );
