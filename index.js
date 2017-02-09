@@ -73,6 +73,12 @@ svnInit.init(function(){
            addFile();
            svnUltimate.commands.checkout( svnConfig.svnBaseUrl()+svnConfig.iteamName, basePath, function( err ) {
                console.log( "Checkout complete" );
+               svnUltimate.commands.add( basePath, {params:['* --force']}, function( err ) {
+                   console.log( "add complete" );
+                   svnUltimate.commands.commit( basePath, {params: [ '-m "Commit comment"' ]}, function( err ) {
+                       console.log( "commit complete" );
+                   } );
+               } );
            } );
        });
 });
