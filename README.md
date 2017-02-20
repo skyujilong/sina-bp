@@ -1,12 +1,12 @@
 # build-sina-project
 初始化新浪的项目
 ### eg：###
- node index.js --homeDir '/d'
+ node src/index.js --homeDir '/d'
 ### 参数说明 ###
 1. homeDir: 生成项目父级目录需要传入相对路径
 
 ### 配置文件 ###
-lib/svn_config.js
+src/svn_config.js
 
     module.exports={
     	year:2017, //设置年份
@@ -18,3 +18,4 @@ lib/svn_config.js
     		return 'https://svn1.intra.sina.com.cn/sinanews/tags/ria/items/'+this.year+'/';
     	}
     }
+    
