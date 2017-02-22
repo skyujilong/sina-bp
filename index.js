@@ -11,9 +11,11 @@ const svnInit = require('./lib/svn_init');
 let _ = require('lodash');
 const svnConfig = require('./lib/svn_config');
 let argv = require('optimist').default({
-    'homeDir': process.cwd(),
-    'dirName': ''
+    'homeDir': process.cwd()
 }).argv;
+
+const dirHandler = require('./lib/initDir');
+
 //上线svn路径
 const onlinePath = svnConfig.svnBaseUrl+svnConfig.iteamName+'/assets/';
 // 标签svn路径
@@ -26,16 +28,6 @@ const basePath = path.join(argv.homeDir, svnConfig.iteamName);
 
 
 
-
-
-//TODO test
-// argv.dirName = 'testYjl';
-function bulid(currentDir, list) {
-    _.forEach(list, function(value) {
-        fs.mkdirSync(path.join(currentDir, value.dirName));
-        bulid(path.join(currentDir, value.dirName), value.subDir);
-    });
-}
 //添加基础文件
 function addFile() {
     let dir = path.resolve(__dirname, './config');
@@ -64,11 +56,18 @@ function addFile() {
 }
 
 
-svnInit.init(function(){
+// svnInit.init(function(){
+//
+//        //建立基本文件夹
+//     //    dirBuild(basePath,function(){
+//     //        addFile();
+//     //    });
+// });
 
-       //建立基本文件夹
-       dirBuild(basePath,function(){
-           bulid(basePath, dirConfig.subDir);
-           addFile();
-       });
-});
+// dirHandler('../demo/test');
+
+//process.argv 返回cmd上的参数
+
+//通过process.env获取全局环境变量
+//TODO 根据全局变量进行设置相关公司的参数
+console.log(process.env.SINA_PUBLIC_PATH);

@@ -6,7 +6,7 @@
 1. homeDir: 生成项目父级目录需要传入相对路径
 
 ### 配置文件 ###
-src/svn_config.js
+lib/svn_config.js
 
     module.exports={
     	year:2017, //设置年份
