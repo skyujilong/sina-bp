@@ -15,6 +15,9 @@ let argv = require('optimist').default({
     'onLinePublicPath': 'http://test.sina.com.cn/'
 }).argv;
 
+//TODO 支持选择配置文件的方式
+//TODO 修改readme以及打tag
+
 const projectName = _.last(argv.dir.split(path.sep));
 
 //为了防止 用户的system time 错误，因此采用用户自己输入时间
@@ -49,9 +52,6 @@ let svnConfig = argv.svn ? {
 
 
 if (argv.svn) {
-    //TODO 初始化svn对应的目录
-    //https://svn1.intra.sina.com.cn/sinanews/trunk/ria/items/2017 trunk代码位置
-    //https://svn1.intra.sina.com.cn/sinanews/tags/ria/items/2017  tag代码位置
     svnHandler.init(argv.dir, svnConfig, function(projectPath) {
         dirHandler.synBuildSubDir(projectPath);
         fileHandler.copy({
