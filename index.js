@@ -3,17 +3,11 @@
  */
 "use strict";
 const path = require('path');
-const dirConfig = require('./lib/dir.config.js');
-const fileConfg = require('./lib/file.config.js');
 const svnHandler = require('./lib/svnInit');
 const _ = require('lodash');
-
 const dirHandler = require('./lib/initDir');
-
 const fileHandler = require('./lib/copyFile.js');
 
-//TODO 删除svn_config文件
-// svnConfig = require('./lib/svn_config');
 let argv = require('optimist').default({
     'dir': process.cwd(),
     'svn': '',
@@ -29,7 +23,7 @@ let svnYear;
 if (argv.svn) {
     let tmpSvnHref = argv.svn.split(path.sep).join('/');
     //主要是处理 有些内容 返回的结构是 https:\xxx\asdfas\asdfa\ 这种
-    argv.svn = tmpSvnHref.replace(/^(https:\/)([^\/])(.*)/,'$1/$2$3');
+    argv.svn = tmpSvnHref.replace(/^(https:\/)([^\/])(.*)/, '$1/$2$3');
     try {
         svnYear = argv.svn.match(/\/(\d+)\/{0,1}$/)[1];
     } catch (e) {
@@ -64,7 +58,9 @@ if (argv.svn) {
             devPubilcPath: argv.devPubilcPath,
             onLinePubilcPath: argv.onLinePublicPath
         }, svnConfig, projectPath, function() {
-            console.log('file write done!');
+            console.log('project build done!');
+            console.log('project dir:%s', projectPath);
+            console.log('project svn:%s', svnConfig.svn);
         });
     });
 
@@ -77,7 +73,8 @@ if (argv.svn) {
             devPubilcPath: argv.devPubilcPath,
             onLinePubilcPath: argv.onLinePublicPath
         }, svnConfig, projectPath, function() {
-            console.log('file write done!');
+            console.log('project build done!');
+            console.log('project dir:%s', projectPath);
         });
     });
 }
