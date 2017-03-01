@@ -2,14 +2,18 @@
  * Created by sina on 2016/6/27.
  */
 "use strict";
-const fs = require('fs');
 const path = require('path');
 const dirConfig = require('./lib/dir.config.js');
 const fileConfg = require('./lib/file.config.js');
-const svnInit = require('./lib/svn_init');
-let _ = require('lodash');
+const svnHandler = require('./lib/svnInit');
+const _ = require('lodash');
+
+const dirHandler = require('./lib/initDir');
+
+const fileHandler = require('./lib/copyFile.js');
+
 //TODO 删除svn_config文件
-svnConfig = require('./lib/svn_config');
+// svnConfig = require('./lib/svn_config');
 let argv = require('optimist').default({
     'dir': process.cwd(),
     'svn': '',
@@ -17,47 +21,62 @@ let argv = require('optimist').default({
     'onLinePublicPath': 'http://test.sina.com.cn/'
 }).argv;
 
-//如果没有svn 地址就不去初始化svn相关内容
-//publicPath 默认与testPublicPath是一样的
+const projectName = _.last(argv.dir.split(path.sep));
 
-const dirHandler = require('./lib/initDir');
+//为了防止 用户的system time 错误，因此采用用户自己输入时间
+let svnYear;
 
-const fileHandler = require('./lib/copyFile.js');
+if (argv.svn) {
+    let tmpSvnHref = argv.svn.split(path.sep).join('/');
+    //主要是处理 有些内容 返回的结构是 https:\xxx\asdfas\asdfa\ 这种
+    argv.svn = tmpSvnHref.replace(/^(https:\/)([^\/])(.*)/,'$1/$2$3');
+    try {
+        svnYear = argv.svn.match(/\/(\d+)\/{0,1}$/)[1];
+    } catch (e) {
+        throw new Error('svn path need year end!');
+    }
 
-//上线svn路径
-const onlinePath = svnConfig.svnBaseUrl + svnConfig.iteamName + '/assets/';
-// 标签svn路径
-const tagPath = svnConfig.tagUrl;
-//标签名称
-const tagName = 'items_' + svnConfig.year + '_' + svnConfig.iteamName + '_release';
-// 新增目录
-const addDir = 'news/items/' + svnConfig.year + '/' + svnConfig.iteamName + '/';
-// const basePath = path.join(argv.homeDir, svnConfig.iteamName);
+}
+//默认格式化 svn地址不已/结尾
+//argv.svn = argv.svn.replace(/\/$/, '');
 
+let svnConfig = argv.svn ? {
+    //svn trunk 地址
+    svn: argv.svn + '/' + projectName,
+    //svn qb 输入发布代码路径
+    onlinePath: argv.svn + '/' + projectName + '/assets/',
+    //svn qb 输入标签路径
+    tagPath: argv.svn.replace('trunk', 'tags') + '/' + projectName,
+    //标签名字
+    tagName: projectName,
+    //标签内新增目录
+    addPath: 'news/items/' + svnYear + '/' + projectName + '/'
+} : null;
 
-// svnInit.init(function(){
-//
-//        //建立基本文件夹
-//     //    dirBuild(basePath,function(){
-//     //        addFile();
-//     //    });
-// });
-
-// dirHandler('../demo/test');
 
 if (argv.svn) {
     //TODO 初始化svn对应的目录
     //https://svn1.intra.sina.com.cn/sinanews/trunk/ria/items/2017 trunk代码位置
     //https://svn1.intra.sina.com.cn/sinanews/tags/ria/items/2017  tag代码位置
-    
+    svnHandler.init(argv.dir, svnConfig, function(projectPath) {
+        dirHandler.synBuildSubDir(projectPath);
+        fileHandler.copy({
+            devPubilcPath: argv.devPubilcPath,
+            onLinePubilcPath: argv.onLinePublicPath
+        }, svnConfig, projectPath, function() {
+            console.log('file write done!');
+        });
+    });
+
+
 } else {
     //仅仅初始化本地文件夹
-    dirHandler(argv.dir, function(absPath) {
+    dirHandler.initRootDir(argv.dir, function(projectPath) {
         //absPath 是项目生成的根目录路径
         fileHandler.copy({
             devPubilcPath: argv.devPubilcPath,
             onLinePubilcPath: argv.onLinePublicPath
-        }, null, absPath, function() {
+        }, svnConfig, projectPath, function() {
             console.log('file write done!');
         });
     });
