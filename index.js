@@ -8,16 +8,17 @@ const dirConfig = require('./lib/dir.config.js');
 const fileConfg = require('./lib/file.config.js');
 const svnInit = require('./lib/svn_init');
 let _ = require('lodash');
-const svnConfig = require('./lib/svn_config');
+//TODO 删除svn_config文件
+svnConfig = require('./lib/svn_config');
 let argv = require('optimist').default({
     'dir': process.cwd(),
     'svn': '',
-    'pubilcPath': 'http://test.sina.com.cn/',
-    'testPublicPath': 'http://test.sina.com.cn/'
+    'devPubilcPath': 'http://test.sina.com.cn/',
+    'onLinePublicPath': 'http://test.sina.com.cn/'
 }).argv;
 
-//TODO  如果没有svn 地址就不去初始化svn相关内容
-//TODO publicPath 默认与testPublicPath是一样的
+//如果没有svn 地址就不去初始化svn相关内容
+//publicPath 默认与testPublicPath是一样的
 
 const dirHandler = require('./lib/initDir');
 
@@ -34,35 +35,6 @@ const addDir = 'news/items/' + svnConfig.year + '/' + svnConfig.iteamName + '/';
 // const basePath = path.join(argv.homeDir, svnConfig.iteamName);
 
 
-
-//添加基础文件
-function addFile() {
-    let dir = path.resolve(__dirname, './config');
-    _.forEach(fileConfg, function(val, key) {
-        fs.readFile(path.join(dir, key), 'utf-8', (err, data) => {
-            if (err) {
-                throw err;
-            }
-            if (key === 'qb.html') {
-                typeof data;
-
-
-                data = data.replace('onlineSvnPathStr', onlinePath);
-                data = data.replace('tagPathStr', tagPath)
-                data = data.replace('tagNameStr', tagName)
-                data = data.replace('addPathStr', addDir)
-
-            }
-            fs.writeFile(path.resolve(basePath, val, key), data, (err) => {
-                if (err) {
-                    throw err;
-                }
-            });
-        });
-    });
-}
-
-
 // svnInit.init(function(){
 //
 //        //建立基本文件夹
@@ -75,11 +47,18 @@ function addFile() {
 
 if (argv.svn) {
     //TODO 初始化svn对应的目录
+    //https://svn1.intra.sina.com.cn/sinanews/trunk/ria/items/2017 trunk代码位置
+    //https://svn1.intra.sina.com.cn/sinanews/tags/ria/items/2017  tag代码位置
+    
 } else {
-    //TODO 仅仅初始化本地文件夹
+    //仅仅初始化本地文件夹
     dirHandler(argv.dir, function(absPath) {
-        fileHandler.copy(argv.testPublicPath, argv.pubilcPath, '', absPath, function() {
-            console.log('done...........');
+        //absPath 是项目生成的根目录路径
+        fileHandler.copy({
+            devPubilcPath: argv.devPubilcPath,
+            onLinePubilcPath: argv.onLinePublicPath
+        }, null, absPath, function() {
+            console.log('file write done!');
         });
     });
 }
