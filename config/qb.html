@@ -5,8 +5,8 @@
 <title>QB配置项生成器</title>
 <style>
 /* element defaults */
-html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, 
-		address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, 
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym,
+		address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table,
 		caption, tbody, tfoot, thead, tr, th, td {
 	margin:0;padding:0;border:0;font-weight:inherit;
 	font-style:inherit;font-size:100%;font-family:inherit;vertical-align:baseline;}
@@ -39,7 +39,7 @@ input[type=button], input[type=submit] {padding-left:8px; padding-right:8px;}
 .head {font-weight:bold; font-size:13px; padding:4px;}
 
 /*
- * QuickBuild will automatically add odd/even class to table rows inside 
+ * QuickBuild will automatically add odd/even class to table rows inside
  * <tbody> element if a table is applied with this "data" class.
  */
 table.properties {color:#444444; border-color: #bbb; border-style: solid; border-width: 1px 0;}
@@ -96,7 +96,7 @@ td .bean.viewer table.properties { border-width: 1px; margin-bottom: 1em; }
 	color:black; font:13px Monospace,Arial,Verdana,sans-serif;}
 .bean.editor input[type=text], .bean.editor input[type=password], .bean.editor textarea, .bean.editor select {
 	border:1px solid #B0B0B0;}
-.bean.editor .elements input[type=text], .bean.editor .elements input[type=password], 
+.bean.editor .elements input[type=text], .bean.editor .elements input[type=password],
 	.bean.editor .elements textarea {width:95%; *width:85%;}
 .bean table.elements {color:#444444; border:1px solid #B8B8B8;}
 .bean table.elements td {vertical-align:top;}
@@ -126,7 +126,7 @@ td .bean.viewer table.properties { border-width: 1px; margin-bottom: 1em; }
 												</div>
 												<div class="description">发布时勾选此选项，并勾掉"回退"选项。</div>
 											</div>
-										</div> 
+										</div>
 									</td>
 								</tr>
 								<tr>
@@ -327,9 +327,9 @@ td .bean.viewer table.properties { border-width: 1px; margin-bottom: 1em; }
 				.replace(/online(.*)$/, '');
 
 			var onlinePath = 'http://sjs.sinajs.cn/products/' + model['标签内新增目录'].value;
-			
-			
-			
+
+
+
 		}
 	};
 
@@ -341,8 +341,8 @@ td .bean.viewer table.properties { border-width: 1px; margin-bottom: 1em; }
 
 	document.querySelector('#prjtype').innerHTML = conf.prjtype;
 
-	
-	
+
+
 	generate();
 
 	document.querySelector('#id123').value = conf.tagSvnPath;
@@ -353,7 +353,7 @@ td .bean.viewer table.properties { border-width: 1px; margin-bottom: 1em; }
 	var tdOnlinePath = document.getElementById('online-path');
 	tdOnlinePath.innerHTML = 'http://sjs.sinajs.cn/products/' + conf.addPath;
 
-	
+
 
 })({
 	//发布代码SVN路径
@@ -361,7 +361,7 @@ td .bean.viewer table.properties { border-width: 1px; margin-bottom: 1em; }
 	//tag目录svn路径
 	tagSvnPath: 'tagPathStr',
 	// 标签名称
-	tagNameContent:'tagNameStr',
+	tagNameContent:'items_tagNameStr_release',
 	//新增路径
 	addPath:'addPathStr',
 	//发布系统地址
