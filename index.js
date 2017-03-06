@@ -43,7 +43,7 @@ let svnConfig = argv.svn ? {
     //svn qb 输入发布代码路径
     onlinePath: argv.svn + '/' + projectName + '/assets/',
     //svn qb 输入标签路径
-    tagPath: argv.svn.replace('trunk', 'tags') + '/' + projectName,
+    tagPath: argv.svn.replace('trunk', 'tags') + '/' + projectName + '/',
     //标签名字
     tagName: projectName,
     //标签内新增目录
