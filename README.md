@@ -1,20 +1,17 @@
 # build-sina-project
 初始化新浪的项目
-### eg：###
- node index.js --homeDir '/d'
+### DEMO ###
+ ```
+ $ node index.js --dir '/d/yourProjectName' --svn 'https://yourProjectAdds/2017/' --devPubilcPath 'http://test.sina.com.cn' --onLinePublicPath 'http://test.sina.com.cn'
+ ```
 ### 参数说明 ###
-1. homeDir: 生成项目父级目录需要传入相对路径
+* dir: 本地目录，最后一个文件夹，作为项目的名字。可以是绝对路径也可以是相对路径，**必填**。
+* svn：svn地址（**非必填**），要求是年份作为url的截止，eg:
 
-### 配置文件 ###
-lib/svn_config.js
+```
+$ node index.js --dir '/d/workspace/demo2017' --svn 'https://svn.sina.com.cn/news/item/2017/'
+//这样会在trunk下的2017目录下生成demo2017目录，以及在对应的tag目录下生成demo2017目录与qb目录。
+```
 
-    module.exports={
-    	year:2017, //设置年份
-    	svnBaseUrl:function(){ //设置项目文件svn路径
-    		return 'https://svn1.intra.sina.com.cn/sinanews/trunk/ria/items/'+this.year+'/';
-    	},
-    	iteamName:'test2017020707', //设置项目名
-    	tagUrl:function(){ //设置版本库svn路径
-    		return 'https://svn1.intra.sina.com.cn/sinanews/tags/ria/items/'+this.year+'/';
-    	}
-    }
+* devPubilcPath：开发环境访问的地址，注意要绑定自己的host(**非必填**)。默认值：http://test.sina.com.cn
+* onLinePublicPath：上线资源文件的地址(**非必填**)。默认值：http://test.sina.com.cn
