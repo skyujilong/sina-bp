@@ -1,5 +1,9 @@
 # build-sina-project
 初始化新浪的项目
+
+### 环境需要 ###
+SVN命令行
+
 ### DEMO ###
  ```
  $ node index.js --dir '/d/yourProjectName' --svn 'https://yourProjectAdds/2017/' --devPubilcPath 'http://test.sina.com.cn' --onLinePublicPath 'http://test.sina.com.cn'
