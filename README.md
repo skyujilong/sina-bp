@@ -9,7 +9,7 @@ SVN命令行
  $ node index.js --dir '/d/yourProjectName' --svn 'https://yourProjectAdds/2017/' --devPubilcPath 'http://test.sina.com.cn' --onLinePublicPath 'http://test.sina.com.cn'
  ```
 ### 参数说明 ###
-* dir: 本地目录，最后一个文件夹，作为项目的名字。可以是绝对路径也可以是相对路径，**必填**。
+* dir: 本地目录，最后一个文件夹，作为项目的名字。可以是绝对路径也可以是相对路径，**必填**,**已文件名作为结尾不要以/结尾**。
 * svn：svn地址（**非必填**），要求是年份作为url的截止，eg:
 
 ```
