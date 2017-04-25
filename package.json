@@ -4,6 +4,8 @@
   "dependencies": {
     "lodash": "^4.13.1",
     "node-svn-ultimate": "^1.0.4",
-    "optimist": "^0.6.1"
+    "optimist": "^0.6.1",
+    "co":"^4.6.0",
+    "thunkify":"^2.1.2"
   }
 }
