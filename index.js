@@ -7,6 +7,8 @@ const svnHandler = require('./lib/svnInit');
 const _ = require('lodash');
 const dirHandler = require('./lib/initDir');
 const fileHandler = require('./lib/copyFile.js');
+const util = require('util');
+const chalk = require('chalk');
 
 let argv = require('optimist').default({
     'dir': process.cwd(),
@@ -67,29 +69,21 @@ if (argv.svn) {
 
 
 } else {
+    console.log(chalk.green('build project start >>>>>>>>>'));
     //仅仅初始化本地文件夹
-    // dirHandler.initRootDir(argv.dir, function(projectPath) {
-    //     //absPath 是项目生成的根目录路径
-    //     fileHandler.copy({
-    //         devPubilcPath: argv.devPubilcPath,
-    //         onLinePubilcPath: argv.onLinePublicPath
-    //     }, svnConfig, projectPath, function() {
-    //         console.log('project build done!');
-    //         console.log('project dir:%s', projectPath);
-    //     });
-    // });
     dirHandler.initRoot(rootDir).then(function() {
-        console.log('build root dir done...........');
+        console.log(chalk.green('build root dir done <<<<<<<<<'));
         return dirHandler.buildProjectDir(rootDir);
     }, function() {}).then(function() {
-        console.log('build project sub dir done........');
+        console.log(chalk.green('build project sub dir done <<<<<<<<<'));
         return fileHandler.copyFile({
             devPubilcPath: argv.devPubilcPath,
             onLinePubilcPath: argv.onLinePublicPath
-        },svnConfig,rootDir);
-    }, function() {}).then(function(){
-        console.log('copy file done.........');
-    },function(e){
+        }, svnConfig, rootDir);
+    }, function() {}).then(function() {
+        console.log(chalk.green('copy file done<<<<<<<<<<'));
+        console.log(chalk.green('project created, dir is: %s <<<<<<<<<'), rootDir);
+    }, function(e) {
         console.log(e.stack);
     })
 }
