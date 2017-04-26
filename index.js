@@ -50,6 +50,7 @@ let svnConfig = argv.svn ? {
     addPath: 'news/items/' + svnYear + '/' + projectName + '/'
 } : null;
 
+let rootDir = dirHandler.getRootDir(argv.dir);
 
 if (argv.svn) {
     svnHandler.init(argv.dir, svnConfig, function(projectPath) {
@@ -67,14 +68,28 @@ if (argv.svn) {
 
 } else {
     //仅仅初始化本地文件夹
-    dirHandler.initRootDir(argv.dir, function(projectPath) {
-        //absPath 是项目生成的根目录路径
-        fileHandler.copy({
+    // dirHandler.initRootDir(argv.dir, function(projectPath) {
+    //     //absPath 是项目生成的根目录路径
+    //     fileHandler.copy({
+    //         devPubilcPath: argv.devPubilcPath,
+    //         onLinePubilcPath: argv.onLinePublicPath
+    //     }, svnConfig, projectPath, function() {
+    //         console.log('project build done!');
+    //         console.log('project dir:%s', projectPath);
+    //     });
+    // });
+    dirHandler.initRoot(rootDir).then(function() {
+        console.log('build root dir done...........');
+        return dirHandler.buildProjectDir(rootDir);
+    }, function() {}).then(function() {
+        console.log('build project sub dir done........');
+        return fileHandler.copyFile({
             devPubilcPath: argv.devPubilcPath,
             onLinePubilcPath: argv.onLinePublicPath
-        }, svnConfig, projectPath, function() {
-            console.log('project build done!');
-            console.log('project dir:%s', projectPath);
-        });
-    });
+        },svnConfig,rootDir);
+    }, function() {}).then(function(){
+        console.log('copy file done.........');
+    },function(e){
+        console.log(e.stack);
+    })
 }
