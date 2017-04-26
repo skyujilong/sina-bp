@@ -54,22 +54,30 @@ let svnConfig = argv.svn ? {
 
 let rootDir = dirHandler.getRootDir(argv.dir);
 
+console.log(chalk.green('build project start >>>>>>>>>'));
 if (argv.svn) {
-    svnHandler.init(argv.dir, svnConfig, function(projectPath) {
-        dirHandler.synBuildSubDir(projectPath);
-        fileHandler.copy({
+    //svn方式初始化
+    Promise.all([
+        svnHandler.buildSvnProject(rootDir, svnConfig),
+        svnHandler.buildSvnProjectQb(svnConfig)
+    ]).then(function() {
+        console.log(chalk.green('svn trunk and tag qb init done <<<<<<<'));
+        console.log(chalk.green('svn addr: %s'), svnConfig.svn);
+        return dirHandler.buildProjectDir(rootDir);
+    }).then(function() {
+        console.log(chalk.green('build project sub dir done <<<<<<<<<'));
+        return fileHandler.copyFile({
             devPubilcPath: argv.devPubilcPath,
             onLinePubilcPath: argv.onLinePublicPath
-        }, svnConfig, projectPath, function() {
-            console.log('project build done!');
-            console.log('project dir:%s', projectPath);
-            console.log('project svn:%s', svnConfig.svn);
-        });
+        }, svnConfig, rootDir);
+    }).then(function() {
+        console.log(chalk.green('copy file done<<<<<<<<<<'));
+        console.log(chalk.green('project created, dir is: %s <<<<<<<<<'), rootDir);
+    }).catch(function(e) {
+        console.log(e.stack);
     });
 
-
 } else {
-    console.log(chalk.green('build project start >>>>>>>>>'));
     //仅仅初始化本地文件夹
     dirHandler.initRoot(rootDir).then(function() {
         console.log(chalk.green('build root dir done <<<<<<<<<'));
