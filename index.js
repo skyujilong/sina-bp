@@ -82,16 +82,16 @@ if (argv.svn) {
     dirHandler.initRoot(rootDir).then(function() {
         console.log(chalk.green('build root dir done <<<<<<<<<'));
         return dirHandler.buildProjectDir(rootDir);
-    }, function() {}).then(function() {
+    }).then(function() {
         console.log(chalk.green('build project sub dir done <<<<<<<<<'));
         return fileHandler.copyFile({
             devPubilcPath: argv.devPubilcPath,
             onLinePubilcPath: argv.onLinePublicPath
         }, svnConfig, rootDir);
-    }, function() {}).then(function() {
+    }).then(function() {
         console.log(chalk.green('copy file done<<<<<<<<<<'));
         console.log(chalk.green('project created, dir is: %s <<<<<<<<<'), rootDir);
-    }, function(e) {
+    }).catch(function(e) {
         console.log(e.stack);
-    })
+    });
 }
