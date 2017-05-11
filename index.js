@@ -7,7 +7,6 @@ const svnHandler = require('./lib/svnInit');
 const _ = require('lodash');
 const dirHandler = require('./lib/initDir');
 const fileHandler = require('./lib/copyFile.js');
-const util = require('util');
 const chalk = require('chalk');
 
 let argv = require('optimist').default({
