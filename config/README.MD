@@ -1,6 +1,6 @@
 # 特性
 ## 基于webpack2 与模板引擎 mustache
-### mustache 在项目中的用例
+### mustache在项目中的用例
 [地址](http://www.iinterest.net/2012/09/12/web-template-engine-mustache/)
 
 *请让我偷个懒，我就不写该怎么用Mustache了，参照上面链接，语法很清晰*
@@ -22,7 +22,31 @@ var tpl = require('../../test.tpl');//test.tpl是你要引用模板的路径
 console.log(Mustache.render(tpl, data));//返回渲染后的模板文件。
 
 ```
+## 针对IE的hack支持
+### eg如下
+```css
+    h1{
+        color:#ff00ff;
+        /*ie 11 hack*/
+        :ie11(&){
+            font-size: 12px;
+        }
+    }
+```
+### 支持的写法
 
+* :ie11(...) targets IE 11
+* :ie10plus(...) targets IE 10 & 11
+* :ie10(...) targets IE 10
+* :ie910(...) targets IE 9 & 10
+* :ie9plus(...) targets IE 9, 10, & 11
+* :ie9(...) targets IE 9
+* :ie8910(...) targets IE 8, 9, & 10
+* :ie8(...) targets IE 8
+* :ie7(...) targets IE 7
+* :ie678(...) targets IE 6, 7, & 8
+* :ie67(...) targets IE 6 & 7
+* :ie6(...) targets IE 6
 
 # 安装
 ### 安装nodejs LTS版本
@@ -80,7 +104,7 @@ $ npm run build
 
 
 # change log
-* tag 0.1.1 版本变更为webpack2，模板引擎变更为mustache,模板支持```<img src="../../test.png">```，该方式的书写。通过svn方式生成的项目，会有qb.html文件，该文件是配置上线环境该如何书写的。**注意，该文件的生成强依赖于建立项目的命令行参数。**
+* tag 0.1.1 版本变更为webpack2，模板引擎变更为mustache,模板支持```<img src="../../test.png">```，该方式的书写。config.js中的md5值，仅接受true或者false。通过svn方式生成的项目，会有qb.html文件，该文件是配置上线环境该如何书写的。**注意，该文件的生成强依赖于建立项目的命令行参数。**
 * tag 0.0.6 修复package.json文件中的运行命令行的一个错误。
 * tag 0.0.5 因为webpack-dashboard对于git bash模拟器支持不够友好，因此放弃对他的应用。将tinypng的key值转移到config.js进行管理。修复config.js中md5参数不为false的时候，测试环境运行命令会产生错误的问题。
 * tag 0.0.4 修改命令英文拼写错误

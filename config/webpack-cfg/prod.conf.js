@@ -1,10 +1,17 @@
 // dev开发基础模式
 'use strict'
 const path = require('path');
+const config = require('./../config.js');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-let extractTextPlugin = new ExtractTextPlugin('css/[name]-[contenthash:6].css');
+// 配置是否md5版本化
+let cssName = config.md5 ? 'css/[name]-[contenthash:6].css' : 'css/[name].css';
+let jsName = config.md5 ? 'js/[name]-[chunkhash:6].js' : 'js/[name].js';
+let imgName = config.md5 ? 'img/[name]-[hash:6].[ext]' : 'img/[name].[ext]';
+
+let extractTextPlugin = new ExtractTextPlugin(cssName);
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
+
 module.exports = {
     module: {
         rules: [{
@@ -20,7 +27,7 @@ module.exports = {
             loader: 'url-loader',
             options: {
                 limit: 1,
-                name: 'img/[name]-[hash:6].[ext]'
+                name: imgName
             }
         }, {
             // html资源
@@ -42,8 +49,8 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, '..', 'assets'),
-        filename: 'js/[name]-[chunkhash:6].js',
-        publicPath: 'http://test.sina.com.cn/',
+        filename: jsName,
+        publicPath: config.onLinePublicPath,
         chunkFilename: 'js/[name]-chunk-[chunkhash:6].js'
     },
     plugins: [

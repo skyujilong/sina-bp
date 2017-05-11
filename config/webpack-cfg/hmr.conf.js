@@ -1,6 +1,6 @@
 'use strict';
 //热部署相关代码
-
+const config = require('../config.js');
 const webpack = require('webpack');
 const path = require('path');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
@@ -39,7 +39,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, '..', 'test'),
         filename: 'js/[name].js',
-        publicPath: 'http://test.sina.com.cn/',
+        publicPath: config.publicPath,
         chunkFilename: 'js/[name]-chunk.js'
     },
     plugins: [

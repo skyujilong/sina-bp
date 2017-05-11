@@ -1,6 +1,7 @@
 // dev开发基础模式
 'use strict'
 const path = require('path');
+const config = require('../config.js');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 let extractTextPlugin = new ExtractTextPlugin('css/[name].css');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -45,7 +46,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, '..', 'test'),
         filename: 'js/[name].js',
-        publicPath: 'http://test.sina.com.cn/',
+        publicPath: config.publicPath,
         chunkFilename: 'js/[name]-chunk.js'
     },
     plugins: [
