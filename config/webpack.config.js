@@ -1,80 +1,47 @@
-/**
- * @auth jilong5 <jilong5@staff.sina.com.cn> 2016年11月29日13:57:25
- * webpack的配置文件
- */
-"use strict";
-let path = require("path");
-let srcDir = path.resolve(process.cwd(), 'pages');
-let assets = path.resolve(process.cwd(), 'assets');
-let testDir = path.resolve(process.cwd(), 'test');
-let ExtractTextPlugin = require('extract-text-webpack-plugin');
-let autoprefixer = require('autoprefixer');
-let postcssOpacity = require('postcss-opacity');
-let colorRgbaFallback = require("postcss-color-rgba-fallback");
-let entryHandler = require('./webpack-cfg/entry-handler.js');
-let htmlPluginHandler = require('./webpack-cfg/html-plugins-handler.js');
-let getDevServerConfig = require('./webpack-cfg/dev-server.js');
-const dev = 'development';
-const prod = 'production';
-const ieDev = 'developmentIE';
-const config = require('./config.js');
-let mode = process.env.NODE_ENV.trim();
-let entryObj = entryHandler.scanEntry(srcDir);
-let htmlPlugins = htmlPluginHandler(srcDir, entryObj);
-let getPlugins = require('./webpack-cfg/plugins.js');
+'use strict';
 
-let cssName = !config.md5 && mode === dev ? 'css/[name].css' : 'css/[name]-[contenthash:6].css';
-let moduleConfig = require('./webpack-cfg/module.js');
-let cssExtractTextPlugin = new ExtractTextPlugin(cssName, {
-    disable: false,
-    allChunks: false //不将所有的文件都打包到一起
-});
-//雪碧图生成的快捷路径
-let spriteAlias = (() => {
-    let obj = {};
-    config.sprites.forEach((item) => {
-        obj[item.name] = path.join(__dirname, 'pages', 'img', item.name + '-sprite.png')
-    });
-    return obj;
-})();
-
-module.exports = {
-    devtool: dev === mode ? '#source-map' : null,
-    context: path.join(__dirname, 'pages', 'js', 'page'),
-    entry: Object.assign(entryHandler.transform(dev === mode, entryObj), {
-        'vender': ['es5-shim', 'es5-sham']
-    }),
-    output: {
-        path: mode === ieDev ? testDir : assets,
-        publicPath: mode === prod ? config.onLinePublicPath : "http://test.sina.com.cn/",
-        chunkFilename: config.md5 && mode === prod ? "js/[name]-chunk-[" + config.md5 + ":6].js" : "js/[name]-chunk.js",
-        filename: config.md5 && mode === prod ? "js/[name]-[" + config.md5 + ":6].js" : "js/[name].js"
-    },
-    resolve: {
-        root: [path.join(__dirname, 'pages')],
-        extensions: ['', '.js', '.tpl', '.css', '.scss'],
-        modulesDirectories: ['tpl', 'css', 'components', 'scss', 'node_modules'],
-        alias: Object.assign({
-            'es5-shim': path.join(__dirname, 'node_modules', 'es5-shim', 'es5-shim.min.js'),
-            'es5-sham': path.join(__dirname, 'node_modules', 'es5-shim', 'es5-sham.min.js'),
-        }, spriteAlias)
-    },
-    module: moduleConfig(mode !== prod, cssExtractTextPlugin),
-    devServer: getDevServerConfig(mode === dev),
-    plugins: getPlugins(mode, htmlPlugins, cssExtractTextPlugin),
-    // postcss配置
-    postcss: () => {
-        return [
-            //为ie浏览器添加opactity filter
-            postcssOpacity(),
-            //自动添加前缀
-            autoprefixer({
-                browsers: ['>1%']
-            }),
-            //将rgba转化成对应ie浏览器也能解析的filter
-            colorRgbaFallback({
-                oldie: true
-            })
-        ];
+const merge = require('webpack-merge');
+const htmlWebpackPlugins = require('./webpack-cfg/html-plugins-handler.js');
+//入口文件扫描结果
+const entryConf = require('./webpack-cfg/entry.conf.js');
+// webpack 相关配置文件
+// 基础配置
+const baseConf = require('./webpack-cfg/base.conf.js');
+// 开发环境配置
+const devConf = require('./webpack-cfg/dev.conf.js');
+// 热部署环境配置
+const hmrConf = require('./webpack-cfg/hmr.conf.js');
+// 线上配置
+const prodConf = require('./webpack-cfg/prod.conf.js');
+// 服务器配置
+const devServerConf = require('./webpack-cfg/dev-server.js');
+// 雪碧图相关组件
+const spritePlugins = require('./webpack-cfg/sprite-plugins-config.js');
+// common config
+const commonConf = require('./webpack-cfg/common.conf.js');
+module.exports = (env) => {
+    // 根据 env判断当前的环境，之后进行 选择具体的配置文件进行编译
+    let webpackConfig;
+    let runMode = env['NODE_ENV'];
+    let baseMerge = merge.strategy(baseConf);
+    let htmlPlugins = htmlWebpackPlugins(entryConf.entry);
+    switch (runMode) {
+        case 'dev-server':
+            // 启用自刷新的开发服务
+            webpackConfig = baseMerge(commonConf, spritePlugins, entryConf, devConf, htmlPlugins, devServerConf);
+            break;
+        case 'dev-hmr':
+            // 启用热部署替换的开发服务
+            webpackConfig = baseMerge(commonConf, spritePlugins, entryConf, hmrConf, htmlPlugins, devServerConf);
+            break;
+        case 'dev-watch':
+            // 启用watch的本地文件模式
+            webpackConfig = baseMerge(commonConf, spritePlugins, entryConf, devConf);
+            break;
+        case 'prod':
+            // 生产环境
+            webpackConfig = baseMerge(commonConf, spritePlugins, entryConf, prodConf, htmlPlugins);
+            break;
     }
-};
+    return webpackConfig;
+}

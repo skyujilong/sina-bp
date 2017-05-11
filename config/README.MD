@@ -9,15 +9,17 @@ $ npm install cnpm -g --registry=https://registry.npm.taobao.org
 ### 安装依赖模块
 ```
 $ cnpm install
-$ cnpm install cross-env -g
-$ cnpm install http-server -g
-$ cnpm install webpack-dev-server -g
-$ cnpm install webpack@1.13.0 -g
 ```
 # 运行命令
 ### 开发环境（非IE）
 ```
 $ npm run dev-build
+//或者运行如下命令
+$ npm run dev-hmr-build
+//hmr命令是无刷新热部署方式，需要在入口代码中添加如下代码：
+if(module.hot){
+    module.hot.accept();
+}
 ```
 ### 开发环境（测试ie[低版本]）
 ```

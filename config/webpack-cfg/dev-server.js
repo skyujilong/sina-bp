@@ -4,15 +4,12 @@
  */
 'use strict';
 let path = require("path");
-module.exports = (isDev) => {
-    if (!isDev) {
-        return null;
-    }
-    return {
+
+module.exports = {
+    devServer: {
         contentBase: path.resolve(__dirname, '..', 'pages', 'js', 'page'),
         filename: "js/[name].js",
-        hot: true,
-        inline: false,
+        //当有H5 history api的时候启用该方法。
         historyApiFallback: false,
         lazy: false,
         watchOptions: {
@@ -27,5 +24,6 @@ module.exports = (isDev) => {
             colors: true
         },
         quiet: false
-    };
-}
+    }
+
+};

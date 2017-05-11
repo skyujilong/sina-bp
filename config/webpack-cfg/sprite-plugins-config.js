@@ -6,11 +6,11 @@ const config = require('../config.js');
 let spritePlugins = [];
 config.sprites.forEach((item) => {
     let name = item.name.trim();
-    let dir = path.resolve(__dirname, '..', 'pages','sprite', name);
+    let dir = path.resolve(__dirname, '..', 'pages', 'sprite', name);
     //如果没有这个文件夹就建立这个文件夹
     fs.stat(dir, (err) => {
-        if(err){
-            fs.mkdir(dir,()=>{
+        if (err) {
+            fs.mkdir(dir, () => {
                 console.log('generate dir' + name);
             });
         }
@@ -29,4 +29,6 @@ config.sprites.forEach((item) => {
         }
     }));
 });
-module.exports = spritePlugins;
+module.exports = {
+    plugins: spritePlugins
+};
