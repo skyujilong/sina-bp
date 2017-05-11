@@ -1,3 +1,29 @@
+# 特性
+## 基于webpack2 与模板引擎 mustache
+### mustache 在项目中的用例
+[地址](http://www.iinterest.net/2012/09/12/web-template-engine-mustache/)
+
+*请让我偷个懒，我就不写该怎么用Mustache了，参照上面链接，语法很清晰*
+
+**eg:**
+```javascript
+var data = {
+    "company": "Apple",
+    "address": {
+        "street": "1 Infinite Loop Cupertino</br>",
+        "city": "California ",
+        "state": "CA ",
+        "zip": "95014 "
+    },
+    "product": ["Macbook ","iPhone ","iPod ","iPad "]
+}
+var Mustache = require('Mustache');
+var tpl = require('../../test.tpl');//test.tpl是你要引用模板的路径
+console.log(Mustache.render(tpl, data));//返回渲染后的模板文件。
+
+```
+
+
 # 安装
 ### 安装nodejs LTS版本
 [地址](http://nodejs.org/)
@@ -54,9 +80,10 @@ $ npm run build
 
 
 # change log
-* tagv0.6 修复package.json文件中的运行命令行的一个错误。
-* tagv0.5 因为webpack-dashboard对于git bash模拟器支持不够友好，因此放弃对他的应用。将tinypng的key值转移到config.js进行管理。修复config.js中md5参数不为false的时候，测试环境运行命令会产生错误的问题。
-* tagv0.4 修改命令英文拼写错误
-* tagv0.3 增加README.MD的简要说明
-* tagv0.2 增加PC雪碧图的支持，增加简单的配置支持。
-* tagv0.1 优化原有开发环境代码，采用内存的方式开发代码，添加跨浏览器环境运行命令。
+* tag 0.1.1 版本变更为webpack2，模板引擎变更为mustache,模板支持```<img src="../../test.png">```，该方式的书写。通过svn方式生成的项目，会有qb.html文件，该文件是配置上线环境该如何书写的。**注意，该文件的生成强依赖于建立项目的命令行参数。**
+* tag 0.0.6 修复package.json文件中的运行命令行的一个错误。
+* tag 0.0.5 因为webpack-dashboard对于git bash模拟器支持不够友好，因此放弃对他的应用。将tinypng的key值转移到config.js进行管理。修复config.js中md5参数不为false的时候，测试环境运行命令会产生错误的问题。
+* tag 0.0.4 修改命令英文拼写错误
+* tag 0.0.3 增加README.MD的简要说明
+* tag 0.0.2 增加PC雪碧图的支持，增加简单的配置支持。
+* tag 0.0.1 优化原有开发环境代码，采用内存的方式开发代码，添加跨浏览器环境运行命令。
