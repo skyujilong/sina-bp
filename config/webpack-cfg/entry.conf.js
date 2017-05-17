@@ -10,7 +10,7 @@ const path = require("path");
  * @return {Object}    返回扫描结果对象key值为入口文件的名字，value值为当前文件的绝对地址
  */
 module.exports = {
-    entry: () => {
+    entry: (() => {
         let jsDir = path.resolve(__dirname, '..', 'pages', 'js', 'page');
         let entryFiles = glob.sync(jsDir + '/*.js');
         let map = {};
@@ -19,5 +19,5 @@ module.exports = {
             map[filename] = filePath
         });
         return map;
-    }()
+    })()
 }
