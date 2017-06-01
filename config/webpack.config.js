@@ -36,7 +36,7 @@ module.exports = (env) => {
             break;
         case 'dev-watch':
             // 启用watch的本地文件模式
-            webpackConfig = baseMerge(commonConf, spritePlugins, entryConf, devConf);
+            webpackConfig = baseMerge(commonConf, spritePlugins, entryConf, devConf, htmlPlugins);
             break;
         case 'prod':
             // 生产环境
