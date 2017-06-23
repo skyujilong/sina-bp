@@ -8,13 +8,15 @@ const _ = require('lodash');
 const dirHandler = require('./lib/initDir');
 const fileHandler = require('./lib/copyFile.js');
 const chalk = require('chalk');
+const initOptions = require('./lib/initOptions.js');
 
-let argv = require('optimist').default({
-    'dir': process.cwd(),
-    'svn': '',
-    'devPubilcPath': 'http://test.sina.com.cn/',
-    'onLinePublicPath': 'http://test.sina.com.cn/'
-}).argv;
+//初始化配置文件信息，之后执行build程序
+initOptions().then(function(){
+
+});
+
+
+
 
 //TODO 支持选择配置文件的方式
 //TODO 修改readme以及打tag
