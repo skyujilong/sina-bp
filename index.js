@@ -9,17 +9,34 @@ const dirHandler = require('./lib/initDir');
 const fileHandler = require('./lib/copyFile.js');
 const chalk = require('chalk');
 const initOptions = require('./lib/initOptions.js');
-
+const co = require('co');
 //初始化配置文件信息，之后执行build程序
-initOptions().then((options)=>{
-    console.dir(options);
-}).catch((e)=>{
+initOptions().then((options) => {
+    //TODO 初始化
+    let rootDir = path.join(options.workspace, options.name);
+    console.log(options);
+    // return co(function * () {
+    //     if (options.qbNewDir !== '') {
+    //         //TODO init svn whith qb
+    //         yield Promise.all([
+    //             svnHandler.buildSvnProject(rootDir, svnConfig),
+    //             svnHandler.buildSvnProjectQb(svnConfig)
+    //         ]);
+    //
+    //     } else if (options.svn !== '') {
+    //         //TODO init svn with out qb
+    //
+    //     } else {
+    //         //TODO init project
+    //     }
+    // });
+}).then(() => {
+    //DONE..........
+}).catch((e) => {
     console.log(e.stack);
 });
 
 return;
-
-
 
 //TODO 支持选择配置文件的方式
 //TODO 修改readme以及打tag
@@ -43,18 +60,20 @@ if (argv.svn) {
 //默认格式化 svn地址不已/结尾
 //argv.svn = argv.svn.replace(/\/$/, '');
 
-let svnConfig = argv.svn ? {
-    //svn trunk 地址
-    svn: argv.svn + '/' + projectName,
-    //svn qb 输入发布代码路径
-    onlinePath: argv.svn + '/' + projectName + '/assets/',
-    //svn qb 输入标签路径
-    tagPath: argv.svn.replace('trunk', 'tags') + '/' + projectName + '/',
-    //标签名字
-    tagName: projectName,
-    //标签内新增目录
-    addPath: 'news/items/' + svnYear + '/' + projectName + '/'
-} : null;
+let svnConfig = argv.svn
+    ? {
+        //svn trunk 地址
+        svn: argv.svn + '/' + projectName,
+        //svn qb 输入发布代码路径
+        onlinePath: argv.svn + '/' + projectName + '/assets/',
+        //svn qb 输入标签路径
+        tagPath: argv.svn.replace('trunk', 'tags') + '/' + projectName + '/',
+        //标签名字
+        tagName: projectName,
+        //标签内新增目录
+        addPath: 'news/items/' + svnYear + '/' + projectName + '/'
+    }
+    : null;
 
 let rootDir = dirHandler.getRootDir(argv.dir);
 
@@ -98,4 +117,17 @@ if (argv.svn) {
     }).catch(function(e) {
         console.log(e.stack);
     });
+}
+
+function * initProjectWithoutSVN(rootDir) {
+    yield dirHandler.initRoot(rootDir);
+    console.log(chalk.green('build root dir done <<<<<<<<<'));
+    yield dirHandler.buildProjectDir(rootDir);
+    console.log(chalk.green('build project sub dir done <<<<<<<<<'));
+    yield fileHandler.copyFile({
+        devPubilcPath: argv.devPubilcPath,
+        onLinePubilcPath: argv.onLinePublicPath
+    }, svnConfig, rootDir);
+    console.log(chalk.green('copy file done<<<<<<<<<<'));
+    console.log(chalk.green('project created, dir is: %s <<<<<<<<<'), rootDir);
 }
