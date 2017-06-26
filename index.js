@@ -11,10 +11,13 @@ const chalk = require('chalk');
 const initOptions = require('./lib/initOptions.js');
 
 //初始化配置文件信息，之后执行build程序
-initOptions().then(function(){
-
+initOptions().then((options)=>{
+    console.dir(options);
+}).catch((e)=>{
+    console.log(e.stack);
 });
 
+return;
 
 
 
