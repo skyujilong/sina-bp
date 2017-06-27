@@ -10,9 +10,12 @@ const fileHandler = require('./lib/copyFile.js');
 const chalk = require('chalk');
 const initOptions = require('./lib/initOptions.js');
 const co = require('co');
+const transformDir = require('./lib/util').transformDir;
 //初始化配置文件信息，之后执行build程序
 initOptions().then((options) => {
-    let rootDir = path.join(options.workspace, options.name);
+    // let rootDir = path.resolve(options.workspace, options.name);
+    let rootDir = transformDir(options.workspace + '/' + options.name);
+    console.log(rootDir);
     console.log(options);
     // 执行方法
     return co(function * () {
@@ -39,11 +42,7 @@ initOptions().then((options) => {
 
         yield dirHandler.buildProjectDir(rootDir);
         //修改 copy配置文件代码
-        yield fileHandler.copyFile({
-            devHost: options.devHost,
-            onLineHost: options.onLineHost,
-            onLineImgHost: options.onLineImgHost
-        }, options.qbInfo, rootDir);
+        yield fileHandler.copyFile(options, rootDir);
 
     });
 }).then(() => {
