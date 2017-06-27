@@ -19,7 +19,7 @@ initOptions().then((options) => {
     console.log(options);
     // 执行方法
     return co(function * () {
-        if (options.qbNewDir !== '') {
+        if (options.qbNewDir !== '' && options.svn !== '') {
             // init svn whith qb
             yield Promise.all([
                 svnHandler.buildSvnProject(rootDir, {
