@@ -12,24 +12,40 @@ const initOptions = require('./lib/initOptions.js');
 const co = require('co');
 //初始化配置文件信息，之后执行build程序
 initOptions().then((options) => {
-    //TODO 初始化
     let rootDir = path.join(options.workspace, options.name);
     console.log(options);
-    // return co(function * () {
-    //     if (options.qbNewDir !== '') {
-    //         //TODO init svn whith qb
-    //         yield Promise.all([
-    //             svnHandler.buildSvnProject(rootDir, svnConfig),
-    //             svnHandler.buildSvnProjectQb(svnConfig)
-    //         ]);
-    //
-    //     } else if (options.svn !== '') {
-    //         //TODO init svn with out qb
-    //
-    //     } else {
-    //         //TODO init project
-    //     }
-    // });
+    // 执行方法
+    return co(function * () {
+        if (options.qbNewDir !== '') {
+            // init svn whith qb
+            yield Promise.all([
+                svnHandler.buildSvnProject(rootDir, {
+                    name: options.name,
+                    svn: options.qbInfo.svnUrl
+                }),
+                svnHandler.buildSvnProjectQb({svnTagUrl: options.qbInfo.svnTagUrl})
+            ]);
+
+        } else if (options.svn !== '') {
+            // init svn with out qb
+            yield svnHandler.buildSvnProject(rootDir, {
+                name: options.name,
+                svn: options.qbInfo.svnUrl
+            })
+        } else {
+            // init project
+            yield dirHandler.initRoot(rootDir);
+        }
+
+        yield dirHandler.buildProjectDir(rootDir);
+        //修改 copy配置文件代码
+        yield fileHandler.copyFile({
+            devHost: options.devHost,
+            onLineHost: options.onLineHost,
+            onLineImgHost: options.onLineImgHost
+        }, options.qbInfo, rootDir);
+
+    });
 }).then(() => {
     //DONE..........
 }).catch((e) => {
