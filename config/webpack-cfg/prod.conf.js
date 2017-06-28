@@ -27,7 +27,8 @@ module.exports = {
             loader: 'url-loader',
             options: {
                 limit: 1,
-                name: imgName
+                name: imgName,
+                publicPath: config.onLineImgPublicPath
             }
         }, {
             // html资源
