@@ -14,11 +14,16 @@ const transformDir = require('./lib/util').transformDir;
 //初始化配置文件信息，之后执行build程序
 console.log(chalk.green('构建项目开始 >>>>>>>>>'));
 console.log(chalk.green('解析参数开始 >>>>>>>>>'));
+let rootDir;
 initOptions().then((options) => {
     console.log(chalk.green('解析参数结束 >>>>>>>>>'));
-    let rootDir = transformDir(options.workspace + '/' + options.name);
+    rootDir = transformDir(options.workspace + '/' + options.name);
+    //TODO 检查 rootDir是否已经存在了
     // 执行方法
     return co(function * () {
+        //校验根目录
+        yield dirHandler.validateRoot(rootDir);
+
         if (options.qbNewDir !== '' && options.svn !== '') {
             console.log(chalk.green('初始化svn与svn qb开始 >>>>>>>>>'));
             // init svn whith qb
@@ -54,7 +59,8 @@ initOptions().then((options) => {
     });
 }).then(() => {
     console.log(chalk.green('构建项目结束 >>>>>>>>>'));
-    console.log(chalk.green('感谢使用！构建项目提供人jilong5 >>>>>>>>>'));
+    console.log(chalk.yellow('构建项目地址：%s'),rootDir);
+    console.log(chalk.green('感谢使用！power by jilong5 >>>>>>>>>'));
 }).catch((e) => {
     console.log(chalk.bold.red('Oops!程序发生异常！'));
     console.log(chalk.red(e.message));
