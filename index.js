@@ -17,7 +17,7 @@ console.log(chalk.green('解析参数开始 >>>>>>>>>'));
 let rootDir;
 initOptions().then((options) => {
     console.log(chalk.green('解析参数结束 >>>>>>>>>'));
-    console.log(require('util').inspect(options, { depth: null }));
+    // console.log(require('util').inspect(options, { depth: null }));
     rootDir = transformDir(options.workspace) + path.sep + options.name;
     //TODO 检查 rootDir是否已经存在了
     // 执行方法
