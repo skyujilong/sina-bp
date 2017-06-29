@@ -1,16 +1,35 @@
 {
-    "name": "bulid-sina-project",
-    "version": "0.0.6",
-    "dependencies": {
-        "lodash": "^4.13.1",
-        "node-svn-ultimate": "^1.0.4",
-        "optimist": "^0.6.1",
-        "co": "^4.6.0",
-        "thunkify": "^2.1.2",
-        "chalk": "^1.1.3"
-    },
-    "bin": {
-        "build-sina-project":"./index.js",
-        "bsp":"./index.js"
-    }
+  "name": "bulid-sina-project",
+  "version": "0.0.6",
+  "bin": {
+    "build-sina-project": "./index.js",
+    "bsp": "./index.js"
+  },
+  "description": "初始化新浪的项目",
+  "main": "index.js",
+  "dependencies": {
+    "lodash": "^4.13.1",
+    "node-svn-ultimate": "^1.0.4",
+    "optimist": "^0.6.1",
+    "co": "^4.6.0",
+    "thunkify": "^2.1.2",
+    "chalk": "^1.1.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skyujilong/build-sina-project.git"
+  },
+  "keywords": [
+    "sina",
+    "build"
+  ],
+  "author": "jilong5",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/skyujilong/build-sina-project/issues"
+  },
+  "homepage": "https://github.com/skyujilong/build-sina-project#readme"
 }
