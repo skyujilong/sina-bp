@@ -1,11 +1,15 @@
 {
   "name": "sina-bp",
   "version": "3.0.1",
+  "files":[
+      "config",
+      "lib"
+  ],
   "bin": {
-    "sina-bp": "./index.js"
+    "sina-bp": "sina-bp.js"
   },
   "description": "初始化新浪的项目",
-  "main": "index.js",
+  "main": "sina-bp.js",
   "dependencies": {
     "lodash": "^4.13.1",
     "node-svn-ultimate": "^1.0.4",
