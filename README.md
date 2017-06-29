@@ -1,4 +1,4 @@
-# build-sina-project
+# sina-bp
 sina构建活动页项目脚手架
 
 ### 版本环境介绍 ###
@@ -7,15 +7,15 @@ sina构建活动页项目脚手架
 
 ### 安装 ###
 ```
-$ npm install build-sina-project -g
+$ npm install sina-bp -g
 ```
 
 ### 用例 ###
 ```
 //读取配置文件方式
-build-sina-project --conf /d/conf/blog-build.conf --name helloworld
+sina-bp --conf /d/conf/blog-build.conf --name helloworld
 //直接根据参数生成
-build-sina-project --dir /d/workspace --name helloworld --devHost http://test.sina.com.cn --onLineHost http://test.sina.com.cn
+sina-bp --dir /d/workspace --name helloworld --devHost http://test.sina.com.cn --onLineHost http://test.sina.com.cn
 ```
 
 ### 参数说明 ###

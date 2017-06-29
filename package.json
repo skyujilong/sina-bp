@@ -1,9 +1,8 @@
 {
-  "name": "bulid-sina-project",
-  "version": "3.0.0",
+  "name": "sina-bp",
+  "version": "3.0.1",
   "bin": {
-    "build-sina-project": "./index.js",
-    "bsp": "./index.js"
+    "sina-bp": "./index.js",
   },
   "description": "初始化新浪的项目",
   "main": "index.js",
@@ -20,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/skyujilong/build-sina-project.git"
+    "url": "git+https://github.com/skyujilong/sina-bp.git"
   },
   "keywords": [
     "sina build project",
@@ -29,7 +28,7 @@
   "author": "jilong5",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/skyujilong/build-sina-project/issues"
+    "url": "https://github.com/skyujilong/sina-bp/issues"
   },
-  "homepage": "https://github.com/skyujilong/build-sina-project#readme"
+  "homepage": "https://github.com/skyujilong/sina-bp#readme"
 }
