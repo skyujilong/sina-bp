@@ -2,7 +2,7 @@
   "name": "sina-bp",
   "version": "3.0.1",
   "bin": {
-    "sina-bp": "./index.js",
+    "sina-bp": "./index.js"
   },
   "description": "初始化新浪的项目",
   "main": "index.js",
