@@ -3,14 +3,14 @@
  */
 "use strict";
 const path = require('path');
-const svnHandler = require('./lib/svnInit');
+const svnHandler = require('../lib/svnInit');
 const _ = require('lodash');
-const dirHandler = require('./lib/initDir');
-const fileHandler = require('./lib/copyFile.js');
+const dirHandler = require('../lib/initDir');
+const fileHandler = require('../lib/copyFile.js');
 const chalk = require('chalk');
-const initOptions = require('./lib/initOptions.js');
+const initOptions = require('../lib/initOptions.js');
 const co = require('co');
-const transformDir = require('./lib/util').transformDir;
+const transformDir = require('../lib/util').transformDir;
 //初始化配置文件信息，之后执行build程序
 console.log(chalk.green('构建项目开始 >>>>>>>>>'));
 console.log(chalk.green('解析参数开始 >>>>>>>>>'));
