@@ -1,12 +1,16 @@
 {
-  "name": "bulid-sina-project",
-  "version": "0.0.6",
-  "dependencies": {
-    "lodash": "^4.13.1",
-    "node-svn-ultimate": "^1.0.4",
-    "optimist": "^0.6.1",
-    "co":"^4.6.0",
-    "thunkify":"^2.1.2",
-    "chalk":"^1.1.3"
-  }
+    "name": "bulid-sina-project",
+    "version": "0.0.6",
+    "dependencies": {
+        "lodash": "^4.13.1",
+        "node-svn-ultimate": "^1.0.4",
+        "optimist": "^0.6.1",
+        "co": "^4.6.0",
+        "thunkify": "^2.1.2",
+        "chalk": "^1.1.3"
+    },
+    "bin": {
+        "build-sina-project":"./index.js",
+        "bsp":"./index.js"
+    }
 }
