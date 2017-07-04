@@ -1,13 +1,13 @@
 {
   "name": "sina-bp",
-  "version": "3.0.5",
+  "version": "3.0.6",
   "files":[
       "config",
       "lib",
       "bin"
   ],
   "bin": {
-    "sina-bp": "./bin/sina-bp.js"
+    "sina-bp": "./bin/sina-bp"
   },
   "description": "初始化新浪的项目",
   "main": "./lib/main.js",
