@@ -12,6 +12,8 @@ $ npm install sina-bp -g
 
 ### 用例 ###
 ```
+//输出用法用例
+sina-bp -h
 //读取配置文件方式
 sina-bp --conf /d/conf/blog-build.conf --name helloworld
 //直接根据参数生成
@@ -25,6 +27,7 @@ sina-bp --dir /d/workspace --name helloworld --devHost http://test.sina.com.cn -
 4. **devHost**:测试环境下的host地址
 5. **onLineHost**:资源文件线上地址
 6. **onLineImgHost**:图片类型资源文件线上地址，如果不填默认和onLineHost地址一致
+7. **tinyPngKeys**: 图片压缩服务所需要的key值。数组类型，获取图片压缩服务的key值的地址：https://tinypng.com/developers 
 
 ### config文件说明 ###
 ```js
