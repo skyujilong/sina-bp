@@ -10,6 +10,7 @@ let imgName = config.md5 ? 'img/[name]-[hash:6].[ext]' : 'img/[name].[ext]';
 
 let extractTextPlugin = new ExtractTextPlugin(cssName);
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const TinyPngWebpackPlugin = require('tinypng-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
@@ -106,6 +107,10 @@ module.exports = {
             options: {
                 context: path.resolve(__dirname, '..')
             }
+        }),
+        //压缩本地图片的方法
+        new TinyPngWebpackPlugin({
+            key: config.tinyPngKeys
         })
     ]
 };

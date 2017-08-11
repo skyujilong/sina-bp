@@ -12,5 +12,6 @@ module.exports = {
         //是一致的，同时也会在 img文件夹下面生成对应名字的png文件
         name: 'normal'
     }],
-    tinyPngKeys:["Ohuy1PjI0uc6OtpOcKitwfaKTBRqbbb2", "bOcSekVhViyuHTmCgoCizNWPMieG7QPW", "MENRrUEXFrDlUwMkeBYNN-QJ8Ri3_mDN", "346gfotHJspgPYXmOuSAWhSl4CxlUox7"]
+    //tinyPngKeys 申请地址：https://tinypng.com/developers
+    tinyPngKeys: {{tinyPngKeys}}
 }
