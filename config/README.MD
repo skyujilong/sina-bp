@@ -93,7 +93,8 @@ $ npm run build
             //有必要的话可以生成多个雪碧图的文件夹,后续生成scss的雪碧图映射文件与name
             //是一致的，同时也会在 img文件夹下面生成对应名字的png文件
             name: 'normal'
-        }]
+        }],
+        tinyPngKeys:['xxxsssxx']//图片压缩服务器的key值，数组结构|字符串，申请地址:https://tinypng.com/developers
     }
     //注意雪碧图目前配置仅仅支持pc端的，后续会添加移动端的支持
 ```
