@@ -35,6 +35,7 @@ sina-bp --dir /d/workspace --name helloworld --devHost http://test.sina.com.cn -
     devHost:'http://test.sina.com.cn',//开发域名
     onLineHost:'http://mjs.sinajs.cn',//资源域名
     onLineImgHost:'http://img.mjs.sinajs.cn/',//图片单独域名可空
-    qbNewDir:'blog/items/'//qb相关新增路径，该字段选填，要是没有，不生成qb.html文件
+    qbNewDir:'blog/items/',//qb相关新增路径，该字段选填，要是没有，不生成qb.html文件
+    tinyPngKeys:['xxxxxxxx']//压缩图片服务所需要的key值，数组结构，可以是多组值，可空，申请地址为：https://tinypng.com/developers
 }
 ```
