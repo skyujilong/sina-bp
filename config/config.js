@@ -13,5 +13,5 @@ module.exports = {
         name: 'normal'
     }],
     //tinyPngKeys 申请地址：https://tinypng.com/developers
-    tinyPngKeys: {{tinyPngKeys}}
+    tinyPngKeys: '{{tinyPngKeys}}'
 }
