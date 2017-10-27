@@ -13,6 +13,8 @@ const devConf = require('./webpack-cfg/dev.conf.js');
 const hmrConf = require('./webpack-cfg/hmr.conf.js');
 // 线上配置
 const prodConf = require('./webpack-cfg/prod.conf.js');
+// resovle相关配置
+const resovle = require('./webpack-cfg/resolve.conf.js');
 // 服务器配置
 const devServerConf = require('./webpack-cfg/dev-server.js');
 // 雪碧图相关组件
@@ -28,19 +30,19 @@ module.exports = (env) => {
     switch (runMode) {
         case 'dev-server':
             // 启用自刷新的开发服务
-            webpackConfig = baseMerge(commonConf, spritePlugins, entryConf, devConf, htmlPlugins, devServerConf);
+            webpackConfig = baseMerge(commonConf, spritePlugins, entryConf, devConf, resovle, htmlPlugins, devServerConf);
             break;
         case 'dev-hmr':
             // 启用热部署替换的开发服务
-            webpackConfig = baseMerge(commonConf, spritePlugins, entryConf, hmrConf, htmlPlugins, devServerConf);
+            webpackConfig = baseMerge(commonConf, spritePlugins, entryConf, hmrConf, resovle, htmlPlugins, devServerConf);
             break;
         case 'dev-watch':
             // 启用watch的本地文件模式
-            webpackConfig = baseMerge(commonConf, spritePlugins, entryConf, devConf, htmlPlugins);
+            webpackConfig = baseMerge(commonConf, spritePlugins, entryConf, devConf, resovle, htmlPlugins);
             break;
         case 'prod':
             // 生产环境
-            webpackConfig = baseMerge(commonConf, spritePlugins, entryConf, prodConf, htmlPlugins);
+            webpackConfig = baseMerge(commonConf, spritePlugins, entryConf, prodConf, resovle, htmlPlugins);
             break;
     }
     return webpackConfig;
