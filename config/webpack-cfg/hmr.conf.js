@@ -2,6 +2,8 @@
 //热部署相关代码
 const config = require('../config.js');
 const webpack = require('webpack');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+let extractTextPlugin = new ExtractTextPlugin('css/[name].css');
 const path = require('path');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
@@ -10,7 +12,10 @@ module.exports = {
         rules: [{
             // css资源
             test: /\.(scss|css)$/,
-            use: ['style-loader?sourceMap', 'css-loader?sourceMap', 'postcss-loader?sourceMap=inline', 'sass-loader']
+            use: extractTextPlugin.extract({
+                fallback: 'style-loader',
+                use: ['css-loader?sourceMap', 'postcss-loader?sourceMap=inline', 'sass-loader']
+            })
         }, {
             // 图片资源
             test: /\.(png|jpeg|jpg|gif)$/,
@@ -43,6 +48,7 @@ module.exports = {
         chunkFilename: 'js/[name]-chunk.js'
     },
     plugins: [
+        extractTextPlugin,
         new webpack.NamedModulesPlugin(),
         new OpenBrowserPlugin({
             url: 'http://test.sina.com.cn/'
@@ -57,7 +63,7 @@ module.exports = {
              * @param  {Number} count  模块被引用的次数
              * @return {Boolean}       返回boolean类型，如果是true，将进行提取
              */
-            minChunks: function(module, count) {
+            minChunks: function (module, count) {
                 // This prevents stylesheet resources with the .css or .scss extension
                 // from being moved from their original chunk to the vendor chunk
                 if (module.resource && (/^.*\.(css|scss)$/).test(module.resource)) {
