@@ -98,6 +98,16 @@ $ npm run build
     }
     //注意雪碧图目前配置仅仅支持pc端的，后续会添加移动端的支持
 ```
+
+# 雪碧图配置用例
+## 以默认配置为例（normal）
+1. 将要生成雪碧图的图片放入```pages/sprite/normal```下
+2. 放入图片后会在```pages/scss/```文件夹下生成normal-sprite.scss文件，该文件内容描述了，你雪碧图的生成位置(```pages/img/normal-sprite.png```),以及对应生成的雪碧图的位置信息，以及对应调用的方法。
+3. 在你需要用到雪碧图的scss或者css文件，头部引入```@import '~normal-sprite';```
+4. 在你需要用到的class中调用:```@include sprite($down);```
+5. 文件的命名可以去看normal-sprite.scss文件。
+6. 如果config雪碧图的配置不是normal这个名字，可以修改其他normal这个值对应到你写的值。
+
 # 项目开发目录简单说明
 1. pages/html目录下是开发页面的html构建，不需要引入业务文件
 2. pages/js/page目录下是开发js的主入口文件，注意这个js文件夹下的js文件需要与上面1中的html目录中的html同名，否则无法给对应的html注入对应的js文件
