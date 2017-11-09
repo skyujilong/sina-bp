@@ -2,20 +2,16 @@
 //热部署相关代码
 const config = require('../config.js');
 const webpack = require('webpack');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-let extractTextPlugin = new ExtractTextPlugin('css/[name].css');
 const path = require('path');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
 module.exports = {
+    devtool:'eval',
     module: {
         rules: [{
             // css资源
             test: /\.(scss|css)$/,
-            use: extractTextPlugin.extract({
-                fallback: 'style-loader',
-                use: ['css-loader?sourceMap', 'postcss-loader?sourceMap=inline', 'sass-loader']
-            })
+            use: ['style-loader?sourceMap', 'css-loader?sourceMap', 'postcss-loader?sourceMap=inline', 'sass-loader']
         }, {
             // 图片资源
             test: /\.(png|jpeg|jpg|gif)$/,
@@ -48,7 +44,6 @@ module.exports = {
         chunkFilename: 'js/[name]-chunk.js'
     },
     plugins: [
-        extractTextPlugin,
         new webpack.NamedModulesPlugin(),
         new OpenBrowserPlugin({
             url: 'http://test.sina.com.cn/'

@@ -9,6 +9,7 @@ const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
+    devtool: 'eval',
     module: {
         rules: [{
             // css资源
