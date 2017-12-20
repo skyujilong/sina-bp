@@ -31,7 +31,7 @@
         "postcss-color-rgba-fallback": "^2.0.0",
         "clean-webpack-plugin": "^0.1.14",
         "webpack-spritesmith": "^0.3.0",
-        "tinypng-webpack-plugin": "^0.1.0",
+        "tinypng-webpack-plugin": "^1.0.1",
         "postcss-fixie":"^1.0.0",
         "postcss-will-change":"^1.1.0",
         "postcss-filter-gradient":"^0.2.6",
