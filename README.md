@@ -2,8 +2,9 @@
 sina构建活动页项目脚手架
 
 ### 版本环境介绍 ###
-1. 基于webpack2
+1. 基于webpack3
 1. 模板引擎更改为mustache
+1. 支持es6 推荐采用es6的包引入规范，可以使用webpack的tree shaking来减少包的体积
 
 ### 安装 ###
 ```

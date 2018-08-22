@@ -26,6 +26,9 @@ config.sprites.forEach((item) => {
         },
         apiOptions: {
             cssImageRef: '~' + name
+        },
+        spritesmithOptions: {
+            padding: 10 //雪碧图，图与图的间距
         }
     }));
 });
