@@ -6,9 +6,13 @@ const path = require('path');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
 module.exports = {
-    devtool:'eval',
+    devtool: 'eval',
     module: {
         rules: [{
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: "babel-loader"
+        }, {
             // css资源
             test: /\.(scss|css)$/,
             use: ['style-loader?sourceMap', 'css-loader?sourceMap', 'postcss-loader?sourceMap=inline', 'sass-loader']

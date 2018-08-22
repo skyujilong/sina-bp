@@ -12,6 +12,10 @@ module.exports = {
     devtool: 'eval',
     module: {
         rules: [{
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: "babel-loader"
+        }, {
             // css资源
             test: /\.(scss|css)$/,
             use: extractTextPlugin.extract({
@@ -68,7 +72,7 @@ module.exports = {
              * @param  {Number} count  模块被引用的次数
              * @return {Boolean}       返回boolean类型，如果是true，将进行提取
              */
-            minChunks: function(module, count) {
+            minChunks: function (module, count) {
                 // This prevents stylesheet resources with the .css or .scss extension
                 // from being moved from their original chunk to the vendor chunk
                 if (module.resource && (/^.*\.(css|scss)$/).test(module.resource)) {
