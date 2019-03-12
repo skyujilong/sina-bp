@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "target": "es5",
+        "module": "commonjs",
+        "alwaysStrict": true,
+        "lib": [
+            // "es2015",
+            "es5",
+            "dom",
+            "es2015.promise",
+            "es2015.iterable",
+            "dom.iterable",
+            "scripthost"
+        ]
+    },
+    "include":[
+        "lib/**.ts",
+        "*.d.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

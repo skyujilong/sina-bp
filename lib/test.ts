@@ -1,14 +1,10 @@
 'use strict';
-import "@babel/polyfill";
-
-const { spawn } = require('child_process');
-
-const readline = require('readline');
-
-function cmd(){
-    let args = Array.prototype.slice.call(arguments);
+import { spawn } from 'child_process';
+import { createInterface } from 'readline';
+function cmd(cmdTxt: string, args: string[]):Promise<any>{
+    let args1 = Array.prototype.slice.call(arguments);
     return new Promise((resolve, reject) => {
-        const cmd1 = spawn.apply(null,args);
+        const cmd1 = spawn.apply(null,args1);
         cmd1.stdout.pipe(process.stdout);
         cmd1.stderr.on('data', (data)=>{
             reject(new Error(data));
@@ -20,7 +16,7 @@ function cmd(){
     }); 
 }
 
-async function runCmd(){
+async function runCmd():Promise<any>{
     await cmd('ls', ['-al', './']);
     // await cmd('ping', ['127.0.0.1']);
     let result = await answerLine('你感觉如何？\n');
@@ -50,7 +46,7 @@ runCmd().then(()=>{
 
 function answerLine(question){
     return new Promise((resolve,reject)=>{
-        const rl = readline.createInterface({
+        const rl = createInterface({
             input:process.stdin,
             output:process.stdout
         })
