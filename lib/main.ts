@@ -36,22 +36,18 @@ let {argv} = help().alias('help', 'h').version().alias('version', 'v').usage([
     }
 });
 
-// console.log(JSON.stringify(argv));
-// console.log(<ProjectArgv>argv);
-// console.log(<string>argv.name);
 
-// console.log(packageJson.version);
-//TODO:计算线上的上线地址！!
-
-
-async function main(argvs:string):Promise<void>{
+async function build(argvs:string):Promise<string>{
     // await cmd('ls', ['-al', './']);
     let isCompany: string = await answerLineOk('是否是公司项目(y/n):',['y','n']);
     console.log(isCompany);
     console.log(argvs);
+
+    return '项目地址：/data1/wwww';
 }
 
 
-main(JSON.stringify(argv)).then(()=>{
+build(JSON.stringify(argv)).then((dir)=>{
+    console.log(dir);
     console.log('done!!!');
 })

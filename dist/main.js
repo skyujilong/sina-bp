@@ -67,12 +67,7 @@ var argv = yargs_1.help().alias('help', 'h').version().alias('version', 'v').usa
         default: 'http://test.sina.com.cn/'
     }
 }).argv;
-// console.log(JSON.stringify(argv));
-// console.log(<ProjectArgv>argv);
-// console.log(<string>argv.name);
-// console.log(packageJson.version);
-//TODO:计算线上的上线地址！!
-function main(argvs) {
+function build(argvs) {
     return __awaiter(this, void 0, void 0, function () {
         var isCompany;
         return __generator(this, function (_a) {
@@ -82,11 +77,12 @@ function main(argvs) {
                     isCompany = _a.sent();
                     console.log(isCompany);
                     console.log(argvs);
-                    return [2 /*return*/];
+                    return [2 /*return*/, '项目地址：/data1/wwww'];
             }
         });
     });
 }
-main(JSON.stringify(argv)).then(function () {
+build(JSON.stringify(argv)).then(function (dir) {
+    console.log(dir);
     console.log('done!!!');
 });
