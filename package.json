@@ -1,6 +1,6 @@
 {
   "name": "sina-bp",
-  "version": "3.1.1",
+  "version": "4.0.0",
   "files": [
     "config",
     "lib",
@@ -16,7 +16,7 @@
     "@babel/core": "^7.2.2",
     "@babel/polyfill": "^7.2.5",
     "@babel/preset-env": "^7.3.1",
-    "@types/node": "^8.10.0",
+
     "babel-preset-env": "^1.7.0",
     "chalk": "^1.1.3",
     "co": "^4.6.0",
@@ -29,6 +29,10 @@
     "typescript": "^3.3.3333",
     "yargs": "^8.0.2"
   },
+  "devDependencies": {
+    "@types/node": "^8.10.0",
+    "@types/yargs": "^8.0.2"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -40,6 +44,9 @@
     "sina build project",
     "sina build"
   ],
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "author": "jilong5",
   "license": "MIT",
   "bugs": {

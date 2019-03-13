@@ -3,9 +3,10 @@
         "sourceMap": true,
         "target": "es5",
         "module": "commonjs",
+        "resolveJsonModule":true,
         "alwaysStrict": true,
+        "moduleResolution":"node",
         "lib": [
-            // "es2015",
             "es5",
             "dom",
             "es2015.promise",
@@ -16,7 +17,8 @@
     },
     "include":[
         "lib/**.ts",
-        "*.d.ts"
+        "**.d.ts",
+        "package.json"
     ],
     "exclude": [
         "node_modules"

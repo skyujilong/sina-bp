@@ -15,7 +15,7 @@ function cmd(cmdTxt: string, args: string[]):Promise<any>{
         })
     }); 
 }
-
+console.log(3333);
 async function runCmd():Promise<any>{
     await cmd('ls', ['-al', './']);
     // await cmd('ping', ['127.0.0.1']);
