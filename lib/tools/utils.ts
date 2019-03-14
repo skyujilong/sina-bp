@@ -6,12 +6,17 @@ import * as path from 'path';
  * @param url 
  */
 function isIllegalUrl(url:string):boolean{
-    let reg = /^http(s):\/\//;
+    let reg = /^https{0,1}:\/\//;
     if (reg.test(url)){
         return false;
     }else{
         return true;
     }
+}
+
+function isIllegalGit(url:string):boolean{
+    let reg = /^ssh:\/\/[\/\w\.-]*git$/;
+    return !reg.test(url);
 }
 
 /**
@@ -71,6 +76,7 @@ function transHostUrl(url:string):string{
 
 export {
     isIllegalUrl,
+    isIllegalGit,
     transformDir,
     urlEndSuff,
     transHostUrl

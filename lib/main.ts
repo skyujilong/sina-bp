@@ -10,6 +10,7 @@ import answerLine, {
 } from './tools/answer-line';
 import {
     transformDir,
+    isIllegalGit,
     isIllegalUrl
 } from './tools/utils';
 import BpConf from './module/bp-conf';
@@ -60,16 +61,16 @@ async function getConf(): Promise<BuildInfo>{
     let git:string = '';
     let isIllegalGitFlag = false;
     while (true) {
-        if (isCompany === 'y' && isIllegalUrl(git)) {
-            git = await answerLine(isIllegalGitFlag ? '请输入合法的git地址:':'git地址:');
+        if (isCompany === 'y' && isIllegalGit(git)) {
+            git = await answerLine(isIllegalGitFlag ? '请输入合法的git地址（仅支持ssh）:' :'git地址（仅支持ssh）:');
             isIllegalGitFlag = true;
-        } else if (isCompany === 'n' && (git !== 'n' && isIllegalUrl(git))) {
-            git = await answerLine(isIllegalGitFlag ? '请输入合法的git地址(输入n为不添加git地址):' :'git地址(输入n为不添加git地址):');
+        } else if (isCompany === 'n' && (git !== 'n' && isIllegalGit(git))) {
+            git = await answerLine(isIllegalGitFlag ? '请输入合法的git地址(仅支持ssh & 输入n为不添加git地址):' :'git地址(仅支持ssh & 输入n为不添加git地址):');
             isIllegalGitFlag = true;
         } else if ((git === 'n' || isCompany === 'n')) {
             git = '';
             break;
-        } else if (!isIllegalUrl(git)){
+        } else if (!isIllegalGit(git)){
             break;
         }
     }

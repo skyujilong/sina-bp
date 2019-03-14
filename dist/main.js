@@ -91,15 +91,15 @@ function getConf() {
                     _a.label = 4;
                 case 4:
                     if (!true) return [3 /*break*/, 10];
-                    if (!(isCompany === 'y' && utils_1.isIllegalUrl(git))) return [3 /*break*/, 6];
-                    return [4 /*yield*/, answer_line_1.default(isIllegalGitFlag ? '请输入合法的git地址:' : 'git地址:')];
+                    if (!(isCompany === 'y' && utils_1.isIllegalGit(git))) return [3 /*break*/, 6];
+                    return [4 /*yield*/, answer_line_1.default(isIllegalGitFlag ? '请输入合法的git地址（仅支持ssh）:' : 'git地址（仅支持ssh）:')];
                 case 5:
                     git = _a.sent();
                     isIllegalGitFlag = true;
                     return [3 /*break*/, 9];
                 case 6:
-                    if (!(isCompany === 'n' && (git !== 'n' && utils_1.isIllegalUrl(git)))) return [3 /*break*/, 8];
-                    return [4 /*yield*/, answer_line_1.default(isIllegalGitFlag ? '请输入合法的git地址(输入n为不添加git地址):' : 'git地址(输入n为不添加git地址):')];
+                    if (!(isCompany === 'n' && (git !== 'n' && utils_1.isIllegalGit(git)))) return [3 /*break*/, 8];
+                    return [4 /*yield*/, answer_line_1.default(isIllegalGitFlag ? '请输入合法的git地址(仅支持ssh & 输入n为不添加git地址):' : 'git地址(仅支持ssh & 输入n为不添加git地址):')];
                 case 7:
                     git = _a.sent();
                     isIllegalGitFlag = true;
@@ -109,7 +109,7 @@ function getConf() {
                         git = '';
                         return [3 /*break*/, 10];
                     }
-                    else if (!utils_1.isIllegalUrl(git)) {
+                    else if (!utils_1.isIllegalGit(git)) {
                         return [3 /*break*/, 10];
                     }
                     _a.label = 9;

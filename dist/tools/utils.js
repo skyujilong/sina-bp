@@ -8,7 +8,7 @@ var path = require("path");
  * @param url
  */
 function isIllegalUrl(url) {
-    var reg = /^http(s):\/\//;
+    var reg = /^https{0,1}:\/\//;
     if (reg.test(url)) {
         return false;
     }
@@ -17,6 +17,11 @@ function isIllegalUrl(url) {
     }
 }
 exports.isIllegalUrl = isIllegalUrl;
+function isIllegalGit(url) {
+    var reg = /^ssh:\/\/[\/\w\.-]*git$/;
+    return !reg.test(url);
+}
+exports.isIllegalGit = isIllegalGit;
 /**
  * 转换在win控制台下 输入/d/workspace这种linux路径 转化为对应平台的路径
  * @param dir
