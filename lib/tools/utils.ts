@@ -8,9 +8,9 @@ import * as path from 'path';
 function isIllegalUrl(url:string):boolean{
     let reg = /^http(s):\/\//;
     if (reg.test(url)){
-        return true;
-    }else{
         return false;
+    }else{
+        return true;
     }
 }
 

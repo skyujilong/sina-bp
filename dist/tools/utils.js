@@ -10,10 +10,10 @@ var path = require("path");
 function isIllegalUrl(url) {
     var reg = /^http(s):\/\//;
     if (reg.test(url)) {
-        return true;
+        return false;
     }
     else {
-        return false;
+        return true;
     }
 }
 exports.isIllegalUrl = isIllegalUrl;

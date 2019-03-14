@@ -73,7 +73,7 @@ var argv = yargs_1.help().alias('help', 'h').version().alias('version', 'v').usa
 }).argv;
 function getConf() {
     return __awaiter(this, void 0, void 0, function () {
-        var isCompany, bpConf, confDir;
+        var isCompany, bpConf, confDir, git, isIllegalGitFlag;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, answer_line_1.answerLineOk('是否是公司项目(y/n):', ['y', 'n'])];
@@ -85,25 +85,48 @@ function getConf() {
                 case 2:
                     bpConf = _a.sent();
                     _a.label = 3;
-                case 3: return [2 /*return*/, new buid_info_1.default('', '', new bp_conf_1.default('', '', '', '', []))];
+                case 3:
+                    git = '';
+                    isIllegalGitFlag = false;
+                    _a.label = 4;
+                case 4:
+                    if (!true) return [3 /*break*/, 10];
+                    if (!(isCompany === 'y' && utils_1.isIllegalUrl(git))) return [3 /*break*/, 6];
+                    return [4 /*yield*/, answer_line_1.default(isIllegalGitFlag ? '请输入合法的git地址:' : 'git地址:')];
+                case 5:
+                    git = _a.sent();
+                    isIllegalGitFlag = true;
+                    return [3 /*break*/, 9];
+                case 6:
+                    if (!(isCompany === 'n' && (git !== 'n' && utils_1.isIllegalUrl(git)))) return [3 /*break*/, 8];
+                    return [4 /*yield*/, answer_line_1.default(isIllegalGitFlag ? '请输入合法的git地址(输入n为不添加git地址):' : 'git地址(输入n为不添加git地址):')];
+                case 7:
+                    git = _a.sent();
+                    isIllegalGitFlag = true;
+                    return [3 /*break*/, 9];
+                case 8:
+                    if ((git === 'n' || isCompany === 'n')) {
+                        git = '';
+                        return [3 /*break*/, 10];
+                    }
+                    else if (!utils_1.isIllegalUrl(git)) {
+                        return [3 /*break*/, 10];
+                    }
+                    _a.label = 9;
+                case 9: return [3 /*break*/, 4];
+                case 10: return [2 /*return*/, new buid_info_1.default('', '', new bp_conf_1.default('', '', '', '', []))];
             }
         });
     });
 }
 function build(argvs) {
     return __awaiter(this, void 0, void 0, function () {
-        var buildInfo, git;
+        var buildInfo;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, getConf()];
                 case 1:
                     buildInfo = _a.sent();
-                    return [4 /*yield*/, answer_line_1.default('git地址(输入n为不添加git地址):')];
-                case 2:
-                    git = _a.sent();
-                    if (git.toLocaleLowerCase() === 'n') {
-                        git = '';
-                    }
                     return [2 /*return*/, '项目地址：/data1/wwww'];
             }
         });

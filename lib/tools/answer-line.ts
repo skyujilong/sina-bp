@@ -2,7 +2,7 @@ import {
     createInterface
 } from 'readline';
 
-function answerLine(question: string): Promise < string > {
+function answerLine(question: string): Promise <string> {
     return new Promise((resolve, reject) => {
         const rl = createInterface({
             input: process.stdin,
@@ -15,7 +15,7 @@ function answerLine(question: string): Promise < string > {
     });
 }
 
-async function answerLineOk(questions: string, answerList: string[]): Promise < string > {
+async function answerLineOk(questions: string, answerList: string[]): Promise <string> {
     while (true) {
         let answer = await answerLine(questions);
         for (let item of answerList) {
@@ -26,6 +26,7 @@ async function answerLineOk(questions: string, answerList: string[]): Promise < 
         }
     }
 }
+
 
 
 export default answerLine;
