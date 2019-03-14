@@ -42,8 +42,12 @@ function readLine(dir) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             return [2 /*return*/, new Promise(function (resolve, reject) {
+                    var readStream = fs_1.createReadStream(dir);
                     var readline = readline_1.createInterface({
-                        input: fs_1.createReadStream(dir)
+                        input: readStream
+                    });
+                    readStream.on('error', function (err) {
+                        reject(err);
                     });
                     var conf = {
                         workspace: '',

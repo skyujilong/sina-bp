@@ -73,48 +73,86 @@ var argv = yargs_1.help().alias('help', 'h').version().alias('version', 'v').usa
 }).argv;
 function getConf() {
     return __awaiter(this, void 0, void 0, function () {
-        var isCompany, bpConf, confDir, git, isIllegalGitFlag;
+        var isCompany, bpConf, confDir, e_1, confDir_1, e_2, git, isIllegalGitFlag, confDir, e_3, name_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, answer_line_1.answerLineOk('是否是公司项目(y/n):', ['y', 'n'])];
                 case 1:
-                    isCompany = _a.sent();
-                    if (!(isCompany === 'y')) return [3 /*break*/, 3];
+                    isCompany = (_a.sent()) === 'y';
+                    if (!argv.conf) return [3 /*break*/, 10];
                     confDir = utils_1.transformDir(argv.conf);
-                    return [4 /*yield*/, fs_1.readLine(confDir)];
+                    _a.label = 2;
                 case 2:
-                    bpConf = _a.sent();
-                    _a.label = 3;
+                    _a.trys.push([2, 4, , 10]);
+                    return [4 /*yield*/, fs_1.readLine(confDir)];
                 case 3:
-                    git = '';
-                    isIllegalGitFlag = false;
-                    _a.label = 4;
+                    bpConf = _a.sent();
+                    return [3 /*break*/, 10];
                 case 4:
-                    if (!true) return [3 /*break*/, 10];
-                    if (!(isCompany === 'y' && utils_1.isIllegalGit(git))) return [3 /*break*/, 6];
-                    return [4 /*yield*/, answer_line_1.default(isIllegalGitFlag ? '请输入合法的git地址（仅支持ssh）:' : 'git地址（仅支持ssh）:')];
+                    e_1 = _a.sent();
+                    return [4 /*yield*/, answer_line_1.default('配置文件路径输入错误，请输入正确的绝对路径：')];
                 case 5:
-                    git = _a.sent();
-                    isIllegalGitFlag = true;
-                    return [3 /*break*/, 9];
+                    confDir_1 = _a.sent();
+                    _a.label = 6;
                 case 6:
-                    if (!(isCompany === 'n' && (git !== 'n' && utils_1.isIllegalGit(git)))) return [3 /*break*/, 8];
-                    return [4 /*yield*/, answer_line_1.default(isIllegalGitFlag ? '请输入合法的git地址(仅支持ssh & 输入n为不添加git地址):' : 'git地址(仅支持ssh & 输入n为不添加git地址):')];
+                    _a.trys.push([6, 8, , 9]);
+                    return [4 /*yield*/, fs_1.readLine(confDir_1)];
                 case 7:
-                    git = _a.sent();
-                    isIllegalGitFlag = true;
+                    bpConf = _a.sent();
                     return [3 /*break*/, 9];
                 case 8:
-                    if ((git === 'n' || isCompany === 'n')) {
+                    e_2 = _a.sent();
+                    throw new Error('错误路径， 退出！');
+                case 9: return [3 /*break*/, 10];
+                case 10:
+                    git = '';
+                    isIllegalGitFlag = false;
+                    _a.label = 11;
+                case 11:
+                    if (!true) return [3 /*break*/, 17];
+                    if (!(isCompany && utils_1.isIllegalGit(git))) return [3 /*break*/, 13];
+                    return [4 /*yield*/, answer_line_1.default(isIllegalGitFlag ? '请输入合法的git地址（仅支持ssh）:' : 'git地址（仅支持ssh）:')];
+                case 12:
+                    git = _a.sent();
+                    isIllegalGitFlag = true;
+                    return [3 /*break*/, 16];
+                case 13:
+                    if (!(!isCompany && (git !== 'n' && utils_1.isIllegalGit(git)))) return [3 /*break*/, 15];
+                    return [4 /*yield*/, answer_line_1.default(isIllegalGitFlag ? '请输入合法的git地址(仅支持ssh & 输入n为不添加git地址):' : 'git地址(仅支持ssh & 输入n为不添加git地址):')];
+                case 14:
+                    git = _a.sent();
+                    isIllegalGitFlag = true;
+                    return [3 /*break*/, 16];
+                case 15:
+                    if ((git === 'n' || !isCompany)) {
                         git = '';
-                        return [3 /*break*/, 10];
+                        return [3 /*break*/, 17];
                     }
                     else if (!utils_1.isIllegalGit(git)) {
-                        return [3 /*break*/, 10];
+                        return [3 /*break*/, 17];
                     }
-                    _a.label = 9;
-                case 9: return [3 /*break*/, 4];
-                case 10: return [2 /*return*/, new buid_info_1.default('', '', new bp_conf_1.default('', '', '', '', []))];
+                    _a.label = 16;
+                case 16: return [3 /*break*/, 11];
+                case 17:
+                    if (!isCompany) return [3 /*break*/, 23];
+                    if (!!bpConf) return [3 /*break*/, 22];
+                    return [4 /*yield*/, answer_line_1.default('请输入配置文件地址:')];
+                case 18:
+                    confDir = _a.sent();
+                    _a.label = 19;
+                case 19:
+                    _a.trys.push([19, 21, , 22]);
+                    return [4 /*yield*/, fs_1.readLine(confDir)];
+                case 20:
+                    bpConf = _a.sent();
+                    return [3 /*break*/, 22];
+                case 21:
+                    e_3 = _a.sent();
+                    throw new Error('配置文件错误，或者配置文件地址有问题！退出。');
+                case 22:
+                    name_1 = /\/([\w-]*)\.git$/.exec(git)[1];
+                    return [2 /*return*/, new buid_info_1.default(name_1, git, bpConf)];
+                case 23: return [2 /*return*/, new buid_info_1.default('', '', new bp_conf_1.default('', '', '', '', []))];
             }
         });
     });

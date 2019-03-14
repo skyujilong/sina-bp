@@ -19,10 +19,13 @@ interface Conf{
 async function readLine(dir: string): Promise<BpConf>{
 
     return new Promise((resolve,reject)=>{
+        let readStream = createReadStream(dir)
         let readline = createInterface({
-            input:createReadStream(dir)
+            input: readStream
         });
-        
+        readStream.on('error',(err)=>{
+            reject(err);
+        });
         let conf: Conf = {
             workspace:'',
             devHost:'',
