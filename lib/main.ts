@@ -5,7 +5,13 @@ import {
 } from 'yargs';
 import * as packageJson from './../package.json';
 import cmd from './tools/cmd';
-import { answerLineOk} from './tools/answer-line';
+import answerLine, {
+    answerLineOk
+} from './tools/answer-line';
+
+import BpConf from './module/bp-conf';
+import BuildInfo from './module/buid-info';
+
 
 let {argv} = help().alias('help', 'h').version().alias('version', 'v').usage([
     '项目地址与说明：https://github.com/skyujilong/sina-bp',
@@ -36,13 +42,30 @@ let {argv} = help().alias('help', 'h').version().alias('version', 'v').usage([
     }
 });
 
+async function resolveNativeConf(dir:string):Promise<void>{
+    console.log(dir);
+}
+
+async function getConf(): Promise<BuildInfo>{
+    //TODO:解析argv参数
+    let isCompany: string = await answerLineOk('是否是公司项目(y/n):', ['y', 'n']);
+    if(isCompany === 'y'){
+        // 是公司项目。 判断配置文件是否添加到参数上了。
+        resolveNativeConf(argv.conf as string);
+    }
+
+    return new BuildInfo('', '', new BpConf('','','','',[]));
+}
+
 
 async function build(argvs:string):Promise<string>{
+    let buildInfo: BuildInfo = await getConf();
     // await cmd('ls', ['-al', './']);
-    let isCompany: string = await answerLineOk('是否是公司项目(y/n):',['y','n']);
-    console.log(isCompany);
-    console.log(argvs);
-
+    // let isCompany: string = await answerLineOk('是否是公司项目(y/n):',['y','n']);
+    let git: string = await answerLine('git地址(输入n为不添加git地址):');
+    if(git.toLocaleLowerCase() === 'n'){
+        git = '';
+    }
     return '项目地址：/data1/wwww';
 }
 
