@@ -14,7 +14,11 @@ var BuildInfo = /** @class */ (function () {
         this.name = name;
         this.git = git;
         this.bpConf = bpConf;
+        this.isCompanyProject = false;
     }
+    BuildInfo.prototype.setIsCompanyProject = function (isCompanyProject) {
+        this.isCompanyProject = isCompanyProject;
+    };
     return BuildInfo;
 }());
 exports.default = BuildInfo;

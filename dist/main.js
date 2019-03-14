@@ -39,8 +39,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var yargs_1 = require("yargs");
 var packageJson = require("./../package.json");
 var answer_line_1 = require("./tools/answer-line");
+var utils_1 = require("./tools/utils");
 var bp_conf_1 = require("./module/bp-conf");
 var buid_info_1 = require("./module/buid-info");
+var fs_1 = require("./tools/fs");
 var argv = yargs_1.help().alias('help', 'h').version().alias('version', 'v').usage([
     '项目地址与说明：https://github.com/skyujilong/sina-bp',
     '版本：' + packageJson.version,
@@ -69,27 +71,21 @@ var argv = yargs_1.help().alias('help', 'h').version().alias('version', 'v').usa
         default: 'http://test.sina.com.cn/'
     }
 }).argv;
-function resolveNativeConf(dir) {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            console.log(dir);
-            return [2 /*return*/];
-        });
-    });
-}
 function getConf() {
     return __awaiter(this, void 0, void 0, function () {
-        var isCompany;
+        var isCompany, bpConf, confDir;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, answer_line_1.answerLineOk('是否是公司项目(y/n):', ['y', 'n'])];
                 case 1:
                     isCompany = _a.sent();
-                    if (isCompany === 'y') {
-                        // 是公司项目。 判断配置文件是否添加到参数上了。
-                        resolveNativeConf(argv.conf);
-                    }
-                    return [2 /*return*/, new buid_info_1.default('', '', new bp_conf_1.default('', '', '', '', []))];
+                    if (!(isCompany === 'y')) return [3 /*break*/, 3];
+                    confDir = utils_1.transformDir(argv.conf);
+                    return [4 /*yield*/, fs_1.readLine(confDir)];
+                case 2:
+                    bpConf = _a.sent();
+                    _a.label = 3;
+                case 3: return [2 /*return*/, new buid_info_1.default('', '', new bp_conf_1.default('', '', '', '', []))];
             }
         });
     });

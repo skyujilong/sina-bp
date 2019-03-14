@@ -10,11 +10,7 @@ var BpConf = /** @class */ (function () {
         this.prodHost = prodHost;
         this.prodImgHost = prodImgHost;
         this.tinyPngKeys = tinyPngKeys;
-        this.isCompanyProject = false;
     }
-    BpConf.prototype.setIsCompanyProject = function (isCompanyProject) {
-        this.isCompanyProject = isCompanyProject;
-    };
     return BpConf;
 }());
 exports.default = BpConf;

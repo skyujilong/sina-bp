@@ -5,6 +5,7 @@ import BpConf from "./bp-conf";
 class BuildInfo {
     name: string
     git: string | null | undefined
+    isCompanyProject: boolean
     bpConf: BpConf
     /**
      * 
@@ -16,6 +17,10 @@ class BuildInfo {
         this.name = name;
         this.git = git;
         this.bpConf = bpConf;
+        this.isCompanyProject = false;
+    }
+    setIsCompanyProject(isCompanyProject: boolean): void {
+        this.isCompanyProject = isCompanyProject;
     }
 }
 

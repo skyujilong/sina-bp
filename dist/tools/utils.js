@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var os_1 = require("os");
-var lodash_1 = require("lodash");
-var path_1 = require("path");
+var os = require("os");
+var _ = require("lodash");
+var path = require("path");
 /**
  * 判断是否是非法的url
  * @param url
@@ -22,13 +22,13 @@ exports.isIllegalUrl = isIllegalUrl;
  * @param dir
  */
 function transformDir(dir) {
-    if (os_1.default.platform() !== 'win32') {
+    if (os.platform() !== 'win32') {
         return dir;
     }
     var returnDir = '';
     if (/^\//.test(dir)) {
         var dirList = dir.split('/');
-        lodash_1.default.each(dirList, function (item, index) {
+        _.each(dirList, function (item, index) {
             if (index === 0) {
                 return;
             }
@@ -71,7 +71,7 @@ function transHostUrl(url) {
     if (!/^https{0,1}/.test(url)) {
         throw new Error('url must start with http or https');
     }
-    var tmpSvnHref = url.split(path_1.default.sep).join('/');
+    var tmpSvnHref = url.split(path.sep).join('/');
     return tmpSvnHref.replace(/^(https{0,1}:\/)([^\/])(.*)/, '$1/$2$3');
 }
 exports.transHostUrl = transHostUrl;

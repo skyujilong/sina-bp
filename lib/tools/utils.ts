@@ -1,6 +1,6 @@
-import os from 'os';
-import _ from 'lodash';
-import path from 'path';
+import * as os from 'os';
+import * as _ from 'lodash';
+import * as path from 'path';
 /**
  * 判断是否是非法的url
  * @param url 
