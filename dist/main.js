@@ -102,7 +102,7 @@ function getConf() {
                     return [3 /*break*/, 9];
                 case 8:
                     e_2 = _a.sent();
-                    throw new Error('错误路径， 退出！');
+                    throw e_2;
                 case 9: return [3 /*break*/, 10];
                 case 10:
                     git = '';
@@ -148,11 +148,27 @@ function getConf() {
                     return [3 /*break*/, 22];
                 case 21:
                     e_3 = _a.sent();
-                    throw new Error('配置文件错误，或者配置文件地址有问题！退出。');
-                case 22:
-                    name_1 = /\/([\w-]*)\.git$/.exec(git)[1];
-                    return [2 /*return*/, new buid_info_1.default(name_1, git, bpConf)];
-                case 23: return [2 /*return*/, new buid_info_1.default('', '', new bp_conf_1.default('', '', '', '', []))];
+                    throw e_3;
+                case 22: return [2 /*return*/, new buid_info_1.default(utils_1.getGitName(git), git, bpConf)];
+                case 23:
+                    if (!argv.name) return [3 /*break*/, 24];
+                    name_1 = argv.name;
+                    return [3 /*break*/, 27];
+                case 24:
+                    if (!!git) return [3 /*break*/, 25];
+                    name_1 = utils_1.getGitName(git);
+                    return [3 /*break*/, 27];
+                case 25: return [4 /*yield*/, answer_line_1.default('请输入项目名称(英文包含字母以及-_):')];
+                case 26:
+                    name_1 = _a.sent();
+                    _a.label = 27;
+                case 27:
+                    if (bpConf) {
+                    }
+                    else {
+                    }
+                    _a.label = 28;
+                case 28: return [2 /*return*/, new buid_info_1.default('', '', new bp_conf_1.default('', '', '', '', []))];
             }
         });
     });

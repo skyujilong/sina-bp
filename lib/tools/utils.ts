@@ -74,10 +74,19 @@ function transHostUrl(url:string):string{
     return tmpSvnHref.replace(/^(https{0,1}:\/)([^\/])(.*)/, '$1/$2$3')
 }
 
+/**
+ * 获取git地址的项目名字
+ * @param url 
+ */
+function getGitName(url:string):string{
+    return /\/([\w-]*)\.git$/.exec(url)[1];
+}
+
 export {
     isIllegalUrl,
     isIllegalGit,
     transformDir,
     urlEndSuff,
-    transHostUrl
+    transHostUrl,
+    getGitName
 }

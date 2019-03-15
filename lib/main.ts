@@ -11,7 +11,8 @@ import answerLine, {
 import {
     transformDir,
     isIllegalGit,
-    isIllegalUrl
+    isIllegalUrl,
+    getGitName
 } from './tools/utils';
 import BpConf from './module/bp-conf';
 import BuildInfo from './module/buid-info';
@@ -64,7 +65,7 @@ async function getConf(): Promise<BuildInfo>{
             try{
                 bpConf = await readLine(confDir);
             }catch(e){
-                throw new Error('错误路径， 退出！');
+                throw e;
             }
         }
     }
@@ -92,13 +93,25 @@ async function getConf(): Promise<BuildInfo>{
             try {
                 bpConf = await readLine(confDir);
             } catch (e) {
-                throw new Error('配置文件错误，或者配置文件地址有问题！退出。');
+                throw e;
             }
         }
-        let name = /\/([\w-]*)\.git$/.exec(git)[1];
-        return new BuildInfo(name, git, bpConf);
+        return new BuildInfo(getGitName(git), git, bpConf);
     } else {
+        let name:string;
+        if(argv.name){
+            name = argv.name;
+        }else if(!git) {
+            name = getGitName(git);
+        } else {
+            name = await answerLine('请输入项目名称(英文包含字母以及-_):');
+        }
         
+        if(bpConf){
+
+        }else{
+
+        }
     }
 
 

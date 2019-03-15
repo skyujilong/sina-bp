@@ -24,7 +24,7 @@ async function readLine(dir: string): Promise<BpConf>{
             input: readStream
         });
         readStream.on('error',(err)=>{
-            reject(err);
+            reject(new Error('配置文件路径错误！'));
         });
         let conf: Conf = {
             workspace:'',
@@ -54,6 +54,11 @@ async function readLine(dir: string): Promise<BpConf>{
                 prodImgHost,
                 tinyPngKeys
             } = conf;
+
+            if (!workspace || !devHost || !prodHost){
+                reject(new Error('配置文件至少需要如下参数：workspace,devHost,prodHost'));
+            }
+
             let bpConf: BpConf = new BpConf(workspace,devHost,prodHost,prodImgHost,tinyPngKeys);
             resolve(bpConf);
         });

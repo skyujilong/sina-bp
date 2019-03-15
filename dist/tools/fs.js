@@ -47,7 +47,7 @@ function readLine(dir) {
                         input: readStream
                     });
                     readStream.on('error', function (err) {
-                        reject(err);
+                        reject(new Error('配置文件路径错误！'));
                     });
                     var conf = {
                         workspace: '',
@@ -73,6 +73,9 @@ function readLine(dir) {
                     });
                     readline.on('close', function () {
                         var workspace = conf.workspace, devHost = conf.devHost, prodHost = conf.prodHost, prodImgHost = conf.prodImgHost, tinyPngKeys = conf.tinyPngKeys;
+                        if (!workspace || !devHost || !prodHost) {
+                            reject(new Error('配置文件至少需要如下参数：workspace,devHost,prodHost'));
+                        }
                         var bpConf = new bp_conf_1.default(workspace, devHost, prodHost, prodImgHost, tinyPngKeys);
                         resolve(bpConf);
                     });

@@ -80,3 +80,11 @@ function transHostUrl(url) {
     return tmpSvnHref.replace(/^(https{0,1}:\/)([^\/])(.*)/, '$1/$2$3');
 }
 exports.transHostUrl = transHostUrl;
+/**
+ * 获取git地址的项目名字
+ * @param url
+ */
+function getGitName(url) {
+    return /\/([\w-]*)\.git$/.exec(url)[1];
+}
+exports.getGitName = getGitName;
