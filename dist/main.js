@@ -73,7 +73,7 @@ var argv = yargs_1.help().alias('help', 'h').version().alias('version', 'v').usa
 }).argv;
 function getConf() {
     return __awaiter(this, void 0, void 0, function () {
-        var isCompany, bpConf, confDir, e_1, confDir_1, e_2, git, isIllegalGitFlag, confDir, e_3, name_1;
+        var isCompany, bpConf, confDir, e_1, confDir_1, e_2, git, isIllegalGitFlag, confDir, e_3, testConf;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, answer_line_1.answerLineOk('是否是公司项目(y/n):', ['y', 'n'])];
@@ -111,20 +111,20 @@ function getConf() {
                 case 11:
                     if (!true) return [3 /*break*/, 17];
                     if (!(isCompany && utils_1.isIllegalGit(git))) return [3 /*break*/, 13];
-                    return [4 /*yield*/, answer_line_1.default(isIllegalGitFlag ? '请输入合法的git地址（仅支持ssh）:' : 'git地址（仅支持ssh）:')];
+                    return [4 /*yield*/, answer_line_1.default(isIllegalGitFlag ? '请输入合法的git地址（仅支持ssh）:' : '请输入git地址（仅支持ssh）:')];
                 case 12:
                     git = _a.sent();
                     isIllegalGitFlag = true;
                     return [3 /*break*/, 16];
                 case 13:
                     if (!(!isCompany && (git !== 'n' && utils_1.isIllegalGit(git)))) return [3 /*break*/, 15];
-                    return [4 /*yield*/, answer_line_1.default(isIllegalGitFlag ? '请输入合法的git地址(仅支持ssh & 输入n为不添加git地址):' : 'git地址(仅支持ssh & 输入n为不添加git地址):')];
+                    return [4 /*yield*/, answer_line_1.default(isIllegalGitFlag ? '请输入合法的git地址(仅支持ssh & 输入n为不添加git地址):' : '请输入git地址(仅支持ssh & 输入n为不添加git地址):')];
                 case 14:
                     git = _a.sent();
                     isIllegalGitFlag = true;
                     return [3 /*break*/, 16];
                 case 15:
-                    if ((git === 'n' || !isCompany)) {
+                    if (git === 'n' && !isCompany) {
                         git = '';
                         return [3 /*break*/, 17];
                     }
@@ -149,26 +149,55 @@ function getConf() {
                 case 21:
                     e_3 = _a.sent();
                     throw e_3;
-                case 22: return [2 /*return*/, new buid_info_1.default(utils_1.getGitName(git), git, bpConf)];
-                case 23:
-                    if (!argv.name) return [3 /*break*/, 24];
-                    name_1 = argv.name;
-                    return [3 /*break*/, 27];
+                case 22: return [2 /*return*/, new buid_info_1.default(utils_1.getGitName(git), git, true, bpConf)];
+                case 23: return [4 /*yield*/, getTestConf(git, bpConf)];
                 case 24:
-                    if (!!git) return [3 /*break*/, 25];
-                    name_1 = utils_1.getGitName(git);
-                    return [3 /*break*/, 27];
-                case 25: return [4 /*yield*/, answer_line_1.default('请输入项目名称(英文包含字母以及-_):')];
-                case 26:
-                    name_1 = _a.sent();
-                    _a.label = 27;
-                case 27:
-                    if (bpConf) {
-                    }
-                    else {
-                    }
-                    _a.label = 28;
-                case 28: return [2 /*return*/, new buid_info_1.default('', '', new bp_conf_1.default('', '', '', '', []))];
+                    testConf = _a.sent();
+                    return [2 /*return*/, testConf];
+            }
+        });
+    });
+}
+/**
+ * 获取本地的练习 构建对象实例子
+ * @param git
+ * @param bpConf
+ */
+function getTestConf(git, bpConf) {
+    return __awaiter(this, void 0, void 0, function () {
+        var name, workspace, prodHost, prodImgHost, devHost;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    if (!argv.name) return [3 /*break*/, 1];
+                    name = argv.name;
+                    return [3 /*break*/, 4];
+                case 1:
+                    if (!git) return [3 /*break*/, 2];
+                    name = utils_1.getGitName(git);
+                    return [3 /*break*/, 4];
+                case 2: return [4 /*yield*/, answer_line_1.default('请输入项目名称(英文包含字母以及-_):')];
+                case 3:
+                    name = _a.sent();
+                    _a.label = 4;
+                case 4:
+                    if (!bpConf) return [3 /*break*/, 5];
+                    return [2 /*return*/, new buid_info_1.default(name, git, false, bpConf)];
+                case 5:
+                    workspace = void 0;
+                    if (!!argv.dir) return [3 /*break*/, 7];
+                    return [4 /*yield*/, answer_line_1.default('请输入项目生成地址：')];
+                case 6:
+                    workspace = _a.sent();
+                    return [3 /*break*/, 8];
+                case 7:
+                    workspace = argv.dir;
+                    _a.label = 8;
+                case 8:
+                    prodHost = argv.devHost;
+                    prodImgHost = argv.devHost;
+                    devHost = argv.devHost;
+                    return [2 /*return*/, new buid_info_1.default(name, git, false, new bp_conf_1.default(workspace, devHost, prodHost, prodImgHost, ['346gfotHJspgPYXmOuSAWhSl4CxlUox7']))];
             }
         });
     });
@@ -181,6 +210,7 @@ function build(argvs) {
                 case 0: return [4 /*yield*/, getConf()];
                 case 1:
                     buildInfo = _a.sent();
+                    console.log(buildInfo);
                     return [2 /*return*/, '项目地址：/data1/wwww'];
             }
         });

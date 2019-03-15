@@ -72,6 +72,7 @@ function readLine(dir) {
                         }
                     });
                     readline.on('close', function () {
+                        console.log(conf);
                         var workspace = conf.workspace, devHost = conf.devHost, prodHost = conf.prodHost, prodImgHost = conf.prodImgHost, tinyPngKeys = conf.tinyPngKeys;
                         if (!workspace || !devHost || !prodHost) {
                             reject(new Error('配置文件至少需要如下参数：workspace,devHost,prodHost'));

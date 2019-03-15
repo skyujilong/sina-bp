@@ -74,19 +74,18 @@ async function getConf(): Promise<BuildInfo>{
     let isIllegalGitFlag = false;
     while (true) {
         if (isCompany && isIllegalGit(git)) {
-            git = await answerLine(isIllegalGitFlag ? '请输入合法的git地址（仅支持ssh）:' :'git地址（仅支持ssh）:');
+            git = await answerLine(isIllegalGitFlag ? '请输入合法的git地址（仅支持ssh）:' :'请输入git地址（仅支持ssh）:');
             isIllegalGitFlag = true;
         } else if (!isCompany && (git !== 'n' && isIllegalGit(git))) {
-            git = await answerLine(isIllegalGitFlag ? '请输入合法的git地址(仅支持ssh & 输入n为不添加git地址):' :'git地址(仅支持ssh & 输入n为不添加git地址):');
+            git = await answerLine(isIllegalGitFlag ? '请输入合法的git地址(仅支持ssh & 输入n为不添加git地址):' :'请输入git地址(仅支持ssh & 输入n为不添加git地址):');
             isIllegalGitFlag = true;
-        } else if ((git === 'n' || !isCompany)) {
+        } else if (git === 'n' && !isCompany) {
             git = '';
             break;
         } else if (!isIllegalGit(git)){
             break;
         }
     }
-
     if (isCompany) {
         if (!bpConf) {
             let confDir = await answerLine('请输入配置文件地址:');
@@ -96,32 +95,48 @@ async function getConf(): Promise<BuildInfo>{
                 throw e;
             }
         }
-        return new BuildInfo(getGitName(git), git, bpConf);
+        return new BuildInfo(getGitName(git), git, true, bpConf);
     } else {
-        let name:string;
-        if(argv.name){
-            name = argv.name;
-        }else if(!git) {
-            name = getGitName(git);
-        } else {
-            name = await answerLine('请输入项目名称(英文包含字母以及-_):');
-        }
-        
-        if(bpConf){
+        let testConf = await getTestConf(git,bpConf);
+        return testConf;
+    }
+}
 
-        }else{
-
-        }
+/**
+ * 获取本地的练习 构建对象实例子
+ * @param git 
+ * @param bpConf 
+ */
+async function getTestConf(git: string, bpConf: BpConf): Promise<BuildInfo>{
+    let name: string;
+    if (argv.name) {
+        name = argv.name;
+    } else if (git) {
+        name = getGitName(git);
+    } else {
+        name = await answerLine('请输入项目名称(英文包含字母以及-_):');
     }
 
-
-
-    return new BuildInfo('', '', new BpConf('','','','',[]));
+    if (bpConf) {
+        return new BuildInfo(name, git, false, bpConf);
+    } else {
+        let workspace:string;
+        if(!argv.dir){
+            workspace = await answerLine('请输入项目生成地址：');
+        }else{
+            workspace = argv.dir;
+        }
+        let prodHost: string = argv.devHost;
+        let prodImgHost: string = argv.devHost;
+        let devHost: string = argv.devHost;
+        return new BuildInfo(name, git, false, new BpConf(workspace, devHost, prodHost, prodImgHost, ['346gfotHJspgPYXmOuSAWhSl4CxlUox7']));
+    }
 }
 
 
 async function build(argvs:string):Promise<string>{
     let buildInfo: BuildInfo = await getConf();
+    console.log(buildInfo);
     return '项目地址：/data1/wwww';
 }
 

@@ -47,6 +47,7 @@ async function readLine(dir: string): Promise<BpConf>{
             }
         });
         readline.on('close',()=>{
+            console.log(conf);
             let {
                 workspace,
                 devHost,

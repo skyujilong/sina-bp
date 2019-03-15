@@ -15,7 +15,7 @@ function isIllegalUrl(url:string):boolean{
 }
 
 function isIllegalGit(url:string):boolean{
-    let reg = /^ssh:\/\/[\/\w\.-]*git$/;
+    let reg = /^(ssh:\/\/){0,1}git@[\/\w\.\-:\d]*git$/;
     return !reg.test(url);
 }
 

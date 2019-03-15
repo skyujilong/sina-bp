@@ -10,11 +10,11 @@ var BuildInfo = /** @class */ (function () {
      * @param git git项目地址 可以为空
      * @param bpConf 配置信息
      */
-    function BuildInfo(name, git, bpConf) {
+    function BuildInfo(name, git, isCompanyProject, bpConf) {
         this.name = name;
         this.git = git;
         this.bpConf = bpConf;
-        this.isCompanyProject = false;
+        this.isCompanyProject = isCompanyProject;
     }
     BuildInfo.prototype.setIsCompanyProject = function (isCompanyProject) {
         this.isCompanyProject = isCompanyProject;
