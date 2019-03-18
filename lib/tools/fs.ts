@@ -153,11 +153,12 @@ async function asyncCopyFile(targetDir:string,relativePath:string):Promise<void>
     
     let confDir = resolve(__dirname, '..', '..', 'config');
     let dirStats: StringList = await asyncReadDir(join(confDir,relativePath));
+    console.log(join(confDir, relativePath));
     for(let name of dirStats){
         let stats:Stats = await asyncLstat(join(confDir,name));
         if (stats.isDirectory()){
             await asyncMkDir(join(targetDir,name));
-            await asyncCopyFile(join(targetDir, name), name);
+            await asyncCopyFile(join(targetDir, name), join(relativePath, name));
         }else if(stats.isFile()){
             // await 
             await copy(join(confDir,name),join(targetDir,name));

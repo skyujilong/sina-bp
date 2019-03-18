@@ -210,6 +210,7 @@ function asyncCopyFile(targetDir, relativePath) {
                     return [4 /*yield*/, asyncReadDir(path_1.join(confDir, relativePath))];
                 case 1:
                     dirStats = _a.sent();
+                    console.log(path_1.join(confDir, relativePath));
                     _i = 0, dirStats_1 = dirStats;
                     _a.label = 2;
                 case 2:
@@ -222,7 +223,7 @@ function asyncCopyFile(targetDir, relativePath) {
                     return [4 /*yield*/, asyncMkDir(path_1.join(targetDir, name_1))];
                 case 4:
                     _a.sent();
-                    return [4 /*yield*/, asyncCopyFile(path_1.join(targetDir, name_1), name_1)];
+                    return [4 /*yield*/, asyncCopyFile(path_1.join(targetDir, name_1), path_1.join(relativePath, name_1))];
                 case 5:
                     _a.sent();
                     return [3 /*break*/, 8];
