@@ -22,8 +22,8 @@ let {argv} = help().alias('help', 'h').version().alias('version', 'v').usage([
     '项目地址与说明：https://github.com/skyujilong/sina-bp',
     '版本：' + packageJson.version,
     '用法:',
-    '1、配置文件方案: sina-bp -c [你配置文件的地址] -n [你要生成的项目名字]',
-    '2、非配置文件方案: sina-bp -d [你要生成项目的地址]'
+    '1、配置文件方案: sina-bp -c [你配置文件的地址]',
+    '2、非配置文件方案: sina-bp -d [你要生成项目的地址] -n [你要生成的项目名字]'
 ].join('\n')).options({
     dir: {
         alias: 'd',
@@ -136,6 +136,7 @@ async function getTestConf(git: string, bpConf: BpConf): Promise<BuildInfo>{
 
 async function build(argvs:string):Promise<string>{
     let buildInfo: BuildInfo = await getConf();
+    console.log(buildInfo);
     if(buildInfo.git){
         //走git下载流程, 以下git clone因为 参数--progress的原因，在这种spawn中，会在错误stderr流中输出内容。
         await cmd('git', ['clone', buildInfo.git, '--progress'], {
@@ -143,11 +144,10 @@ async function build(argvs:string):Promise<string>{
         }).catch((e)=>{
             console.log(e.stack);
         });
-        console.log('测试异步流程');
-        // cmd('ls', ['-al'], {
-        //     cwd: buildInfo.bpConf.workspace
-        // });
     }
+    //TODO: 向git || workspace + name 中 建立文件夹。
+
+    //TODO: 向git || workspace + name 中 copy文件。
 
     return '项目地址：/data1/wwww';
 }

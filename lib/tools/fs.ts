@@ -47,7 +47,6 @@ async function readLine(dir: string): Promise<BpConf>{
             }
         });
         readline.on('close',()=>{
-            console.log(conf);
             let {
                 workspace,
                 devHost,
@@ -55,7 +54,6 @@ async function readLine(dir: string): Promise<BpConf>{
                 prodImgHost,
                 tinyPngKeys
             } = conf;
-
             if (!workspace || !devHost || !prodHost){
                 reject(new Error('配置文件至少需要如下参数：workspace,devHost,prodHost'));
             }
