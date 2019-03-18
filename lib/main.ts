@@ -12,11 +12,16 @@ import {
     transformDir,
     isIllegalGit,
     isIllegalUrl,
-    getGitName
+    getGitName,
 } from './tools/utils';
 import BpConf from './module/bp-conf';
 import BuildInfo from './module/buid-info';
-import {readLine} from './tools/fs';
+import {
+    readLine,
+    vailDir,
+    mkRootDir,
+    asyncCopyFile
+} from './tools/fs';
 
 let {argv} = help().alias('help', 'h').version().alias('version', 'v').usage([
     '项目地址与说明：https://github.com/skyujilong/sina-bp',
@@ -46,6 +51,8 @@ let {argv} = help().alias('help', 'h').version().alias('version', 'v').usage([
         default: 'http://test.sina.com.cn/'
     }
 });
+
+import {resolve,join,sep} from 'path';
 
 
 async function getConf(): Promise<BuildInfo>{
@@ -124,7 +131,8 @@ async function getTestConf(git: string, bpConf: BpConf): Promise<BuildInfo>{
         if(!argv.dir){
             workspace = await answerLine('请输入项目生成地址：');
         }else{
-            workspace = argv.dir;
+            // 防止win下的 路径输入错误。
+            workspace = transformDir(argv.dir);
         }
         let prodHost: string = argv.devHost;
         let prodImgHost: string = argv.devHost;
@@ -136,24 +144,24 @@ async function getTestConf(git: string, bpConf: BpConf): Promise<BuildInfo>{
 
 async function build(argvs:string):Promise<string>{
     let buildInfo: BuildInfo = await getConf();
-    console.log(buildInfo);
+    let projectDir = join(buildInfo.bpConf.workspace, buildInfo.name);
+    await vailDir(projectDir);
     if(buildInfo.git){
-        //走git下载流程, 以下git clone因为 参数--progress的原因，在这种spawn中，会在错误stderr流中输出内容。
-        await cmd('git', ['clone', buildInfo.git, '--progress'], {
+        await cmd('git', ['clone', buildInfo.git, '--progress', projectDir], {
             cwd: buildInfo.bpConf.workspace
-        }).catch((e)=>{
-            console.log(e.stack);
         });
+    }else{
+        //建立根目录
+        await mkRootDir(projectDir);
     }
-    //TODO: 向git || workspace + name 中 建立文件夹。
+    //TODO: 递归 config文件夹
+    await asyncCopyFile(projectDir,'');
 
-    //TODO: 向git || workspace + name 中 copy文件。
-
-    return '项目地址：/data1/wwww';
+    return `项目地址：${projectDir}`;
 }
 
 
 build(JSON.stringify(argv)).then((dir)=>{
     console.log(dir);
     console.log('done!!!');
-});
+}).catch(e=>console.log(e));

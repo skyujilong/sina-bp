@@ -40,12 +40,17 @@ function cmd(cmdTxt, args, opt) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             return [2 /*return*/, new Promise(function (resolve, reject) {
-                    var cmd = child_process_1.spawn(cmdTxt, args, opt);
-                    cmd.stdout.pipe(process.stdout);
-                    cmd.stderr.pipe(process.stderr);
-                    cmd.on('close', function () {
-                        resolve();
-                    });
+                    try {
+                        var cmd_1 = child_process_1.spawn(cmdTxt, args, opt);
+                        cmd_1.stdout.pipe(process.stdout);
+                        cmd_1.stderr.pipe(process.stderr);
+                        cmd_1.on('close', function () {
+                            resolve();
+                        });
+                    }
+                    catch (e) {
+                        reject(e);
+                    }
                 })];
         });
     });

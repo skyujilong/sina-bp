@@ -48,8 +48,8 @@ var argv = yargs_1.help().alias('help', 'h').version().alias('version', 'v').usa
     '项目地址与说明：https://github.com/skyujilong/sina-bp',
     '版本：' + packageJson.version,
     '用法:',
-    '1、配置文件方案: sina-bp -c [你配置文件的地址] -n [你要生成的项目名字]',
-    '2、非配置文件方案: sina-bp -d [你要生成项目的地址]'
+    '1、配置文件方案: sina-bp -c [你配置文件的地址]',
+    '2、非配置文件方案: sina-bp -d [你要生成项目的地址] -n [你要生成的项目名字]'
 ].join('\n')).options({
     dir: {
         alias: 'd',
@@ -72,6 +72,7 @@ var argv = yargs_1.help().alias('help', 'h').version().alias('version', 'v').usa
         default: 'http://test.sina.com.cn/'
     }
 }).argv;
+var path_1 = require("path");
 function getConf() {
     return __awaiter(this, void 0, void 0, function () {
         var isCompany, bpConf, confDir, e_1, confDir_1, e_2, git, isIllegalGitFlag, confDir, e_3, testConf;
@@ -192,7 +193,8 @@ function getTestConf(git, bpConf) {
                     workspace = _a.sent();
                     return [3 /*break*/, 8];
                 case 7:
-                    workspace = argv.dir;
+                    // 防止win下的 路径输入错误。
+                    workspace = utils_1.transformDir(argv.dir);
                     _a.label = 8;
                 case 8:
                     prodHost = argv.devHost;
@@ -205,25 +207,37 @@ function getTestConf(git, bpConf) {
 }
 function build(argvs) {
     return __awaiter(this, void 0, void 0, function () {
-        var buildInfo;
+        var buildInfo, projectDir;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, getConf()];
                 case 1:
                     buildInfo = _a.sent();
-                    if (!buildInfo.git) return [3 /*break*/, 3];
-                    //走git下载流程, 以下git clone因为 参数--progress的原因，在这种spawn中，会在错误stderr流中输出内容。
-                    return [4 /*yield*/, cmd_1.default('git', ['clone', buildInfo.git, '--progress'], {
-                            cwd: buildInfo.bpConf.workspace
-                        }).catch(function (e) {
-                            console.log(e.stack);
-                        })];
+                    projectDir = path_1.join(buildInfo.bpConf.workspace, buildInfo.name);
+                    return [4 /*yield*/, fs_1.vailDir(projectDir)];
                 case 2:
-                    //走git下载流程, 以下git clone因为 参数--progress的原因，在这种spawn中，会在错误stderr流中输出内容。
                     _a.sent();
-                    console.log('测试异步流程');
-                    _a.label = 3;
-                case 3: return [2 /*return*/, '项目地址：/data1/wwww'];
+                    if (!buildInfo.git) return [3 /*break*/, 4];
+                    return [4 /*yield*/, cmd_1.default('git', ['clone', buildInfo.git, '--progress', projectDir], {
+                            cwd: buildInfo.bpConf.workspace
+                        })];
+                case 3:
+                    _a.sent();
+                    return [3 /*break*/, 6];
+                case 4: 
+                //建立根目录
+                return [4 /*yield*/, fs_1.mkRootDir(projectDir)];
+                case 5:
+                    //建立根目录
+                    _a.sent();
+                    _a.label = 6;
+                case 6: 
+                //TODO: 递归 config文件夹
+                return [4 /*yield*/, fs_1.asyncCopyFile(projectDir, '')];
+                case 7:
+                    //TODO: 递归 config文件夹
+                    _a.sent();
+                    return [2 /*return*/, "\u9879\u76EE\u5730\u5740\uFF1A" + projectDir];
             }
         });
     });
@@ -231,4 +245,4 @@ function build(argvs) {
 build(JSON.stringify(argv)).then(function (dir) {
     console.log(dir);
     console.log('done!!!');
-});
+}).catch(function (e) { return console.log(e); });

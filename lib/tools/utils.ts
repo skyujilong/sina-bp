@@ -82,11 +82,31 @@ function getGitName(url:string):string{
     return /\/([\w-]*)\.git$/.exec(url)[1];
 }
 
+/**
+ * 转化普通方法为async的方法。
+ * @param fun 
+ */
+function transAsyncPromise(fun:Function):Function{
+    return async function<T>(...args):Promise<T>{
+        return new Promise((resolve,reject)=>{
+            fun.call(null,...args,(err:Error,arg1:T)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(arg1);
+                }
+            });
+        });
+    }
+}
+
+
 export {
     isIllegalUrl,
     isIllegalGit,
     transformDir,
     urlEndSuff,
     transHostUrl,
-    getGitName
+    getGitName,
+    transAsyncPromise
 }
