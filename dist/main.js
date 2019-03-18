@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var yargs_1 = require("yargs");
 var packageJson = require("./../package.json");
+var cmd_1 = require("./tools/cmd");
 var answer_line_1 = require("./tools/answer-line");
 var utils_1 = require("./tools/utils");
 var bp_conf_1 = require("./module/bp-conf");
@@ -210,8 +211,19 @@ function build(argvs) {
                 case 0: return [4 /*yield*/, getConf()];
                 case 1:
                     buildInfo = _a.sent();
-                    console.log(buildInfo);
-                    return [2 /*return*/, '项目地址：/data1/wwww'];
+                    if (!buildInfo.git) return [3 /*break*/, 3];
+                    //走git下载流程, 以下git clone因为 参数--progress的原因，在这种spawn中，会在错误stderr流中输出内容。
+                    return [4 /*yield*/, cmd_1.default('git', ['clone', buildInfo.git, '--progress'], {
+                            cwd: buildInfo.bpConf.workspace
+                        }).catch(function (e) {
+                            console.log(e.stack);
+                        })];
+                case 2:
+                    //走git下载流程, 以下git clone因为 参数--progress的原因，在这种spawn中，会在错误stderr流中输出内容。
+                    _a.sent();
+                    console.log('测试异步流程');
+                    _a.label = 3;
+                case 3: return [2 /*return*/, '项目地址：/data1/wwww'];
             }
         });
     });

@@ -15,6 +15,9 @@ var BuildInfo = /** @class */ (function () {
         this.git = git;
         this.bpConf = bpConf;
         this.isCompanyProject = isCompanyProject;
+        if (this.isCompanyProject) {
+            this.onlineQb = "blog/item/" + new Date().getFullYear() + "/";
+        }
     }
     BuildInfo.prototype.setIsCompanyProject = function (isCompanyProject) {
         this.isCompanyProject = isCompanyProject;

@@ -7,6 +7,7 @@ class BuildInfo {
     git: string | null | undefined
     isCompanyProject: boolean
     bpConf: BpConf
+    onlineQb?: string
     /**
      * 
      * @param name 项目名字
@@ -18,6 +19,9 @@ class BuildInfo {
         this.git = git;
         this.bpConf = bpConf;
         this.isCompanyProject = isCompanyProject;
+        if(this.isCompanyProject){
+            this.onlineQb = `blog/item/${new Date().getFullYear()}/`;
+        }
     }
     setIsCompanyProject(isCompanyProject: boolean): void {
         this.isCompanyProject = isCompanyProject;

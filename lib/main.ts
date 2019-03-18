@@ -136,7 +136,19 @@ async function getTestConf(git: string, bpConf: BpConf): Promise<BuildInfo>{
 
 async function build(argvs:string):Promise<string>{
     let buildInfo: BuildInfo = await getConf();
-    console.log(buildInfo);
+    if(buildInfo.git){
+        //走git下载流程, 以下git clone因为 参数--progress的原因，在这种spawn中，会在错误stderr流中输出内容。
+        await cmd('git', ['clone', buildInfo.git, '--progress'], {
+            cwd: buildInfo.bpConf.workspace
+        }).catch((e)=>{
+            console.log(e.stack);
+        });
+        console.log('测试异步流程');
+        // cmd('ls', ['-al'], {
+        //     cwd: buildInfo.bpConf.workspace
+        // });
+    }
+
     return '项目地址：/data1/wwww';
 }
 
@@ -144,4 +156,4 @@ async function build(argvs:string):Promise<string>{
 build(JSON.stringify(argv)).then((dir)=>{
     console.log(dir);
     console.log('done!!!');
-})
+});

@@ -1,14 +1,15 @@
 import { spawn } from 'child_process';
 
-function cmd(cmdTxt: string, args: string[]): Promise<undefined|null> {
-    let args1 = Array.prototype.slice.call(arguments);
+interface Options{
+    cwd:string
+}
+
+async function cmd(cmdTxt: string, args: string[], opt?: Options ): Promise<undefined|null> {
     return new Promise((resolve, reject) => {
-        const cmd1 = spawn.apply(null, args1);
-        cmd1.stdout.pipe(process.stdout);
-        cmd1.stderr.on('data', (data) => {
-            reject(new Error(data));
-        });
-        cmd1.on('close', () => {
+        const cmd = spawn(cmdTxt, args, opt);
+        cmd.stdout.pipe(process.stdout);
+        cmd.stderr.pipe(process.stderr);
+        cmd.on('close', () => {
             resolve();
         });
     });
