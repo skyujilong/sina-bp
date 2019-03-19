@@ -155,7 +155,7 @@ async function build(argvs:string):Promise<string>{
         await mkRootDir(projectDir);
     }
     //TODO: 递归 config文件夹
-    await asyncCopyFile(projectDir,'');
+    await asyncCopyFile(projectDir,'/');
 
     return `项目地址：${projectDir}`;
 }

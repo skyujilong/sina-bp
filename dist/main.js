@@ -233,7 +233,7 @@ function build(argvs) {
                     _a.label = 6;
                 case 6: 
                 //TODO: 递归 config文件夹
-                return [4 /*yield*/, fs_1.asyncCopyFile(projectDir, '')];
+                return [4 /*yield*/, fs_1.asyncCopyFile(projectDir, '/')];
                 case 7:
                     //TODO: 递归 config文件夹
                     _a.sent();

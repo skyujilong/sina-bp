@@ -149,19 +149,24 @@ async function copy(copyFrom: string, copyTarget:string):Promise<void>{
     });
 }
 
-async function asyncCopyFile(targetDir:string,relativePath:string):Promise<void>{
-    
+/**
+ * 拷贝文件以及文件夹
+ * @param targetDir 目标要拷贝到的文件夹
+ * @param relativePath 相对路径
+ */
+async function asyncCopyFile(targetDir: string, relativePath: string): Promise < void > {
+    //配置文件根目录
     let confDir = resolve(__dirname, '..', '..', 'config');
-    let dirStats: StringList = await asyncReadDir(join(confDir,relativePath));
-    console.log(join(confDir, relativePath));
-    for(let name of dirStats){
-        let stats:Stats = await asyncLstat(join(confDir,name));
-        if (stats.isDirectory()){
-            await asyncMkDir(join(targetDir,name));
-            await asyncCopyFile(join(targetDir, name), join(relativePath, name));
-        }else if(stats.isFile()){
+    //配置文件+ 相对路径，下的所有文件
+    let dirStats: StringList = await asyncReadDir(join(confDir, relativePath));
+    for (let name of dirStats) {
+        let stats: Stats = await asyncLstat(join(confDir, relativePath, name));
+        if (stats.isDirectory()) {
+            await asyncMkDir(join(targetDir, relativePath, name));
+            await asyncCopyFile(targetDir, join(relativePath, name));
+        } else if (stats.isFile()) {
             // await 
-            await copy(join(confDir,name),join(targetDir,name));
+            await copy(join(confDir, relativePath, name), join(targetDir, relativePath, name));
         }
     }
 }

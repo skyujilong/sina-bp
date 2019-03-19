@@ -200,6 +200,11 @@ function copy(copyFrom, copyTarget) {
         });
     });
 }
+/**
+ * 拷贝文件以及文件夹
+ * @param targetDir 目标要拷贝到的文件夹
+ * @param relativePath 相对路径
+ */
 function asyncCopyFile(targetDir, relativePath) {
     return __awaiter(this, void 0, void 0, function () {
         var confDir, dirStats, _i, dirStats_1, name_1, stats;
@@ -210,27 +215,26 @@ function asyncCopyFile(targetDir, relativePath) {
                     return [4 /*yield*/, asyncReadDir(path_1.join(confDir, relativePath))];
                 case 1:
                     dirStats = _a.sent();
-                    console.log(path_1.join(confDir, relativePath));
                     _i = 0, dirStats_1 = dirStats;
                     _a.label = 2;
                 case 2:
                     if (!(_i < dirStats_1.length)) return [3 /*break*/, 9];
                     name_1 = dirStats_1[_i];
-                    return [4 /*yield*/, asyncLstat(path_1.join(confDir, name_1))];
+                    return [4 /*yield*/, asyncLstat(path_1.join(confDir, relativePath, name_1))];
                 case 3:
                     stats = _a.sent();
                     if (!stats.isDirectory()) return [3 /*break*/, 6];
-                    return [4 /*yield*/, asyncMkDir(path_1.join(targetDir, name_1))];
+                    return [4 /*yield*/, asyncMkDir(path_1.join(targetDir, relativePath, name_1))];
                 case 4:
                     _a.sent();
-                    return [4 /*yield*/, asyncCopyFile(path_1.join(targetDir, name_1), path_1.join(relativePath, name_1))];
+                    return [4 /*yield*/, asyncCopyFile(targetDir, path_1.join(relativePath, name_1))];
                 case 5:
                     _a.sent();
                     return [3 /*break*/, 8];
                 case 6:
                     if (!stats.isFile()) return [3 /*break*/, 8];
                     // await 
-                    return [4 /*yield*/, copy(path_1.join(confDir, name_1), path_1.join(targetDir, name_1))];
+                    return [4 /*yield*/, copy(path_1.join(confDir, relativePath, name_1), path_1.join(targetDir, relativePath, name_1))];
                 case 7:
                     // await 
                     _a.sent();
