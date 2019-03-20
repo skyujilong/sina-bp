@@ -14,6 +14,8 @@ import BpConf from '../module/bp-conf';
 
 import { transAsyncPromise } from './utils';
 
+import ContentChange from './tpl-pipe';
+
 interface Conf{
     workspace: string
     devHost: string
