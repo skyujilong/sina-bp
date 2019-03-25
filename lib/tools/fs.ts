@@ -76,7 +76,6 @@ async function readLine(dir: string): Promise<BpConf>{
             }
 
             let bpConf: BpConf = new BpConf(workspace,devHost,prodHost,prodImgHost,tinyPngKeys);
-            console.log(bpConf);
             resolve(bpConf);
         });
     });

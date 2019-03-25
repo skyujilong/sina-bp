@@ -86,7 +86,6 @@ function readLine(dir) {
                             reject(new Error('配置文件至少需要如下参数：workspace,devHost,prodHost'));
                         }
                         var bpConf = new bp_conf_1.default(workspace, devHost, prodHost, prodImgHost, tinyPngKeys);
-                        console.log(bpConf);
                         resolve(bpConf);
                     });
                 })];
