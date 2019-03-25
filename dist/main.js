@@ -8,43 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var yargs_1 = require("yargs");
-var packageJson = require("./../package.json");
-var cmd_1 = require("./tools/cmd");
-var answer_line_1 = require("./tools/answer-line");
-var utils_1 = require("./tools/utils");
-var bp_conf_1 = require("./module/bp-conf");
-var buid_info_1 = require("./module/buid-info");
-var fs_1 = require("./tools/fs");
-var argv = yargs_1.help().alias('help', 'h').version().alias('version', 'v').usage([
+const yargs_1 = require("yargs");
+const packageJson = require("./../package.json");
+const cmd_1 = require("./tools/cmd");
+const answer_line_1 = require("./tools/answer-line");
+const utils_1 = require("./tools/utils");
+const bp_conf_1 = require("./module/bp-conf");
+const buid_info_1 = require("./module/buid-info");
+const fs_1 = require("./tools/fs");
+let { argv } = yargs_1.help().alias('help', 'h').version().alias('version', 'v').usage([
     '项目地址与说明：https://github.com/skyujilong/sina-bp',
     '版本：' + packageJson.version,
     '用法:',
@@ -71,93 +44,65 @@ var argv = yargs_1.help().alias('help', 'h').version().alias('version', 'v').usa
         type: 'string',
         default: 'http://test.sina.com.cn/'
     }
-}).argv;
-var path_1 = require("path");
+});
+const path_1 = require("path");
 function getConf() {
-    return __awaiter(this, void 0, void 0, function () {
-        var isCompany, bpConf, confDir, e_1, confDir_1, e_2, git, isIllegalGitFlag, confDir, e_3, testConf;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, answer_line_1.answerLineOk('是否是公司项目(y/n):', ['y', 'n'])];
-                case 1:
-                    isCompany = (_a.sent()) === 'y';
-                    if (!argv.conf) return [3 /*break*/, 10];
-                    confDir = utils_1.transformDir(argv.conf);
-                    _a.label = 2;
-                case 2:
-                    _a.trys.push([2, 4, , 10]);
-                    return [4 /*yield*/, fs_1.readLine(confDir)];
-                case 3:
-                    bpConf = _a.sent();
-                    return [3 /*break*/, 10];
-                case 4:
-                    e_1 = _a.sent();
-                    return [4 /*yield*/, answer_line_1.default('配置文件路径输入错误，请输入正确的绝对路径：')];
-                case 5:
-                    confDir_1 = _a.sent();
-                    _a.label = 6;
-                case 6:
-                    _a.trys.push([6, 8, , 9]);
-                    return [4 /*yield*/, fs_1.readLine(confDir_1)];
-                case 7:
-                    bpConf = _a.sent();
-                    return [3 /*break*/, 9];
-                case 8:
-                    e_2 = _a.sent();
-                    throw e_2;
-                case 9: return [3 /*break*/, 10];
-                case 10:
-                    git = '';
-                    isIllegalGitFlag = false;
-                    _a.label = 11;
-                case 11:
-                    if (!true) return [3 /*break*/, 17];
-                    if (!(isCompany && utils_1.isIllegalGit(git))) return [3 /*break*/, 13];
-                    return [4 /*yield*/, answer_line_1.default(isIllegalGitFlag ? '请输入合法的git地址（仅支持ssh）:' : '请输入git地址（仅支持ssh）:')];
-                case 12:
-                    git = _a.sent();
-                    isIllegalGitFlag = true;
-                    return [3 /*break*/, 16];
-                case 13:
-                    if (!(!isCompany && (git !== 'n' && utils_1.isIllegalGit(git)))) return [3 /*break*/, 15];
-                    return [4 /*yield*/, answer_line_1.default(isIllegalGitFlag ? '请输入合法的git地址(仅支持ssh & 输入n为不添加git地址):' : '请输入git地址(仅支持ssh & 输入n为不添加git地址):')];
-                case 14:
-                    git = _a.sent();
-                    isIllegalGitFlag = true;
-                    return [3 /*break*/, 16];
-                case 15:
-                    if (git === 'n' && !isCompany) {
-                        git = '';
-                        return [3 /*break*/, 17];
-                    }
-                    else if (!utils_1.isIllegalGit(git)) {
-                        return [3 /*break*/, 17];
-                    }
-                    _a.label = 16;
-                case 16: return [3 /*break*/, 11];
-                case 17:
-                    if (!isCompany) return [3 /*break*/, 23];
-                    if (!!bpConf) return [3 /*break*/, 22];
-                    return [4 /*yield*/, answer_line_1.default('请输入配置文件地址:')];
-                case 18:
-                    confDir = _a.sent();
-                    _a.label = 19;
-                case 19:
-                    _a.trys.push([19, 21, , 22]);
-                    return [4 /*yield*/, fs_1.readLine(confDir)];
-                case 20:
-                    bpConf = _a.sent();
-                    return [3 /*break*/, 22];
-                case 21:
-                    e_3 = _a.sent();
-                    throw e_3;
-                case 22: return [2 /*return*/, new buid_info_1.default(utils_1.getGitName(git), git, true, bpConf)];
-                case 23: return [4 /*yield*/, getTestConf(git, bpConf)];
-                case 24:
-                    testConf = _a.sent();
-                    return [2 /*return*/, testConf];
+    return __awaiter(this, void 0, void 0, function* () {
+        //TODO:解析argv参数
+        let isCompany = (yield answer_line_1.answerLineOk('是否是公司项目(y/n):', ['y', 'n'])) === 'y';
+        let bpConf;
+        // 参数中带有配置文件地址
+        if (argv.conf) {
+            // 是公司项目。 判断配置文件是否添加到参数上了。
+            let confDir = utils_1.transformDir(argv.conf);
+            try {
+                bpConf = yield fs_1.readLine(confDir);
             }
-        });
+            catch (e) {
+                let confDir = yield answer_line_1.default('配置文件路径输入错误，请输入正确的绝对路径：');
+                try {
+                    bpConf = yield fs_1.readLine(confDir);
+                }
+                catch (e) {
+                    throw e;
+                }
+            }
+        }
+        let git = '';
+        let isIllegalGitFlag = false;
+        while (true) {
+            if (isCompany && utils_1.isIllegalGit(git)) {
+                git = yield answer_line_1.default(isIllegalGitFlag ? '请输入合法的git地址（仅支持ssh）:' : '请输入git地址（仅支持ssh）:');
+                isIllegalGitFlag = true;
+            }
+            else if (!isCompany && (git !== 'n' && utils_1.isIllegalGit(git))) {
+                git = yield answer_line_1.default(isIllegalGitFlag ? '请输入合法的git地址(仅支持ssh & 输入n为不添加git地址):' : '请输入git地址(仅支持ssh & 输入n为不添加git地址):');
+                isIllegalGitFlag = true;
+            }
+            else if (git === 'n' && !isCompany) {
+                git = '';
+                break;
+            }
+            else if (!utils_1.isIllegalGit(git)) {
+                break;
+            }
+        }
+        if (isCompany) {
+            if (!bpConf) {
+                let confDir = yield answer_line_1.default('请输入配置文件地址:');
+                try {
+                    bpConf = yield fs_1.readLine(confDir);
+                }
+                catch (e) {
+                    throw e;
+                }
+            }
+            return new buid_info_1.default(utils_1.getGitName(git), git, true, bpConf);
+        }
+        else {
+            let testConf = yield getTestConf(git, bpConf);
+            return testConf;
+        }
     });
 }
 /**
@@ -166,110 +111,84 @@ function getConf() {
  * @param bpConf
  */
 function getTestConf(git, bpConf) {
-    return __awaiter(this, void 0, void 0, function () {
-        var name, workspace, prodHost, prodImgHost, devHost;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    if (!argv.name) return [3 /*break*/, 1];
-                    name = argv.name;
-                    return [3 /*break*/, 4];
-                case 1:
-                    if (!git) return [3 /*break*/, 2];
-                    name = utils_1.getGitName(git);
-                    return [3 /*break*/, 4];
-                case 2: return [4 /*yield*/, answer_line_1.default('请输入项目名称(英文包含字母以及-_):')];
-                case 3:
-                    name = _a.sent();
-                    _a.label = 4;
-                case 4:
-                    if (!bpConf) return [3 /*break*/, 5];
-                    return [2 /*return*/, new buid_info_1.default(name, git, false, bpConf)];
-                case 5:
-                    workspace = void 0;
-                    if (!!argv.dir) return [3 /*break*/, 7];
-                    return [4 /*yield*/, answer_line_1.default('请输入项目生成地址：')];
-                case 6:
-                    workspace = _a.sent();
-                    return [3 /*break*/, 8];
-                case 7:
-                    // 防止win下的 路径输入错误。
-                    workspace = utils_1.transformDir(argv.dir);
-                    _a.label = 8;
-                case 8:
-                    prodHost = argv.devHost;
-                    prodImgHost = argv.devHost;
-                    devHost = argv.devHost;
-                    return [2 /*return*/, new buid_info_1.default(name, git, false, new bp_conf_1.default(workspace, devHost, prodHost, prodImgHost, ['346gfotHJspgPYXmOuSAWhSl4CxlUox7']))];
+    return __awaiter(this, void 0, void 0, function* () {
+        let name;
+        if (argv.name) {
+            name = argv.name;
+        }
+        else if (git) {
+            name = utils_1.getGitName(git);
+        }
+        else {
+            name = yield answer_line_1.default('请输入项目名称(英文包含字母以及-_):');
+        }
+        if (bpConf) {
+            return new buid_info_1.default(name, git, false, bpConf);
+        }
+        else {
+            let workspace;
+            if (!argv.dir) {
+                workspace = yield answer_line_1.default('请输入项目生成地址：');
             }
-        });
+            else {
+                // 防止win下的 路径输入错误。
+                workspace = utils_1.transformDir(argv.dir);
+            }
+            let prodHost = argv.devHost;
+            let prodImgHost = argv.devHost;
+            let devHost = argv.devHost;
+            return new buid_info_1.default(name, git, false, new bp_conf_1.default(workspace, devHost, prodHost, prodImgHost, ['346gfotHJspgPYXmOuSAWhSl4CxlUox7']));
+        }
     });
 }
 function build() {
-    return __awaiter(this, void 0, void 0, function () {
-        var buildInfo, projectDir, isUseYarn;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, getConf()];
-                case 1:
-                    buildInfo = _a.sent();
-                    projectDir = path_1.join(buildInfo.bpConf.workspace, buildInfo.name);
-                    return [4 /*yield*/, fs_1.vailDir(projectDir)];
-                case 2:
-                    _a.sent();
-                    if (!buildInfo.git) return [3 /*break*/, 4];
-                    return [4 /*yield*/, cmd_1.default('git', ['clone', buildInfo.git, '--progress', projectDir], {
-                            cwd: buildInfo.bpConf.workspace
-                        })];
-                case 3:
-                    _a.sent();
-                    return [3 /*break*/, 6];
-                case 4: 
-                //建立根目录
-                return [4 /*yield*/, fs_1.mkRootDir(projectDir)];
-                case 5:
-                    //建立根目录
-                    _a.sent();
-                    _a.label = 6;
-                case 6: 
-                //递归 config文件夹
-                return [4 /*yield*/, fs_1.asyncCopyFile(projectDir, '/', buildInfo)];
-                case 7:
-                    //递归 config文件夹
-                    _a.sent();
-                    if (!buildInfo.git) return [3 /*break*/, 12];
-                    return [4 /*yield*/, cmd_1.default('git', ['add', '*'])];
-                case 8:
-                    _a.sent();
-                    return [4 /*yield*/, cmd_1.default('git', ['commit', '-m', '初始化基础文件！'])];
-                case 9:
-                    _a.sent();
-                    return [4 /*yield*/, cmd_1.default('git', ['push', 'orgin', 'master'])];
-                case 10:
-                    _a.sent();
-                    return [4 /*yield*/, cmd_1.default('git', ['checkout', '-b', 'dev'])];
-                case 11:
-                    _a.sent();
-                    _a.label = 12;
-                case 12: return [4 /*yield*/, answer_line_1.answerLineOk('是否使用yarn安装模块？（y采用yarn安装,n采用npm安装）', ['y', 'm'])];
-                case 13:
-                    isUseYarn = (_a.sent()) === 'y';
-                    if (!isUseYarn) return [3 /*break*/, 15];
-                    return [4 /*yield*/, cmd_1.default('yarn', ['install'])];
-                case 14:
-                    _a.sent();
-                    return [3 /*break*/, 17];
-                case 15: return [4 /*yield*/, cmd_1.default('npm', ['install'])];
-                case 16:
-                    _a.sent();
-                    _a.label = 17;
-                case 17:
-                    console.log('项目安装完毕！');
-                    return [2 /*return*/, "\u9879\u76EE\u5730\u5740\uFF1A" + projectDir];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        let buildInfo = yield getConf();
+        let projectDir = path_1.join(buildInfo.bpConf.workspace, buildInfo.name);
+        yield fs_1.vailDir(projectDir);
+        if (buildInfo.git) {
+            yield cmd_1.default('git', ['clone', buildInfo.git, '--progress', projectDir], {
+                cwd: buildInfo.bpConf.workspace
+            });
+        }
+        else {
+            //建立根目录
+            yield fs_1.mkRootDir(projectDir);
+        }
+        //递归 config文件夹
+        yield fs_1.asyncCopyFile(projectDir, '/', buildInfo);
+        //安装项目
+        let isUseYarn = (yield answer_line_1.answerLineOk('是否使用yarn安装模块？（y采用yarn安装,n采用npm安装）', ['y', 'm'])) === 'y';
+        if (isUseYarn) {
+            yield cmd_1.default('yarn', ['install'], {
+                cwd: projectDir
+            });
+        }
+        else {
+            yield cmd_1.default('npm', ['install'], {
+                cwd: projectDir
+            });
+        }
+        console.log('项目安装完毕！');
+        //提交git内容，并且创建一个开发分支
+        if (buildInfo.git) {
+            yield cmd_1.default('git', ['add', '*'], {
+                cwd: projectDir
+            });
+            yield cmd_1.default('git', ['commit', '-m', '初始化基础文件！'], {
+                cwd: projectDir
+            });
+            yield cmd_1.default('git', ['push', 'origin', 'master'], {
+                cwd: projectDir
+            });
+            yield cmd_1.default('git', ['checkout', '-b', 'dev'], {
+                cwd: projectDir
+            });
+            console.log('开发分支创建完毕！');
+        }
+        return `项目地址：${projectDir}`;
     });
 }
-build().then(function (dir) {
+build().then((dir) => {
     console.log(dir);
-}).catch(function (e) { return console.log(e); });
+}).catch(e => console.log(e));

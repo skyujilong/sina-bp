@@ -155,21 +155,37 @@ async function build():Promise<string>{
     }
     //递归 config文件夹
     await asyncCopyFile(projectDir, '/', buildInfo);
-    //提交git内容，并且创建一个开发分支
-    if (buildInfo.git){
-        await cmd('git', ['add', '*']);
-        await cmd('git', ['commit', '-m', '初始化基础文件！']);
-        await cmd('git', ['push', 'orgin', 'master']);
-        await cmd('git', ['checkout', '-b', 'dev']);
-    }
+
     //安装项目
-    let isUseYarn = await answerLineOk('是否使用yarn安装模块？（y采用yarn安装,n采用npm安装）',['y','m']) === 'y';
-    if(isUseYarn){
-        await cmd('yarn',['install']);
-    }else{  
-        await cmd('npm', ['install']);
+    let isUseYarn = await answerLineOk('是否使用yarn安装模块？（y采用yarn安装,n采用npm安装）', ['y', 'm']) === 'y';
+    if (isUseYarn) {
+        await cmd('yarn', ['install'], {
+            cwd: projectDir
+        });
+    } else {
+        await cmd('npm', ['install'], {
+            cwd: projectDir
+        });
     }
     console.log('项目安装完毕！');
+
+    //提交git内容，并且创建一个开发分支
+    if (buildInfo.git){
+        await cmd('git', ['add', '*'], {
+            cwd: projectDir
+        });
+        await cmd('git', ['commit', '-m', '初始化基础文件！'], {
+            cwd: projectDir
+        });
+        await cmd('git', ['push', 'origin', 'master'], {
+            cwd: projectDir
+        });
+        await cmd('git', ['checkout', '-b', 'dev'], {
+            cwd: projectDir
+        });
+        console.log('开发分支创建完毕！');
+    }
+    
     return `项目地址：${projectDir}`;
 }
 
