@@ -21,8 +21,8 @@ import ContentChange from './tpl-pipe';
 interface Conf{
     workspace: string
     devHost: string
-    prodHost: string
-    prodImgHost: string
+    prodPath: string
+    prodImgPath: string
     tinyPngKeys: string[]
 }
 
@@ -46,8 +46,8 @@ async function readLine(dir: string): Promise<BpConf>{
         let conf: Conf = {
             workspace:'',
             devHost:'',
-            prodHost:'',
-            prodImgHost:'',
+            prodPath:'',
+            prodImgPath:'',
             tinyPngKeys:[]
         };
         readline.on('line',(text:string):void=>{
@@ -67,15 +67,14 @@ async function readLine(dir: string): Promise<BpConf>{
             let {
                 workspace,
                 devHost,
-                prodHost,
-                prodImgHost,
+                prodPath,
+                prodImgPath,
                 tinyPngKeys
             } = conf;
-            if (!workspace || !devHost || !prodHost){
-                reject(new Error('配置文件至少需要如下参数：workspace,devHost,prodHost'));
+            if (!workspace || !devHost || !prodPath){
+                reject(new Error('配置文件至少需要如下参数：workspace,devHost,prodPath'));
             }
-
-            let bpConf: BpConf = new BpConf(workspace,devHost,prodHost,prodImgHost,tinyPngKeys);
+            let bpConf: BpConf = new BpConf(workspace, devHost, prodPath, prodImgPath,tinyPngKeys);
             resolve(bpConf);
         });
     });

@@ -4,14 +4,14 @@
 class BpConf {
     workspace: string
     devHost: string
-    prodHost: string
-    prodImgHost: string
+    prodPath: string
+    prodImgPath: string
     tinyPngKeys: string[]
-    constructor(workspace: string, devHost: string, prodHost: string, prodImgHost: string, tinyPngKeys: string[]) {
+    constructor(workspace: string, devHost: string, prodPath: string, prodImgPath: string, tinyPngKeys: string[]) {
         this.workspace = workspace;
         this.devHost = devHost;
-        this.prodHost = prodHost;
-        this.prodImgHost = prodImgHost;
+        this.prodPath = prodPath;
+        this.prodImgPath = prodImgPath;
         this.tinyPngKeys = tinyPngKeys;
     }
     

@@ -1,9 +1,9 @@
 'use strict';
 //项目配置
 module.exports = {
-    publicPath: 'http://test.sina.com.cn/', //已http或者https开头的绝对地址
-    onLinePublicPath: 'http://test.sina.com.cn/', //线上静态资源地址
-    onLineImgPublicPath:'http://test.sina.com.cn/',//线上img的资源地址
+    publicPath: 'http://{{{devHost}}}/', //已http或者https开头的绝对地址
+    onLinePublicPath: '{{{prodPath}}}', //线上静态资源地址
+    onLineImgPublicPath: '{{#prodImgPath}}{{{prodImgPath}}}{{/prodImgPath}}{{^prodImgPath}}{{{prodPath}}}{{/prodImgPath}}', //线上img的资源地址
     md5: true, // 线上环境是否md5版本化， 默认是true，不启用可以用false
     //雪碧图的配资
     sprites: [{
@@ -13,5 +13,9 @@ module.exports = {
         name: 'normal'
     }],
     //tinyPngKeys 申请地址：https://tinypng.com/developers
-    tinyPngKeys: "346gfotHJspgPYXmOuSAWhSl4CxlUox7"
+    tinyPngKeys: [
+        {{#tinyPngKeys}}
+            '{{tinyPngKeys}}',
+        {{/tinyPngKeys}}
+    ]
 }

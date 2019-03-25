@@ -157,7 +157,7 @@ async function build():Promise<string>{
     await asyncCopyFile(projectDir, '/', buildInfo);
 
     //安装项目
-    let isUseYarn = await answerLineOk('是否使用yarn安装模块？（y采用yarn安装,n采用npm安装）', ['y', 'm']) === 'y';
+    let isUseYarn = await answerLineOk('是否使用yarn安装模块？（y采用yarn安装,n采用npm安装）', ['y', 'n']) === 'y';
     if (isUseYarn) {
         await cmd('yarn', ['install'], {
             cwd: projectDir

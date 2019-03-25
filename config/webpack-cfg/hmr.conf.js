@@ -63,7 +63,8 @@ module.exports = {
     plugins: [
         new webpack.NamedModulesPlugin(),
         new OpenBrowserPlugin({
-            url: 'http://test.sina.com.cn/'
+            url: 'http://{{{devHost}}}/',
+            browser: 'google chrome'
         })
     ]
 };
