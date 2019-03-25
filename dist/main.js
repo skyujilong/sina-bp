@@ -207,7 +207,7 @@ function getTestConf(git, bpConf) {
 }
 function build() {
     return __awaiter(this, void 0, void 0, function () {
-        var buildInfo, projectDir;
+        var buildInfo, projectDir, isUseYarn;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, getConf()];
@@ -237,6 +237,34 @@ function build() {
                 case 7:
                     //递归 config文件夹
                     _a.sent();
+                    if (!buildInfo.git) return [3 /*break*/, 12];
+                    return [4 /*yield*/, cmd_1.default('git', ['add', '*'])];
+                case 8:
+                    _a.sent();
+                    return [4 /*yield*/, cmd_1.default('git', ['commit', '-m', '初始化基础文件！'])];
+                case 9:
+                    _a.sent();
+                    return [4 /*yield*/, cmd_1.default('git', ['push', 'orgin', 'master'])];
+                case 10:
+                    _a.sent();
+                    return [4 /*yield*/, cmd_1.default('git', ['checkout', '-b', 'dev'])];
+                case 11:
+                    _a.sent();
+                    _a.label = 12;
+                case 12: return [4 /*yield*/, answer_line_1.answerLineOk('是否使用yarn安装模块？（y采用yarn安装,n采用npm安装）', ['y', 'm'])];
+                case 13:
+                    isUseYarn = (_a.sent()) === 'y';
+                    if (!isUseYarn) return [3 /*break*/, 15];
+                    return [4 /*yield*/, cmd_1.default('yarn', ['install'])];
+                case 14:
+                    _a.sent();
+                    return [3 /*break*/, 17];
+                case 15: return [4 /*yield*/, cmd_1.default('npm', ['install'])];
+                case 16:
+                    _a.sent();
+                    _a.label = 17;
+                case 17:
+                    console.log('项目安装完毕！');
                     return [2 /*return*/, "\u9879\u76EE\u5730\u5740\uFF1A" + projectDir];
             }
         });
@@ -244,5 +272,4 @@ function build() {
 }
 build().then(function (dir) {
     console.log(dir);
-    console.log('done!!!');
 }).catch(function (e) { return console.log(e); });
