@@ -232,10 +232,10 @@ function build() {
                     _a.sent();
                     _a.label = 6;
                 case 6: 
-                //TODO: 递归 config文件夹
+                //递归 config文件夹
                 return [4 /*yield*/, fs_1.asyncCopyFile(projectDir, '/', buildInfo)];
                 case 7:
-                    //TODO: 递归 config文件夹
+                    //递归 config文件夹
                     _a.sent();
                     return [2 /*return*/, "\u9879\u76EE\u5730\u5740\uFF1A" + projectDir];
             }

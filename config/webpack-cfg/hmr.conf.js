@@ -9,6 +9,9 @@ module.exports = {
     devtool: 'eval',
     module: {
         rules: [{
+            test: /\.ts/,
+            loader: 'ts-loader'
+        }, {
             test: /\.js$/,
             exclude: /node_modules/,
             loader: "babel-loader"
@@ -44,33 +47,23 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, '..', 'test'),
         filename: 'js/[name].js',
-        publicPath: config.publicPath,
-        chunkFilename: 'js/[name]-chunk.js'
+        publicPath: config.publicPath
+    },
+    optimization: {
+        splitChunks: {
+            //js默认最大初始化并行请求数字
+            maxInitialRequests: 4,
+            chunks: 'initial'
+        },
+        runtimeChunk: {
+            name: "manifest"
+        },
+        namedChunks: false
     },
     plugins: [
         new webpack.NamedModulesPlugin(),
         new OpenBrowserPlugin({
             url: 'http://test.sina.com.cn/'
-        }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
-            /**
-             * 打包来源精确控制
-             * @param  {Object} module 模块路径相关信息
-             * module.context: The directory that stores the file. For example: '/my_project/node_modules/example-dependency'
-             * module.resource: The name of the file being processed. For example: '/my_project/node_modules/example-dependency/index.js'
-             * @param  {Number} count  模块被引用的次数
-             * @return {Boolean}       返回boolean类型，如果是true，将进行提取
-             */
-            minChunks: function (module, count) {
-                // This prevents stylesheet resources with the .css or .scss extension
-                // from being moved from their original chunk to the vendor chunk
-                if (module.resource && (/^.*\.(css|scss)$/).test(module.resource)) {
-                    return false;
-                }
-
-                return module.context && module.context.indexOf("node_modules") !== -1;
-            }
         })
     ]
 };

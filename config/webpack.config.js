@@ -30,7 +30,7 @@ module.exports = (env) => {
     switch (runMode) {
         case 'dev-server':
             // 启用自刷新的开发服务
-            webpackConfig = baseMerge(commonConf, spritePlugins, entryConf, devConf, resovle, htmlPlugins, devServerConf);
+            webpackConfig = baseMerge(commonConf, entryConf, devConf, resovle, htmlPlugins, devServerConf);
             break;
         case 'dev-hmr':
             // 启用热部署替换的开发服务
@@ -42,7 +42,8 @@ module.exports = (env) => {
             break;
         case 'prod':
             // 生产环境
-            webpackConfig = baseMerge(commonConf, spritePlugins, entryConf, prodConf, resovle, htmlPlugins);
+            // webpackConfig = baseMerge(commonConf, spritePlugins, entryConf, prodConf, resovle, htmlPlugins);
+            webpackConfig = baseMerge(commonConf, entryConf, htmlPlugins, prodConf, resovle);
             break;
     }
     return webpackConfig;

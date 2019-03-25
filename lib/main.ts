@@ -153,7 +153,7 @@ async function build():Promise<string>{
         //建立根目录
         await mkRootDir(projectDir);
     }
-    //TODO: 递归 config文件夹
+    //递归 config文件夹
     await asyncCopyFile(projectDir, '/', buildInfo);
 
     return `项目地址：${projectDir}`;
