@@ -14,6 +14,8 @@ import BpConf from '../module/bp-conf';
 
 import { transAsyncPromise } from './utils';
 
+import BuildInfo from '../module/buid-info';
+
 import ContentChange from './tpl-pipe';
 
 interface Conf{
@@ -33,7 +35,8 @@ let asyncMkDir = transAsyncPromise(mkdir);
 async function readLine(dir: string): Promise<BpConf>{
 
     return new Promise((resolve,reject)=>{
-        let readStream = createReadStream(dir)
+        let readStream = createReadStream(dir);
+        readStream.setEncoding('utf8');
         let readline = createInterface({
             input: readStream
         });
@@ -73,6 +76,7 @@ async function readLine(dir: string): Promise<BpConf>{
             }
 
             let bpConf: BpConf = new BpConf(workspace,devHost,prodHost,prodImgHost,tinyPngKeys);
+            console.log(bpConf);
             resolve(bpConf);
         });
     });
@@ -92,22 +96,6 @@ async function vailDir(location:string){
         throw new Error(`${location}该路径已经存在了！请更换地址。`);
     }
 }
-
-/**
- * 建立文件夹
- * @param location 
- */
-// async function asyncMkDir(location:string):Promise<void>{
-//     return new Promise((resolve,reject)=>{
-//         mkdir(location,(err)=>{
-//             if(err){
-//                 reject(err);
-//             }else{
-//                 resolve();
-//             }
-//         })
-//     });
-// }
 
 /**
  * 处理根目录
@@ -134,10 +122,22 @@ async function mkRootDir(location:string):Promise<void>{
     }
 }
 
-async function copy(copyFrom: string, copyTarget:string):Promise<void>{
+/**
+ * 
+ * @param copyFrom 从哪里进行拷贝
+ * @param copyTarget 写入到哪里去
+ * @param buildInfo 构建信息
+ */
+async function copy(copyFrom: string, copyTarget: string, buildInfo: BuildInfo):Promise<void>{
     return new Promise((resolve,reject)=>{
         let readStream = createReadStream(copyFrom);
-        let writeStream = createWriteStream(copyTarget)
+        readStream.setEncoding('utf8');
+        let writeStream = createWriteStream(copyTarget);
+        writeStream.setDefaultEncoding('utf8');
+        let transTpl = new ContentChange({
+            data: buildInfo
+        });
+        transTpl.setEncoding('utf8');
         writeStream.on('finish',()=>{
             resolve();
         });
@@ -147,7 +147,7 @@ async function copy(copyFrom: string, copyTarget:string):Promise<void>{
         writeStream.on('error',(err)=>{
             reject(err);
         })
-        readStream.pipe(writeStream);
+        readStream.pipe(transTpl).pipe(writeStream);
     });
 }
 
@@ -156,7 +156,7 @@ async function copy(copyFrom: string, copyTarget:string):Promise<void>{
  * @param targetDir 目标要拷贝到的文件夹
  * @param relativePath 相对路径
  */
-async function asyncCopyFile(targetDir: string, relativePath: string): Promise < void > {
+async function asyncCopyFile(targetDir: string, relativePath: string, buildInfo:BuildInfo ): Promise < void > {
     //配置文件根目录
     let confDir = resolve(__dirname, '..', '..', 'config');
     //配置文件+ 相对路径，下的所有文件
@@ -165,10 +165,10 @@ async function asyncCopyFile(targetDir: string, relativePath: string): Promise <
         let stats: Stats = await asyncLstat(join(confDir, relativePath, name));
         if (stats.isDirectory()) {
             await asyncMkDir(join(targetDir, relativePath, name));
-            await asyncCopyFile(targetDir, join(relativePath, name));
+            await asyncCopyFile(targetDir, join(relativePath, name), buildInfo);
         } else if (stats.isFile()) {
             // await 
-            await copy(join(confDir, relativePath, name), join(targetDir, relativePath, name));
+            await copy(join(confDir, relativePath, name), join(targetDir, relativePath, name), buildInfo);
         }
     }
 }

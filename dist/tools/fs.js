@@ -41,6 +41,7 @@ var readline_1 = require("readline");
 var os_1 = require("os");
 var bp_conf_1 = require("../module/bp-conf");
 var utils_1 = require("./utils");
+var tpl_pipe_1 = require("./tpl-pipe");
 var asyncReadDir = utils_1.transAsyncPromise(fs_1.readdir);
 var asyncLstat = utils_1.transAsyncPromise(fs_1.lstat);
 exports.asyncLstat = asyncLstat;
@@ -50,6 +51,7 @@ function readLine(dir) {
         return __generator(this, function (_a) {
             return [2 /*return*/, new Promise(function (resolve, reject) {
                     var readStream = fs_1.createReadStream(dir);
+                    readStream.setEncoding('utf8');
                     var readline = readline_1.createInterface({
                         input: readStream
                     });
@@ -84,6 +86,7 @@ function readLine(dir) {
                             reject(new Error('配置文件至少需要如下参数：workspace,devHost,prodHost'));
                         }
                         var bpConf = new bp_conf_1.default(workspace, devHost, prodHost, prodImgHost, tinyPngKeys);
+                        console.log(bpConf);
                         resolve(bpConf);
                     });
                 })];
@@ -121,21 +124,6 @@ function vailDir(location) {
     });
 }
 exports.vailDir = vailDir;
-/**
- * 建立文件夹
- * @param location
- */
-// async function asyncMkDir(location:string):Promise<void>{
-//     return new Promise((resolve,reject)=>{
-//         mkdir(location,(err)=>{
-//             if(err){
-//                 reject(err);
-//             }else{
-//                 resolve();
-//             }
-//         })
-//     });
-// }
 /**
  * 处理根目录
  * @param location
@@ -180,12 +168,24 @@ function mkRootDir(location) {
     });
 }
 exports.mkRootDir = mkRootDir;
-function copy(copyFrom, copyTarget) {
+/**
+ *
+ * @param copyFrom 从哪里进行拷贝
+ * @param copyTarget 写入到哪里去
+ * @param buildInfo 构建信息
+ */
+function copy(copyFrom, copyTarget, buildInfo) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             return [2 /*return*/, new Promise(function (resolve, reject) {
                     var readStream = fs_1.createReadStream(copyFrom);
+                    readStream.setEncoding('utf8');
                     var writeStream = fs_1.createWriteStream(copyTarget);
+                    writeStream.setDefaultEncoding('utf8');
+                    var transTpl = new tpl_pipe_1.default({
+                        data: buildInfo
+                    });
+                    transTpl.setEncoding('utf8');
                     writeStream.on('finish', function () {
                         resolve();
                     });
@@ -195,7 +195,7 @@ function copy(copyFrom, copyTarget) {
                     writeStream.on('error', function (err) {
                         reject(err);
                     });
-                    readStream.pipe(writeStream);
+                    readStream.pipe(transTpl).pipe(writeStream);
                 })];
         });
     });
@@ -205,7 +205,7 @@ function copy(copyFrom, copyTarget) {
  * @param targetDir 目标要拷贝到的文件夹
  * @param relativePath 相对路径
  */
-function asyncCopyFile(targetDir, relativePath) {
+function asyncCopyFile(targetDir, relativePath, buildInfo) {
     return __awaiter(this, void 0, void 0, function () {
         var confDir, dirStats, _i, dirStats_1, name_1, stats;
         return __generator(this, function (_a) {
@@ -227,14 +227,14 @@ function asyncCopyFile(targetDir, relativePath) {
                     return [4 /*yield*/, asyncMkDir(path_1.join(targetDir, relativePath, name_1))];
                 case 4:
                     _a.sent();
-                    return [4 /*yield*/, asyncCopyFile(targetDir, path_1.join(relativePath, name_1))];
+                    return [4 /*yield*/, asyncCopyFile(targetDir, path_1.join(relativePath, name_1), buildInfo)];
                 case 5:
                     _a.sent();
                     return [3 /*break*/, 8];
                 case 6:
                     if (!stats.isFile()) return [3 /*break*/, 8];
                     // await 
-                    return [4 /*yield*/, copy(path_1.join(confDir, relativePath, name_1), path_1.join(targetDir, relativePath, name_1))];
+                    return [4 /*yield*/, copy(path_1.join(confDir, relativePath, name_1), path_1.join(targetDir, relativePath, name_1), buildInfo)];
                 case 7:
                     // await 
                     _a.sent();

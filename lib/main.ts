@@ -11,7 +11,6 @@ import answerLine, {
 import {
     transformDir,
     isIllegalGit,
-    isIllegalUrl,
     getGitName,
 } from './tools/utils';
 import BpConf from './module/bp-conf';
@@ -142,7 +141,7 @@ async function getTestConf(git: string, bpConf: BpConf): Promise<BuildInfo>{
 }
 
 
-async function build(argvs:string):Promise<string>{
+async function build():Promise<string>{
     let buildInfo: BuildInfo = await getConf();
     let projectDir = join(buildInfo.bpConf.workspace, buildInfo.name);
     await vailDir(projectDir);
@@ -155,13 +154,13 @@ async function build(argvs:string):Promise<string>{
         await mkRootDir(projectDir);
     }
     //TODO: 递归 config文件夹
-    await asyncCopyFile(projectDir,'/');
+    await asyncCopyFile(projectDir, '/', buildInfo);
 
     return `项目地址：${projectDir}`;
 }
 
 
-build(JSON.stringify(argv)).then((dir)=>{
+build().then((dir)=>{
     console.log(dir);
     console.log('done!!!');
 }).catch(e=>console.log(e));

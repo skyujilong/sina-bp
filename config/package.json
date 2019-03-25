@@ -1,11 +1,11 @@
 {
-    "name": "{{TODO}}",
+    "name": "{{name}}",
     "version": "0.1.1",
     "description": "sina news group fe stagging",
     "author": "jilong5",
     "scripts": {
-        "dev-build": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ./webpack.config.js --host {{publicPath}} --port 80 --env.NODE_ENV=dev-server",
-        "dev-hmr-build": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ./webpack.config.js --host {{publicPath}} --port 80 --hot --env.NODE_ENV=dev-hmr",
+        "dev-build": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ./webpack.config.js --host {{{bpConf.devHost}}} --port 80 --env.NODE_ENV=dev-server",
+        "dev-hmr-build": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ./webpack.config.js --host {{{bpConf.devHost}}} --port 80 --hot --env.NODE_ENV=dev-hmr",
         "build": "node ./node_modules/webpack/bin/webpack.js --config ./webpack.config.js --color --progress --env.NODE_ENV=prod",
         "dev-ie-build": "node ./node_modules/webpack/bin/webpack.js --config ./webpack.config.js --color --progress --watch -d --env.NODE_ENV=dev-watch",
         "dev-ie-server": "node ./node_modules/http-server/bin/http-server ./test -p 80"

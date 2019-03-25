@@ -205,7 +205,7 @@ function getTestConf(git, bpConf) {
         });
     });
 }
-function build(argvs) {
+function build() {
     return __awaiter(this, void 0, void 0, function () {
         var buildInfo, projectDir;
         return __generator(this, function (_a) {
@@ -233,7 +233,7 @@ function build(argvs) {
                     _a.label = 6;
                 case 6: 
                 //TODO: 递归 config文件夹
-                return [4 /*yield*/, fs_1.asyncCopyFile(projectDir, '/')];
+                return [4 /*yield*/, fs_1.asyncCopyFile(projectDir, '/', buildInfo)];
                 case 7:
                     //TODO: 递归 config文件夹
                     _a.sent();
@@ -242,7 +242,7 @@ function build(argvs) {
         });
     });
 }
-build(JSON.stringify(argv)).then(function (dir) {
+build().then(function (dir) {
     console.log(dir);
     console.log('done!!!');
 }).catch(function (e) { return console.log(e); });
