@@ -1,5 +1,6 @@
 'use strict';
 //项目配置
+{{#bpConf}}
 module.exports = {
     publicPath: 'http://{{{devHost}}}/', //已http或者https开头的绝对地址
     onLinePublicPath: '{{{prodPath}}}', //线上静态资源地址
@@ -19,3 +20,4 @@ module.exports = {
         {{/tinyPngKeys}}
     ]
 }
+{{/bpConf}}

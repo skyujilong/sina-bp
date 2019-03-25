@@ -63,7 +63,7 @@ module.exports = {
     plugins: [
         new webpack.NamedModulesPlugin(),
         new OpenBrowserPlugin({
-            url: 'http://{{{devHost}}}/',
+            url: 'http://{{{bpConf.devHost}}}/',
             browser: 'google chrome'
         })
     ]

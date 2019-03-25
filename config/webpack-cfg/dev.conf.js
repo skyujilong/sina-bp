@@ -85,7 +85,7 @@ module.exports = {
             chunkFilename: 'css/[name].css',
         }),
         new OpenBrowserPlugin({
-            url: 'http://{{{devHost}}}/',
+            url: 'http://{{{bpConf.devHost}}}/',
             browser: 'google chrome'
         })
     ]
