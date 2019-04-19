@@ -1,5 +1,20 @@
+{{^isCompanyProject}}
+# 上线信息
+## Git仓库地址
+```
+{{git}}
+```
+## 输出代码路径
+```
+assets/
+```
+## 标签内新增目录
+```
+blog/items/2018/blogChannel/
+```
+{{/isCompanyProject}}
 # 特性
-## 基于webpack2 与模板引擎 mustache
+## 基于webpack4 支持Mustache模板，ts，以及sass。
 ### mustache在项目中的用例
 [地址](http://www.iinterest.net/2012/09/12/web-template-engine-mustache/)
 
