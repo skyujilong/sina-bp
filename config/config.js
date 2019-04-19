@@ -3,8 +3,8 @@
 {{#bpConf}}
 module.exports = {
     publicPath: 'http://{{{devHost}}}/', //已http或者https开头的绝对地址
-    onLinePublicPath: 'http://{{{prodHost}}}/{{qbDir}}', //线上静态资源地址
-    onLineImgPublicPath: '{{#prodImgHost}}http://{{{prodImgHost}}}/{{qbDir}}{{/prodImgHost}}{{^prodImgHost}}http://{{{prodHost}}}/{{qbDir}}/{{/prodImgHost}}', //线上img的资源地址
+    onLinePublicPath: 'http://{{{prodHost}}}/{{{qbDir}}}', //线上静态资源地址
+    onLineImgPublicPath: '{{#prodImgHost}}http://{{{prodImgHost}}}/{{{qbDir}}}{{/prodImgHost}}{{^prodImgHost}}http://{{{prodHost}}}/{{{qbDir}}}/{{/prodImgHost}}', //线上img的资源地址
     md5: true, // 线上环境是否md5版本化， 默认是true，不启用可以用false
     //雪碧图的配资
     sprites: [{

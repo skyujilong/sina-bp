@@ -1,4 +1,4 @@
-{{^isCompanyProject}}
+{{#isCompanyProject}}
 # 上线信息
 ## Git仓库地址
 ```
