@@ -33,9 +33,10 @@ function readLine(dir) {
             let conf = {
                 workspace: '',
                 devHost: '',
-                prodPath: '',
-                prodImgPath: '',
-                tinyPngKeys: []
+                prodHost: '',
+                prodImgHost: '',
+                tinyPngKeys: [],
+                qbDir: ''
             };
             readline.on('line', (text) => {
                 if (text.indexOf('#') == 0) {
@@ -52,11 +53,11 @@ function readLine(dir) {
                 }
             });
             readline.on('close', () => {
-                let { workspace, devHost, prodPath, prodImgPath, tinyPngKeys } = conf;
-                if (!workspace || !devHost || !prodPath) {
-                    reject(new Error('配置文件至少需要如下参数：workspace,devHost,prodPath'));
+                let { workspace, devHost, prodHost, prodImgHost, tinyPngKeys, qbDir } = conf;
+                if (!workspace || !devHost || !prodHost) {
+                    reject(new Error('配置文件至少需要如下参数：workspace,devHost,prodHost'));
                 }
-                let bpConf = new bp_conf_1.default(workspace, devHost, prodPath, prodImgPath, tinyPngKeys);
+                let bpConf = new bp_conf_1.default(workspace, devHost, prodHost, prodImgHost, tinyPngKeys, qbDir);
                 resolve(bpConf);
             });
         });

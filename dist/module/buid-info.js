@@ -15,9 +15,6 @@ class BuildInfo {
         this.git = git;
         this.bpConf = bpConf;
         this.isCompanyProject = isCompanyProject;
-        if (this.isCompanyProject) {
-            this.onlineQb = `blog/item/${new Date().getFullYear()}/`;
-        }
     }
     setIsCompanyProject(isCompanyProject) {
         this.isCompanyProject = isCompanyProject;

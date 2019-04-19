@@ -10,7 +10,11 @@ assets/
 ```
 ## 标签内新增目录
 ```
-blog/items/2018/blogChannel/
+{{bpConf.qbDir}}
+```
+## 标签名称
+```
+items_{{name}}_release
 ```
 {{/isCompanyProject}}
 # 特性

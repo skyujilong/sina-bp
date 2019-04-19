@@ -12,6 +12,7 @@ import {
     transformDir,
     isIllegalGit,
     getGitName,
+    urlEndSuff
 } from './tools/utils';
 import BpConf from './module/bp-conf';
 import BuildInfo from './module/buid-info';
@@ -22,7 +23,7 @@ import {
     asyncCopyFile
 } from './tools/fs';
 
-import { join } from 'path';
+import { join, isAbsolute } from 'path';
 
 let {argv} = help().alias('help', 'h').version().alias('version', 'v').usage([
     '项目地址与说明：https://github.com/skyujilong/sina-bp',
@@ -103,7 +104,14 @@ async function getConf(): Promise<BuildInfo>{
                 throw e;
             }
         }
-        return new BuildInfo(getGitName(git), git, true, bpConf);
+        let buildInfo = new BuildInfo(getGitName(git), git, true, bpConf);
+        if(isAbsolute(bpConf.qbDir)){
+            //删除/ 默认应该不是绝对路径的。
+            bpConf.qbDir = bpConf.qbDir.substring(1);
+        }
+        // 更新qbDir的路径
+        bpConf.qbDir = urlEndSuff(bpConf.qbDir, '/') + new Date().getFullYear() + '/' + buildInfo.name + '/';
+        return buildInfo;
     } else {
         let testConf = await getTestConf(git,bpConf);
         return testConf;

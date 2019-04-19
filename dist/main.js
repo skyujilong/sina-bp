@@ -97,7 +97,14 @@ function getConf() {
                     throw e;
                 }
             }
-            return new buid_info_1.default(utils_1.getGitName(git), git, true, bpConf);
+            let buildInfo = new buid_info_1.default(utils_1.getGitName(git), git, true, bpConf);
+            if (path_1.isAbsolute(bpConf.qbDir)) {
+                //删除/ 默认应该不是绝对路径的。
+                bpConf.qbDir = bpConf.qbDir.substring(1);
+            }
+            // 更新qbDir的路径
+            bpConf.qbDir = utils_1.urlEndSuff(bpConf.qbDir, '/') + new Date().getFullYear() + '/' + buildInfo.name + '/';
+            return buildInfo;
         }
         else {
             let testConf = yield getTestConf(git, bpConf);
