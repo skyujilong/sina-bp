@@ -2,7 +2,7 @@
 # 上线信息
 ## Git仓库地址
 ```
-{{git}}
+{{{git}}}
 ```
 ## 输出代码路径
 ```
@@ -10,11 +10,11 @@ assets/
 ```
 ## 标签内新增目录
 ```
-{{bpConf.qbDir}}
+{{{bpConf.qbDir}}}
 ```
 ## 标签名称
 ```
-items_{{name}}_release
+items_{{{{name}}}_release
 ```
 {{/isCompanyProject}}
 # 特性
