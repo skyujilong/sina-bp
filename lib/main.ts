@@ -22,6 +22,8 @@ import {
     asyncCopyFile
 } from './tools/fs';
 
+import { join } from 'path';
+
 let {argv} = help().alias('help', 'h').version().alias('version', 'v').usage([
     '项目地址与说明：https://github.com/skyujilong/sina-bp',
     '版本：' + packageJson.version,
@@ -51,11 +53,11 @@ let {argv} = help().alias('help', 'h').version().alias('version', 'v').usage([
     }
 });
 
-import {resolve,join,sep} from 'path';
+
 
 
 async function getConf(): Promise<BuildInfo>{
-    //TODO:解析argv参数
+    //解析argv参数
     let isCompany: boolean = await answerLineOk('是否是公司项目(y/n):', ['y', 'n']) === 'y';
 
     let bpConf:BpConf;

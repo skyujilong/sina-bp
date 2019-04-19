@@ -17,6 +17,7 @@ const utils_1 = require("./tools/utils");
 const bp_conf_1 = require("./module/bp-conf");
 const buid_info_1 = require("./module/buid-info");
 const fs_1 = require("./tools/fs");
+const path_1 = require("path");
 let { argv } = yargs_1.help().alias('help', 'h').version().alias('version', 'v').usage([
     '项目地址与说明：https://github.com/skyujilong/sina-bp',
     '版本：' + packageJson.version,
@@ -45,10 +46,9 @@ let { argv } = yargs_1.help().alias('help', 'h').version().alias('version', 'v')
         default: 'test.sina.com.cn'
     }
 });
-const path_1 = require("path");
 function getConf() {
     return __awaiter(this, void 0, void 0, function* () {
-        //TODO:解析argv参数
+        //解析argv参数
         let isCompany = (yield answer_line_1.answerLineOk('是否是公司项目(y/n):', ['y', 'n'])) === 'y';
         let bpConf;
         // 参数中带有配置文件地址

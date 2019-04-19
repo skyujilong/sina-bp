@@ -156,7 +156,6 @@ function asyncCopyFile(targetDir, relativePath, buildInfo) {
                 yield asyncCopyFile(targetDir, path_1.join(relativePath, name), buildInfo);
             }
             else if (stats.isFile()) {
-                // await 
                 yield copy(path_1.join(confDir, relativePath, name), path_1.join(targetDir, relativePath, name), buildInfo);
             }
         }

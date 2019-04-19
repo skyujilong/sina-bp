@@ -165,7 +165,6 @@ async function asyncCopyFile(targetDir: string, relativePath: string, buildInfo:
             await asyncMkDir(join(targetDir, relativePath, name));
             await asyncCopyFile(targetDir, join(relativePath, name), buildInfo);
         } else if (stats.isFile()) {
-            // await 
             await copy(join(confDir, relativePath, name), join(targetDir, relativePath, name), buildInfo);
         }
     }
