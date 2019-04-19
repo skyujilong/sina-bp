@@ -42,7 +42,7 @@ let { argv } = yargs_1.help().alias('help', 'h').version().alias('version', 'v')
     devHost: {
         describe: '测试环境绑定Host',
         type: 'string',
-        default: 'http://test.sina.com.cn/'
+        default: 'test.sina.com.cn'
     }
 });
 const path_1 = require("path");
@@ -89,7 +89,7 @@ function getConf() {
         }
         if (isCompany) {
             if (!bpConf) {
-                let confDir = yield answer_line_1.default('请输入配置文件地址:');
+                let confDir = yield answer_line_1.default('请输入配置文件地址:(仅支持绝对路径)');
                 try {
                     bpConf = yield fs_1.readLine(confDir);
                 }
@@ -158,7 +158,7 @@ function build() {
         //递归 config文件夹
         yield fs_1.asyncCopyFile(projectDir, '/', buildInfo);
         //安装项目
-        let isUseYarn = (yield answer_line_1.answerLineOk('是否使用yarn安装模块？（y采用yarn安装,n采用npm安装）', ['y', 'm'])) === 'y';
+        let isUseYarn = (yield answer_line_1.answerLineOk('是否使用yarn安装模块？（y采用yarn安装,n采用npm安装）', ['y', 'n'])) === 'y';
         if (isUseYarn) {
             yield cmd_1.default('yarn', ['install'], {
                 cwd: projectDir

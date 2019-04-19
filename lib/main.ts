@@ -47,7 +47,7 @@ let {argv} = help().alias('help', 'h').version().alias('version', 'v').usage([
     devHost: {
         describe: '测试环境绑定Host',
         type: 'string',
-        default: 'http://test.sina.com.cn/'
+        default: 'test.sina.com.cn'
     }
 });
 
@@ -94,7 +94,7 @@ async function getConf(): Promise<BuildInfo>{
     }
     if (isCompany) {
         if (!bpConf) {
-            let confDir = await answerLine('请输入配置文件地址:');
+            let confDir = await answerLine('请输入配置文件地址:(仅支持绝对路径)');
             try {
                 bpConf = await readLine(confDir);
             } catch (e) {

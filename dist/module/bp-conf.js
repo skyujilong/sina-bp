@@ -4,11 +4,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * 配置对象
  */
 class BpConf {
-    constructor(workspace, devHost, prodHost, prodImgHost, tinyPngKeys) {
+    constructor(workspace, devHost, prodPath, prodImgPath, tinyPngKeys) {
         this.workspace = workspace;
         this.devHost = devHost;
-        this.prodHost = prodHost;
-        this.prodImgHost = prodImgHost;
+        this.prodPath = prodPath;
+        this.prodImgPath = prodImgPath;
         this.tinyPngKeys = tinyPngKeys;
     }
 }
