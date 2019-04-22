@@ -10,6 +10,9 @@
         "dev-ie-build": "node ./node_modules/webpack/bin/webpack.js --config ./webpack.config.js --color --progress --watch -d --env.NODE_ENV=dev-watch",
         "dev-ie-server": "node ./node_modules/http-server/bin/http-server ./test -p 80"
     },
+    "engines": {
+        "node": ">=7.0.0"
+    },
     "dependencies": {
         "@types/mustache": "^0.8.32",
         "@types/node": "^10.12.10",
