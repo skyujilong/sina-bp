@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 const HtmlWebpackEntryPlugin = require('html-webpack-entry-plugin');
+const spritePlugins = require('./sprite-plugins-config').plugins;
 module.exports = {
     mode: 'development',
     devtool: 'eval-source-map',
@@ -88,5 +89,5 @@ module.exports = {
             url: 'http://{{{bpConf.devHost}}}/',
             browser: 'google chrome'
         })
-    ]
+    ].concat(spritePlugins)
 };

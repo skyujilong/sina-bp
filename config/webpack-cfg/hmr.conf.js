@@ -4,7 +4,7 @@ const config = require('../config.js');
 const webpack = require('webpack');
 const path = require('path');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
-
+const spritePlugins = require('./sprite-plugins-config').plugins;
 module.exports = {
     devtool: 'eval',
     module: {
@@ -66,5 +66,5 @@ module.exports = {
             url: 'http://{{{bpConf.devHost}}}/',
             browser: 'google chrome'
         })
-    ]
+    ].concat(spritePlugins)
 };

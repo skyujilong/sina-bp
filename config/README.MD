@@ -19,6 +19,11 @@ items_{{{name}}}_release
 {{/isCompanyProject}}
 # 特性
 ## 基于webpack4 支持Mustache模板，ts，以及sass。
+
+## 要求
+node 版本大于7版本
+
+
 ### mustache在项目中的用例
 [地址](http://www.iinterest.net/2012/09/12/web-template-engine-mustache/)
 
