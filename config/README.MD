@@ -1,20 +1,20 @@
 {{#isCompanyProject}}
 # 上线信息
-## Git仓库地址
+### Git仓库地址
 ```
 {{{git}}}
 ```
-## 输出代码路径
+### 输出代码路径
 ```
 assets/
 ```
-## 标签内新增目录
+### 标签内新增目录
 ```
 {{{bpConf.qbDir}}}
 ```
-## 标签名称
+### 标签名称
 ```
-items_{{{{name}}}_release
+items_{{{name}}}_release
 ```
 {{/isCompanyProject}}
 # 特性
