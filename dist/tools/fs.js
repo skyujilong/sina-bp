@@ -163,3 +163,30 @@ function asyncCopyFile(targetDir, relativePath, buildInfo) {
     });
 }
 exports.asyncCopyFile = asyncCopyFile;
+function writeFilePro(fileDir, content) {
+    return new Promise((resolve, reject) => {
+        fs_1.writeFile(fileDir, content, {
+            encoding: 'utf-8'
+        }, (err) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve();
+            }
+        });
+    });
+}
+/**
+ * 写文件操作
+ * @param targetDir 写如的文件夹
+ * @param fileName 文件名称
+ * @param fileContent 文件内容
+ */
+function asyncWriteFile(targetDir, fileName, fileContent) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let fileDir = path_1.join(targetDir, fileName);
+        yield writeFilePro(fileDir, fileContent);
+    });
+}
+exports.asyncWriteFile = asyncWriteFile;

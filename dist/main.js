@@ -165,6 +165,8 @@ function build() {
         }
         //递归 config文件夹
         yield fs_1.asyncCopyFile(projectDir, '/', buildInfo);
+        //npm过去之后，不能够按照预期生成.gitignore文件
+        yield fs_1.asyncWriteFile(projectDir, '.gitignore', ['node_modules/', 'jspm_packages/', '.DS_Store', '*.log', '.npm', 'npm-debug.log*', 'yarn-debug.log*', 'yarn-error.log*'].join('\n'));
         //安装项目
         let isUseYarn = (yield answer_line_1.answerLineOk('是否使用yarn安装模块？（y采用yarn安装,n采用npm安装）', ['y', 'n'])) === 'y';
         if (isUseYarn) {
