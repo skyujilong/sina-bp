@@ -23,7 +23,8 @@ let { argv } = yargs_1.help().alias('help', 'h').version().alias('version', 'v')
     '版本：' + packageJson.version,
     '用法:',
     '1、配置文件方案: sina-bp -c [你配置文件的地址]',
-    '2、非配置文件方案: sina-bp -d [你要生成项目的地址] -n [你要生成的项目名字]'
+    '2、非配置文件方案1: sina-bp -d [你要生成项目的地址]',
+    '3、非配置文件方案2: sina-bp'
 ].join('\n')).options({
     dir: {
         alias: 'd',
