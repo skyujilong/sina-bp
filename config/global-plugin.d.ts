@@ -1,6 +1,12 @@
 declare interface Window {
     
 }
+
+declare module 'zepto' {
+    export = $;
+}
+
+
 declare var require: {
     <T>(path: string): T;
     (paths: string[], callback: (...modules: any[]) => void): void;

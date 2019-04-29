@@ -19,5 +19,8 @@ module.exports = {
         alias: spriteAlias,
     },
     context: path.resolve(__dirname, '..'),
-    target: 'web'
+    target: 'web',
+    externals: {
+        zepto: 'Zepto'
+    }
 };

@@ -18,6 +18,7 @@
         "@types/node": "^10.12.10",
         "@types/swiper": "^4.2.4",
         "@types/webpack-env": "^1.13.6",
+        "@types/zepto": "^1.0.30",
         "autoprefixer": "^6.7.7",
         "babel-loader": "^7.1.5",
         "babel-plugin-transform-runtime": "^6.23.0",
