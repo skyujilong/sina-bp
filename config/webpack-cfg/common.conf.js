@@ -15,7 +15,7 @@ module.exports = {
     },
     resolve: {
         modules: ["node_modules"],
-        extensions: ['.js', '.json', '.css', '.jpeg', '.png', '.jpg', '.tpl'],
+        extensions: ['.ts', '.js', '.json', '.css', '.jpeg', '.png', '.jpg', '.tpl'],
         alias: spriteAlias,
     },
     context: path.resolve(__dirname, '..'),

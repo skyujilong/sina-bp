@@ -16,7 +16,7 @@ function spriteAlias() {
 
 module.exports = {
     resolve: {
-        extensions: ['.js', '.json', '.scss', '.png', '.tpl'],
+        extensions: ['.ts', '.js', '.json', '.css', '.jpeg', '.png', '.jpg', '.tpl'],
         //modules模块下加入 扫描的文件夹
         // modules: ['scss', 'node_modules'],
         alias: Object.assign({/**
