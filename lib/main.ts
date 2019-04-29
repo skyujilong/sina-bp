@@ -20,12 +20,18 @@ import {
     readLine,
     vailDir,
     mkRootDir,
-    asyncCopyFile
+    asyncCopyFile,
+    asyncWriteFile
 } from './tools/fs';
 
-import { join, isAbsolute } from 'path';
+import {
+    join,
+    isAbsolute
+} from 'path';
 
-let {argv} = help().alias('help', 'h').version().alias('version', 'v').usage([
+let {
+    argv
+} = help().alias('help', 'h').version().alias('version', 'v').usage([
     '项目地址与说明：https://github.com/skyujilong/sina-bp',
     '版本：' + packageJson.version,
     '用法:',
@@ -58,41 +64,41 @@ let {argv} = help().alias('help', 'h').version().alias('version', 'v').usage([
 
 
 
-async function getConf(): Promise<BuildInfo>{
+async function getConf(): Promise < BuildInfo > {
     //解析argv参数
     let isCompany: boolean = await answerLineOk('是否是公司项目(y/n):', ['y', 'n']) === 'y';
 
-    let bpConf:BpConf;
+    let bpConf: BpConf;
 
     // 参数中带有配置文件地址
-    if(argv.conf){
+    if (argv.conf) {
         // 是公司项目。 判断配置文件是否添加到参数上了。
         let confDir = transformDir(argv.conf);
-        try{
+        try {
             bpConf = await readLine(confDir);
-        }catch(e){
+        } catch (e) {
             let confDir = await answerLine('配置文件路径输入错误，请输入正确的绝对路径：');
-            try{
+            try {
                 bpConf = await readLine(confDir);
-            }catch(e){
+            } catch (e) {
                 throw e;
             }
         }
     }
 
-    let git:string = '';
+    let git: string = '';
     let isIllegalGitFlag = false;
     while (true) {
         if (isCompany && isIllegalGit(git)) {
-            git = await answerLine(isIllegalGitFlag ? '请输入合法的git地址（仅支持ssh）:' :'请输入git地址（仅支持ssh）:');
+            git = await answerLine(isIllegalGitFlag ? '请输入合法的git地址（仅支持ssh）:' : '请输入git地址（仅支持ssh）:');
             isIllegalGitFlag = true;
         } else if (!isCompany && (git !== 'n' && isIllegalGit(git))) {
-            git = await answerLine(isIllegalGitFlag ? '请输入合法的git地址(仅支持ssh & 输入n为不添加git地址):' :'请输入git地址(仅支持ssh & 输入n为不添加git地址):');
+            git = await answerLine(isIllegalGitFlag ? '请输入合法的git地址(仅支持ssh & 输入n为不添加git地址):' : '请输入git地址(仅支持ssh & 输入n为不添加git地址):');
             isIllegalGitFlag = true;
         } else if (git === 'n' && !isCompany) {
             git = '';
             break;
-        } else if (!isIllegalGit(git)){
+        } else if (!isIllegalGit(git)) {
             break;
         }
     }
@@ -106,7 +112,7 @@ async function getConf(): Promise<BuildInfo>{
             }
         }
         let buildInfo = new BuildInfo(getGitName(git), git, true, bpConf);
-        if(isAbsolute(bpConf.qbDir)){
+        if (isAbsolute(bpConf.qbDir)) {
             //删除/ 默认应该不是绝对路径的。
             bpConf.qbDir = bpConf.qbDir.substring(1);
         }
@@ -114,7 +120,7 @@ async function getConf(): Promise<BuildInfo>{
         bpConf.qbDir = urlEndSuff(bpConf.qbDir, '/') + new Date().getFullYear() + '/' + buildInfo.name + '/';
         return buildInfo;
     } else {
-        let testConf = await getTestConf(git,bpConf);
+        let testConf = await getTestConf(git, bpConf);
         return testConf;
     }
 }
@@ -124,7 +130,7 @@ async function getConf(): Promise<BuildInfo>{
  * @param git 
  * @param bpConf 
  */
-async function getTestConf(git: string, bpConf: BpConf): Promise<BuildInfo>{
+async function getTestConf(git: string, bpConf: BpConf): Promise < BuildInfo > {
     let name: string;
     if (argv.name) {
         name = argv.name;
@@ -137,10 +143,10 @@ async function getTestConf(git: string, bpConf: BpConf): Promise<BuildInfo>{
     if (bpConf) {
         return new BuildInfo(name, git, false, bpConf);
     } else {
-        let workspace:string;
-        if(!argv.dir){
+        let workspace: string;
+        if (!argv.dir) {
             workspace = await answerLine('请输入项目生成地址：');
-        }else{
+        } else {
             // 防止win下的 路径输入错误。
             workspace = transformDir(argv.dir);
         }
@@ -152,20 +158,24 @@ async function getTestConf(git: string, bpConf: BpConf): Promise<BuildInfo>{
 }
 
 
-async function build():Promise<string>{
+async function build(): Promise < string > {
     let buildInfo: BuildInfo = await getConf();
     let projectDir = join(buildInfo.bpConf.workspace, buildInfo.name);
     await vailDir(projectDir);
-    if(buildInfo.git){
+    if (buildInfo.git) {
         await cmd('git', ['clone', buildInfo.git, '--progress', projectDir], {
             cwd: buildInfo.bpConf.workspace
         });
-    }else{
+    } else {
         //建立根目录
         await mkRootDir(projectDir);
     }
     //递归 config文件夹
     await asyncCopyFile(projectDir, '/', buildInfo);
+
+    //npm过去之后，不能够按照预期生成.gitignore文件
+    await asyncWriteFile(projectDir, '.gitignore', ['node_modules/', 'jspm_packages/', '.DS_Store', '*.log', '.npm', 'npm-debug.log*', 'yarn-debug.log*', 'yarn-error.log*'].join('\n'));
+
 
     //安装项目
     let isUseYarn = await answerLineOk('是否使用yarn安装模块？（y采用yarn安装,n采用npm安装）', ['y', 'n']) === 'y';
@@ -181,7 +191,7 @@ async function build():Promise<string>{
     console.log('项目安装完毕！');
 
     //提交git内容，并且创建一个开发分支
-    if (buildInfo.git){
+    if (buildInfo.git) {
         await cmd('git', ['add', '*'], {
             cwd: projectDir
         });
@@ -196,11 +206,11 @@ async function build():Promise<string>{
         });
         console.log('开发分支创建完毕！');
     }
-    
+
     return `项目地址：${projectDir}`;
 }
 
 
-build().then((dir)=>{
+build().then((dir) => {
     console.log(dir);
-}).catch(e=>console.log(e));
+}).catch(e => console.log(e));

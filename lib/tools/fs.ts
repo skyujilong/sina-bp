@@ -1,5 +1,5 @@
 import {
-    createReadStream, lstat, Stats, mkdir, readdir, createWriteStream
+    createReadStream, lstat, Stats, mkdir, readdir, createWriteStream, writeFile
 } from 'fs';
 
 import { sep, join, resolve } from 'path';
@@ -173,11 +173,37 @@ async function asyncCopyFile(targetDir: string, relativePath: string, buildInfo:
     }
 }
 
+function writeFilePro(fileDir:string,content:string):Promise<void>{
+    return new Promise((resolve,reject)=>{
+        writeFile(fileDir, content,{
+            encoding:'utf-8'
+        },(err)=>{
+            if(err){
+                reject(err);
+            }else{
+                resolve();
+            }
+        })
+    });
+}
+
+/**
+ * 写文件操作
+ * @param targetDir 写如的文件夹
+ * @param fileName 文件名称
+ * @param fileContent 文件内容
+ */
+async function asyncWriteFile(targetDir:string,fileName:string, fileContent:string): Promise<void> {
+    let fileDir = join(targetDir,fileName);
+    await writeFilePro(fileDir,fileContent);
+}
+
 
 export {
     readLine,
     asyncLstat,
     mkRootDir,
     vailDir,
-    asyncCopyFile
+    asyncCopyFile,
+    asyncWriteFile
 }
