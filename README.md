@@ -52,7 +52,7 @@ prodHost=mjs.sinajs.cn
 # 线上域名图片地址 （必填）
 prodImgHost=img.mjs.sinajs.cn
 # qb线上路径地址 （选填）
-qbDir=blog/item/
+qbDir=blog/items/
 # tinyPngKeys （必填）
 tinyPngKeys=key1,key2,key3,ke4
 ```
