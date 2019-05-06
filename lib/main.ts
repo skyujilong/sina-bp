@@ -206,7 +206,6 @@ async function build(): Promise < string > {
         });
         console.log('开发分支创建完毕！');
     }
-
     return `项目地址：${projectDir}`;
 }
 
