@@ -67,6 +67,18 @@ let {
 async function getConf(): Promise < BuildInfo > {
     //解析argv参数
     let isCompany: boolean = await answerLineOk('是否是公司项目(y/n):', ['y', 'n']) === 'y';
+    let isActivity: boolean = false;
+    if (isCompany) {
+        isActivity = await answerLineOk('是否是公司的活动项目(y/n)', ['y', 'n']) === 'y';
+    }
+    let name: string;
+    if (isActivity){
+        if (argv.name) {
+            name = argv.name;
+        } else {
+            name = await answerLine('请输入项目名称(英文包含字母以及-_):');
+        }
+    }
 
     let bpConf: BpConf;
 
@@ -111,7 +123,7 @@ async function getConf(): Promise < BuildInfo > {
                 throw e;
             }
         }
-        let buildInfo = new BuildInfo(getGitName(git), git, true, bpConf);
+        let buildInfo = new BuildInfo(isActivity ? name : getGitName(git), git, isCompany, isActivity, bpConf);
         if (isAbsolute(bpConf.qbDir)) {
             //删除/ 默认应该不是绝对路径的。
             bpConf.qbDir = bpConf.qbDir.substring(1);
@@ -141,7 +153,7 @@ async function getTestConf(git: string, bpConf: BpConf): Promise < BuildInfo > {
     }
 
     if (bpConf) {
-        return new BuildInfo(name, git, false, bpConf);
+        return new BuildInfo(name, git, false, false, bpConf);
     } else {
         let workspace: string;
         if (!argv.dir) {
@@ -153,23 +165,45 @@ async function getTestConf(git: string, bpConf: BpConf): Promise < BuildInfo > {
         let prodHost: string = argv.devHost;
         let prodImgHost: string = argv.devHost;
         let devHost: string = argv.devHost;
-        return new BuildInfo(name, git, false, new BpConf(workspace, devHost, prodHost, prodImgHost, ['346gfotHJspgPYXmOuSAWhSl4CxlUox7']));
+        return new BuildInfo(name, git, false, false, new BpConf(workspace, devHost, prodHost, prodImgHost, ['346gfotHJspgPYXmOuSAWhSl4CxlUox7']));
     }
 }
 
 
 async function build(): Promise < string > {
+    //TODO: projectDir 问题，不能重新建立了， 如果是 activity的项目，需要在原来的基础上去添加内容。
     let buildInfo: BuildInfo = await getConf();
-    let projectDir = join(buildInfo.bpConf.workspace, buildInfo.name);
-    await vailDir(projectDir);
-    if (buildInfo.git) {
-        await cmd('git', ['clone', buildInfo.git, '--progress', projectDir], {
+    let projectDir:string; 
+    if(!buildInfo.isActivity){
+        projectDir = join(buildInfo.bpConf.workspace, buildInfo.name);
+        await vailDir(projectDir);
+    }else{
+        projectDir = join(buildInfo.bpConf.workspace, getGitName(buildInfo.git));
+    }
+    if (buildInfo.git && !buildInfo.isActivity) {
+        await cmd('git', ['clone', buildInfo.git, '--progress'], {
             cwd: buildInfo.bpConf.workspace
         });
+    }else if(buildInfo.isActivity){
+        try{
+            await vailDir(projectDir);
+        }catch(e){
+            //代表没有下载 git内容。
+            await cmd('git', ['clone', buildInfo.git, '--progress'], {
+                cwd: buildInfo.bpConf.workspace
+            });
+        }
     } else {
         //建立根目录
         await mkRootDir(projectDir);
     }
+
+    //这里根据是否是 活动项目（isActivity）修改一下projectDir路径,并且建立根目录
+    if(buildInfo.isActivity){
+        projectDir = join(projectDir,buildInfo.name);
+        await mkRootDir(projectDir);
+    }
+
     //递归 config文件夹
     await asyncCopyFile(projectDir, '/', buildInfo);
 
@@ -192,6 +226,11 @@ async function build(): Promise < string > {
 
     //提交git内容，并且创建一个开发分支
     if (buildInfo.git) {
+        if(buildInfo.isActivity){
+            await cmd('git', ['checkout', 'master'], {
+                cwd: projectDir
+            });
+        }
         await cmd('git', ['add', '*'], {
             cwd: projectDir
         });

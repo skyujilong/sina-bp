@@ -174,13 +174,29 @@ function build() {
         else {
             projectDir = path_1.join(buildInfo.bpConf.workspace, utils_1.getGitName(buildInfo.git));
         }
-        if (buildInfo.git) {
+        if (buildInfo.git && !buildInfo.isActivity) {
             yield cmd_1.default('git', ['clone', buildInfo.git, '--progress'], {
                 cwd: buildInfo.bpConf.workspace
             });
         }
+        else if (buildInfo.isActivity) {
+            try {
+                yield fs_1.vailDir(projectDir);
+            }
+            catch (e) {
+                //代表没有下载 git内容。
+                yield cmd_1.default('git', ['clone', buildInfo.git, '--progress'], {
+                    cwd: buildInfo.bpConf.workspace
+                });
+            }
+        }
         else {
             //建立根目录
+            yield fs_1.mkRootDir(projectDir);
+        }
+        //这里根据是否是 活动项目（isActivity）修改一下projectDir路径,并且建立根目录
+        if (buildInfo.isActivity) {
+            projectDir = path_1.join(projectDir, buildInfo.name);
             yield fs_1.mkRootDir(projectDir);
         }
         //递归 config文件夹
@@ -202,6 +218,11 @@ function build() {
         console.log('项目安装完毕！');
         //提交git内容，并且创建一个开发分支
         if (buildInfo.git) {
+            if (buildInfo.isActivity) {
+                yield cmd_1.default('git', ['checkout', 'master'], {
+                    cwd: projectDir
+                });
+            }
             yield cmd_1.default('git', ['add', '*'], {
                 cwd: projectDir
             });
