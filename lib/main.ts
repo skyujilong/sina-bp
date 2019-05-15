@@ -72,7 +72,7 @@ async function getConf(): Promise < BuildInfo > {
         isActivity = await answerLineOk('是否是公司的活动项目(y/n)', ['y', 'n']) === 'y';
     }
     let name: string;
-    if (isActivity){
+    if (isActivity) {
         if (argv.name) {
             name = argv.name;
         } else {
@@ -171,36 +171,37 @@ async function getTestConf(git: string, bpConf: BpConf): Promise < BuildInfo > {
 
 
 async function build(): Promise < string > {
-    //TODO: projectDir 问题，不能重新建立了， 如果是 activity的项目，需要在原来的基础上去添加内容。
+
     let buildInfo: BuildInfo = await getConf();
-    let projectDir:string; 
-    if(!buildInfo.isActivity){
+    let projectDir: string;
+    if (!buildInfo.isActivity) {
         projectDir = join(buildInfo.bpConf.workspace, buildInfo.name);
         await vailDir(projectDir);
-    }else{
+    } else {
         projectDir = join(buildInfo.bpConf.workspace, getGitName(buildInfo.git));
     }
     if (buildInfo.git && !buildInfo.isActivity) {
         await cmd('git', ['clone', buildInfo.git, '--progress'], {
             cwd: buildInfo.bpConf.workspace
         });
-    }else if(buildInfo.isActivity){
-        try{
+    } else if (buildInfo.isActivity) {
+        try {
             await vailDir(projectDir);
-        }catch(e){
+            //这里根据是否是 活动项目（isActivity）修改一下projectDir路径,并且建立根目录
+            projectDir = join(projectDir, buildInfo.name);
             //代表没有下载 git内容。
             await cmd('git', ['clone', buildInfo.git, '--progress'], {
                 cwd: buildInfo.bpConf.workspace
             });
+            await mkRootDir(projectDir);
+        } catch (e) {
+            //报出异常了，代表，之前git已经下载过了。
+            //这里根据是否是 活动项目（isActivity）修改一下projectDir路径,并且建立根目录
+            projectDir = join(projectDir, buildInfo.name);
+            await mkRootDir(projectDir);
         }
     } else {
         //建立根目录
-        await mkRootDir(projectDir);
-    }
-
-    //这里根据是否是 活动项目（isActivity）修改一下projectDir路径,并且建立根目录
-    if(buildInfo.isActivity){
-        projectDir = join(projectDir,buildInfo.name);
         await mkRootDir(projectDir);
     }
 
@@ -208,7 +209,7 @@ async function build(): Promise < string > {
     await asyncCopyFile(projectDir, '/', buildInfo);
 
     //npm过去之后，不能够按照预期生成.gitignore文件
-    await asyncWriteFile(projectDir, '.gitignore', ['node_modules/', 'jspm_packages/', '.DS_Store', '*.log', '.npm', 'npm-debug.log*', 'yarn-debug.log*', 'yarn-error.log*'].join('\n'));
+    await asyncWriteFile(projectDir, '.gitignore', ['node_modules/', 'jspm_packages/', '.DS_Store', '*.log', '.npm', 'npm-debug.log*', 'yarn-debug.log*', 'yarn-error.log*', '.DS_Store'].join('\n'));
 
 
     //安装项目
@@ -226,10 +227,11 @@ async function build(): Promise < string > {
 
     //提交git内容，并且创建一个开发分支
     if (buildInfo.git) {
-        if(buildInfo.isActivity){
+        if (buildInfo.isActivity) {
             await cmd('git', ['checkout', 'master'], {
                 cwd: projectDir
             });
+            await cmd('git', ['pull']);
         }
         await cmd('git', ['add', '*'], {
             cwd: projectDir

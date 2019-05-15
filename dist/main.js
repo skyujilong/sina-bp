@@ -164,7 +164,6 @@ function getTestConf(git, bpConf) {
 }
 function build() {
     return __awaiter(this, void 0, void 0, function* () {
-        //TODO: projectDir 问题，不能重新建立了， 如果是 activity的项目，需要在原来的基础上去添加内容。
         let buildInfo = yield getConf();
         let projectDir;
         if (!buildInfo.isActivity) {
@@ -182,27 +181,29 @@ function build() {
         else if (buildInfo.isActivity) {
             try {
                 yield fs_1.vailDir(projectDir);
-            }
-            catch (e) {
+                //这里根据是否是 活动项目（isActivity）修改一下projectDir路径,并且建立根目录
+                projectDir = path_1.join(projectDir, buildInfo.name);
                 //代表没有下载 git内容。
                 yield cmd_1.default('git', ['clone', buildInfo.git, '--progress'], {
                     cwd: buildInfo.bpConf.workspace
                 });
+                yield fs_1.mkRootDir(projectDir);
+            }
+            catch (e) {
+                //报出异常了，代表，之前git已经下载过了。
+                //这里根据是否是 活动项目（isActivity）修改一下projectDir路径,并且建立根目录
+                projectDir = path_1.join(projectDir, buildInfo.name);
+                yield fs_1.mkRootDir(projectDir);
             }
         }
         else {
             //建立根目录
             yield fs_1.mkRootDir(projectDir);
         }
-        //这里根据是否是 活动项目（isActivity）修改一下projectDir路径,并且建立根目录
-        if (buildInfo.isActivity) {
-            projectDir = path_1.join(projectDir, buildInfo.name);
-            yield fs_1.mkRootDir(projectDir);
-        }
         //递归 config文件夹
         yield fs_1.asyncCopyFile(projectDir, '/', buildInfo);
         //npm过去之后，不能够按照预期生成.gitignore文件
-        yield fs_1.asyncWriteFile(projectDir, '.gitignore', ['node_modules/', 'jspm_packages/', '.DS_Store', '*.log', '.npm', 'npm-debug.log*', 'yarn-debug.log*', 'yarn-error.log*'].join('\n'));
+        yield fs_1.asyncWriteFile(projectDir, '.gitignore', ['node_modules/', 'jspm_packages/', '.DS_Store', '*.log', '.npm', 'npm-debug.log*', 'yarn-debug.log*', 'yarn-error.log*', '.DS_Store'].join('\n'));
         //安装项目
         let isUseYarn = (yield answer_line_1.answerLineOk('是否使用yarn安装模块？（y采用yarn安装,n采用npm安装）', ['y', 'n'])) === 'y';
         if (isUseYarn) {
@@ -222,6 +223,7 @@ function build() {
                 yield cmd_1.default('git', ['checkout', 'master'], {
                     cwd: projectDir
                 });
+                yield cmd_1.default('git', ['pull']);
             }
             yield cmd_1.default('git', ['add', '*'], {
                 cwd: projectDir
