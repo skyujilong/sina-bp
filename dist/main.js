@@ -204,19 +204,22 @@ function build() {
         yield fs_1.asyncCopyFile(projectDir, '/', buildInfo);
         //npm过去之后，不能够按照预期生成.gitignore文件
         yield fs_1.asyncWriteFile(projectDir, '.gitignore', ['node_modules/', 'jspm_packages/', '.DS_Store', '*.log', '.npm', 'npm-debug.log*', 'yarn-debug.log*', 'yarn-error.log*', '.DS_Store'].join('\n'));
-        //安装项目
-        let isUseYarn = (yield answer_line_1.answerLineOk('是否使用yarn安装模块？（y采用yarn安装,n采用npm安装）', ['y', 'n'])) === 'y';
-        if (isUseYarn) {
-            yield cmd_1.default('yarn', ['install'], {
-                cwd: projectDir
-            });
+        //不是activity的 才进行 安装依赖环境
+        if (!buildInfo.isActivity) {
+            //安装项目
+            let isUseYarn = (yield answer_line_1.answerLineOk('是否使用yarn安装模块？（y采用yarn安装,n采用npm安装）', ['y', 'n'])) === 'y';
+            if (isUseYarn) {
+                yield cmd_1.default('yarn', ['install'], {
+                    cwd: projectDir
+                });
+            }
+            else {
+                yield cmd_1.default('npm', ['install'], {
+                    cwd: projectDir
+                });
+            }
+            console.log('项目安装完毕！');
         }
-        else {
-            yield cmd_1.default('npm', ['install'], {
-                cwd: projectDir
-            });
-        }
-        console.log('项目安装完毕！');
         //提交git内容，并且创建一个开发分支
         if (buildInfo.git) {
             if (buildInfo.isActivity) {
@@ -234,9 +237,11 @@ function build() {
             yield cmd_1.default('git', ['push', 'origin', 'master'], {
                 cwd: projectDir
             });
-            yield cmd_1.default('git', ['checkout', '-b', 'dev'], {
-                cwd: projectDir
-            });
+            if (!buildInfo.isActivity) {
+                yield cmd_1.default('git', ['checkout', '-b', 'dev'], {
+                    cwd: projectDir
+                });
+            }
             console.log('开发分支创建完毕！');
         }
         return `项目地址：${projectDir}`;

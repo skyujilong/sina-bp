@@ -6,7 +6,12 @@
 ```
 ### 输出代码路径
 ```
+{{#isActivity}}
+{{{name}}}/assets/
+{{/isActivity}}
+{{^isActivity}}
 assets/
+{{/isActivity}}
 ```
 ### 标签内新增目录
 ```
