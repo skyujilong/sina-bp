@@ -10,9 +10,10 @@ class BuildInfo {
      * @param git git项目地址 可以为空
      * @param bpConf 配置信息
      */
-    constructor(name, git, isCompanyProject, bpConf) {
+    constructor(name, git, isCompanyProject, isActivity, bpConf) {
         this.name = name;
         this.git = git;
+        this.isActivity = isActivity;
         this.bpConf = bpConf;
         this.isCompanyProject = isCompanyProject;
     }

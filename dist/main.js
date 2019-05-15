@@ -51,6 +51,19 @@ function getConf() {
     return __awaiter(this, void 0, void 0, function* () {
         //解析argv参数
         let isCompany = (yield answer_line_1.answerLineOk('是否是公司项目(y/n):', ['y', 'n'])) === 'y';
+        let isActivity = false;
+        if (isCompany) {
+            isActivity = (yield answer_line_1.answerLineOk('是否是公司的活动项目(y/n)', ['y', 'n'])) === 'y';
+        }
+        let name;
+        if (isActivity) {
+            if (argv.name) {
+                name = argv.name;
+            }
+            else {
+                name = yield answer_line_1.default('请输入项目名称(英文包含字母以及-_):');
+            }
+        }
         let bpConf;
         // 参数中带有配置文件地址
         if (argv.conf) {
@@ -98,7 +111,7 @@ function getConf() {
                     throw e;
                 }
             }
-            let buildInfo = new buid_info_1.default(utils_1.getGitName(git), git, true, bpConf);
+            let buildInfo = new buid_info_1.default(isActivity ? name : utils_1.getGitName(git), git, isCompany, isActivity, bpConf);
             if (path_1.isAbsolute(bpConf.qbDir)) {
                 //删除/ 默认应该不是绝对路径的。
                 bpConf.qbDir = bpConf.qbDir.substring(1);
@@ -131,7 +144,7 @@ function getTestConf(git, bpConf) {
             name = yield answer_line_1.default('请输入项目名称(英文包含字母以及-_):');
         }
         if (bpConf) {
-            return new buid_info_1.default(name, git, false, bpConf);
+            return new buid_info_1.default(name, git, false, false, bpConf);
         }
         else {
             let workspace;
@@ -145,17 +158,24 @@ function getTestConf(git, bpConf) {
             let prodHost = argv.devHost;
             let prodImgHost = argv.devHost;
             let devHost = argv.devHost;
-            return new buid_info_1.default(name, git, false, new bp_conf_1.default(workspace, devHost, prodHost, prodImgHost, ['346gfotHJspgPYXmOuSAWhSl4CxlUox7']));
+            return new buid_info_1.default(name, git, false, false, new bp_conf_1.default(workspace, devHost, prodHost, prodImgHost, ['346gfotHJspgPYXmOuSAWhSl4CxlUox7']));
         }
     });
 }
 function build() {
     return __awaiter(this, void 0, void 0, function* () {
+        //TODO: projectDir 问题，不能重新建立了， 如果是 activity的项目，需要在原来的基础上去添加内容。
         let buildInfo = yield getConf();
-        let projectDir = path_1.join(buildInfo.bpConf.workspace, buildInfo.name);
-        yield fs_1.vailDir(projectDir);
+        let projectDir;
+        if (!buildInfo.isActivity) {
+            projectDir = path_1.join(buildInfo.bpConf.workspace, buildInfo.name);
+            yield fs_1.vailDir(projectDir);
+        }
+        else {
+            projectDir = path_1.join(buildInfo.bpConf.workspace, utils_1.getGitName(buildInfo.git));
+        }
         if (buildInfo.git) {
-            yield cmd_1.default('git', ['clone', buildInfo.git, '--progress', projectDir], {
+            yield cmd_1.default('git', ['clone', buildInfo.git, '--progress'], {
                 cwd: buildInfo.bpConf.workspace
             });
         }
