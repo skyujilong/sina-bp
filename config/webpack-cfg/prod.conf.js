@@ -7,7 +7,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 // 配置是否md5版本化
 let cssName = config.md5 ? 'css/[name]-[contenthash:6].css' : 'css/[name].css';
-let jsName = config.md5 ? 'js/[name]-[chunkhash:6].js' : 'js/[name].js';
+let jsName = config.md5 ? 'js/[name]-[contenthash:6].js' : 'js/[name].js';
 let imgName = config.md5 ? 'img/[name]-[hash:6].[ext]' : 'img/[name].[ext]';
 
 const CleanWebpackPlugin = require('clean-webpack-plugin');
